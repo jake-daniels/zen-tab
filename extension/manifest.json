@@ -1,0 +1,81 @@
+{
+	"manifest_version": 2,
+
+	"author": "jake-daniels @ https://github.com/jake-daniels",
+	"name": "Zen Tab",
+	"short_name": "Zen Tab",
+	"description": "Custom tab, that replaces the default New Tab.",
+	"version": "1.0",
+
+	"icons": {
+		"16": "/resources/img/icon_16.png",
+		"48": "/resources/img/icon_48.png",
+		"128": "/resources/img/icon_128.png"
+	},
+
+	"browser_action": {
+		"default_icon": {
+			"16": "/resources/img/icon_16.png",
+			"24": "/resources/img/icon_24.png",
+			"32": "/resources/img/icon_32.png"
+		},
+		// "default_popup": "popup.html",
+		"default_title": "Zen Tab"
+	},
+
+	"chrome_url_overrides" : {
+		"newtab": "/core/index.html"
+	},
+
+	"permissions": [
+		"storage",
+		"bookmarks"
+	],
+
+	"homepage_url": "https://github.com/jake-daniels/zen-tab",
+
+	"incognito": "not_allowed",
+
+	"offline_enabled": true,
+
+	"content_security_policy": "script-src 'self' https://use.fontawesome.com; style-src 'self' https://fonts.googleapis.com https://use.fontawesome.com; object-src 'self'; font-src http://fonts.gstatic.com https://use.fontawesome.com"
+
+	// "omnibox": {
+	// 	"keyword": "aString"
+	// },
+
+	// "optional_permissions": ["tabs"],
+
+	// "options_page": "options.html",
+
+	// "options_ui": {
+	// 	"chrome_style": true,
+	// 	"page": "options.html"
+	// },
+
+	// "storage": {
+	// 	"managed_schema": "schema.json"
+	// },
+
+	// "background": {
+	// 	"scripts": ["index.js"],
+	// 	"persistent": false
+	// },
+
+	// "chrome_ui_overrides" : {
+	// 	"bookmarks_ui": {
+	// 		"remove_button": "true",
+	// 		"remove_bookmark_shortcut": "true"
+	// 	}
+	// },
+
+	// "commands": {
+	//   "show-tab-switcher": {
+	//     "suggested_key": {
+	//       "default": "Ctrl+Shift+Comma"
+	//     },
+	//     "description": "Show the Fast Tab Switcher"
+	//   }
+	// },
+
+}

@@ -24,6 +24,7 @@
     "start": "npm-run-all -p watch-css start-ts",
     "build-ts": "react-scripts-ts build",
     "build": "npm-run-all build-css build-ts",
+    "build-ext": "node scripts/build-ext.js",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
@@ -40,6 +41,8 @@
     "@types/redux-logger": "^3.0.4",
     "@types/redux-thunk": "^2.1.0",
     "@types/reselect": "^2.2.0",
+    "chalk": "^2.3.0",
+    "fs-extra": "^4.0.2",
     "tslint-loader": "^3.5.3"
   }
 }

@@ -8,6 +8,7 @@
 
 # production
 /build
+/build-ext
 
 # styles
 /src/styles/*.css
