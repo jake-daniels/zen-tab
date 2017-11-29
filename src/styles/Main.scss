@@ -1,0 +1,35 @@
+
+.workspace {
+    width: 100vw;
+    height: 100vh;
+    padding: 50px;
+    background: hsl(222, 11%, 24%);
+
+    color: white;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    .bookmark-icon {
+        width: 90px;
+        height: 90px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        .bg {
+            display: flex;
+            justify-content: center;
+            img {
+
+                width: 60px;
+                height: 60px;
+            }
+        }
+        .title {
+            padding-top: 5px;
+            text-align: center;
+            font-size: 12px;
+        }
+    }
+
+}

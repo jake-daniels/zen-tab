@@ -1,0 +1,45 @@
+
+@import 'styles/Main.scss';
+
+$screen-width: 1200px;
+$black: #4c4d4d;
+$bg-white: #f8f8f8;
+
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', sans-serif;
+	color: $black;
+	background: $bg-white;
+	div{
+		box-sizing: border-box;
+	}
+	h1,h2,h3,h4,h5,h6,label,a{
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.main {
+    background: rgb(154, 187, 208)
+}
+
+.board {
+	display: flex;
+	flex-direction: row;
+	.field {
+		display: flex;
+		flex-direction: column;
+		.square {
+			width: 100px;
+			height: 100px;
+		}
+		.square.white {
+			background: rgb(209, 209, 209);
+		}
+		.square.black {
+			background: rgb(37, 37, 37);
+		}
+	}
+}
