@@ -44,7 +44,9 @@ fs.readFile(indexHtml, 'utf8', (err, data) => {
         process.exit(1);
     }
 
-    const result = data.replace(/static/g, 'core/static').replace('/favicon', '/core/favicon');
+    const result = data
+        .replace(/static/g, 'core/static')
+        .replace('/favicon', '/core/favicon');
 
     fs.writeFile(indexHtml, result, 'utf8', (err) => {
         if (err) {
