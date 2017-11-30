@@ -34,7 +34,7 @@ copy('extension', 'build-ext/resources', (file) => (file !== resolvePath('extens
 copy('extension/manifest.json', 'build-ext/manifest.json');
 copy('build', 'build-ext/core');
 
-console.log('  Updating index file...');
+console.log('  Updating paths in index.html...');
 
 const indexHtml = resolvePath('build-ext/core/index.html')
 fs.readFile(indexHtml, 'utf8', (err, data) => {
@@ -53,6 +53,40 @@ fs.readFile(indexHtml, 'utf8', (err, data) => {
             console.error(err);
             process.exit(1);
         }
+    });
+
+});
+
+console.log('  Updating paths in main.js...');
+
+const assetManifest = resolvePath('build-ext/core/asset-manifest.json')
+fs.readFile(assetManifest, 'utf8', (err, data) => {
+
+    if (err) {
+        console.error(err);
+        process.exit(1);
+    }
+
+    const manifest = JSON.parse(data);
+    const path = manifest['main.js']
+    const mainJs = resolvePath(`build-ext/core/${path}`)
+
+    fs.readFile(mainJs, 'utf8', (err, data) => {
+
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        const result = data.replace(/static/g, 'core/static')
+
+        fs.writeFile(mainJs, result, 'utf8', (err) => {
+            if (err) {
+                console.error(err);
+                process.exit(1);
+            }
+        });
+
     });
 
 });
