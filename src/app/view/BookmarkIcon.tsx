@@ -16,7 +16,6 @@ export default class BookmarkIcon extends React.PureComponent<TProps> {
 				<div className='bg'>
 					<img className='image' src={icon} title={name}/>
 				</div>
-				<div className='title'> {title} </div>
 			</div>
 		)
 	}

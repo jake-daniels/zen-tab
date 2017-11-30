@@ -1,11 +1,15 @@
 import * as React from 'react'
+
 import {BookmarksConfig} from 'app/Bookmarks'
 import BookmarkIcon from 'app/view/BookmarkIcon'
 
-export default class Workspace extends React.PureComponent {
+type TProps = any
+
+export default class BookmarksBar extends React.PureComponent<TProps> {
+
 	render () {
 		return (
-			<div className='workspace'>
+			<div className='bookmarks-bar'>
 				{BookmarksConfig.map((bookmark, i) => <BookmarkIcon key={i} {...bookmark}/>)}
 			</div>
 		)

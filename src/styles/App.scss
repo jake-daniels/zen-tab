@@ -19,27 +19,13 @@ body {
 		margin: 0;
 		padding: 0;
 	}
-}
-
-.main {
-    background: rgb(154, 187, 208)
-}
-
-.board {
-	display: flex;
-	flex-direction: row;
-	.field {
-		display: flex;
-		flex-direction: column;
-		.square {
-			width: 100px;
-			height: 100px;
-		}
-		.square.white {
-			background: rgb(209, 209, 209);
-		}
-		.square.black {
-			background: rgb(37, 37, 37);
-		}
+	.noselect {
+		-webkit-touch-callout: none; 	/* iOS Safari */
+		-webkit-user-select: none; 		/* Chrome/Safari/Opera */
+		-khtml-user-select: none; 		/* Konqueror */
+		-moz-user-select: none; 		/* Firefox */
+		-ms-user-select: none; 			/* Internet Explorer/Edge */
+		user-select: none; 				/* Non-prefixed version, currently not supported by any browser */
+		cursor: default;
 	}
 }

@@ -8,7 +8,7 @@ import thunk from 'redux-thunk'
 import {AppSettings} from 'app/AppSettings'
 import {AppReducer} from 'app/domain/AppReducer'
 
-import Workspace from 'app/controller/Workspace'
+import Desktop from 'app/controller/Desktop'
 
 import 'styles/App.css'
 
@@ -30,7 +30,7 @@ class App extends React.PureComponent {
 	render () {
 		return (
 			<Provider store={this.store}>
-				<Workspace/>
+				<Desktop/>
 			</Provider>
 		)
 	}
