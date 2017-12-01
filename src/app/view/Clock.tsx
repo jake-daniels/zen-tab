@@ -34,7 +34,6 @@ export default class Clock extends React.PureComponent<TProps, TState> {
 	}
 
 	render () {
-
 		const {date, time} = this.state
 
 		return (

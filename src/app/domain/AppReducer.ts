@@ -1,28 +1,50 @@
-import {combineReducers} from 'redux'
-// import {routerReducer as RouterReducer} from 'react-router-redux'
 
 import {handleActions} from 'redux-actions'
+import * as NotesActions from 'app/domain/NotesActions'
 
-const INITIAL_STATE = {
-	number: 0,
+type TNote = {
+	id: string,
+	created: string,
+	data: string,
 }
 
-const TestReducer = handleActions(
+export type TAppState = {
+	notes: Array<TNote>,
+}
+
+export type TAction = {
+	type: string,
+	payload: any,
+}
+
+export const InitialAppState: TAppState = {
+	notes: [],
+}
+
+export const AppReducer = handleActions(
 	{
-
-		['INCREMENT']: (state: any, action: any) => {
-			return {...state, number: state.number + 1}
+		[NotesActions.Types.CREATE_NOTE]: (state: TAppState, action: TAction) => {
+			const newNote = {...action.payload}
+			const notes = [...state.notes, newNote]
+			return {...state, notes}
 		},
 
-		['DECREMENT']: (state: any, action: any) => {
-			return {...state, number: state.number - 1}
+		[NotesActions.Types.DELETE_NOTE]: (state: TAppState, action: TAction) => {
+			const {id} = action.payload
+			const notes = state.notes.filter((item) => item.id !== id)
+			return {...state, notes}
 		},
 
+		[NotesActions.Types.UPDATE_NOTE]: (state: TAppState, action: TAction) => {
+			const {id, data} = action.payload
+			const note = state.notes.find((item) => item.id === id)
+			const newNote = {...note, data}
+			const otherNotes = state.notes.filter((item) => item.id !== id)
+			const notes = [...otherNotes, newNote]
+			return {...state, notes}
+		},
 	},
-	INITIAL_STATE,
+	InitialAppState,
 )
 
-export const AppReducer = combineReducers({
-	// routing: RouterReducer,
-	test: TestReducer,
-})
+export default AppReducer
