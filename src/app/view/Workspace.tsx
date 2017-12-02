@@ -28,6 +28,10 @@ export default class Workspace extends React.PureComponent<TProps> {
 		this.props.deleteNote(id)
 	}
 
+	updateNote = (id: string, data: string) => {
+		this.props.updateNote(id, data)
+	}
+
 	render () {
 		const {notes} = this.props
 
@@ -42,7 +46,14 @@ export default class Workspace extends React.PureComponent<TProps> {
 
 				<div>
 					{notes.map((note, i) => {
-						return <Note key={i} {...note} onDelete={() => this.removeNote(note.id)}/>
+						return (
+							<Note
+								key={i}
+								data={note.data}
+								onChange={(data) => this.updateNote(note.id, data)}
+								onDelete={() => this.removeNote(note.id)}
+							/>
+						)
 					})}
 				</div>
 

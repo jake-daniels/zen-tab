@@ -1,12 +1,14 @@
 import * as React from 'react'
 
 type TProps = any
-type TState = any
+type TState = {
+	text: string,
+}
 
 export default class Note extends React.PureComponent<TProps, TState> {
 
 	state: TState = {
-		text: null
+		text: '',
 	}
 
 	componentDidMount () {
@@ -17,11 +19,15 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		this.setState({text: e.target.value})
 	}
 
+	onBlur = () => {
+		this.props.onChange(this.state.text)
+	}
+
 	render () {
 		const {data, onDelete} = this.props
 
 		return (
-			<div className='note'>
+			<div className='note' onBlur={this.onBlur}>
 				<div className='header'>
 					<i className='fa fa-times' aria-hidden={true} onClick={onDelete}/>
 				</div>

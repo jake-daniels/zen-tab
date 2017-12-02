@@ -6,11 +6,13 @@ import {createLogger} from 'redux-logger'
 import thunk from 'redux-thunk'
 
 import {AppSettings} from 'app/AppSettings'
-import {AppReducer} from 'app/domain/AppReducer'
+import {AppReducer, TAppState} from 'app/domain/AppReducer'
 
 import Desktop from 'app/controller/Desktop'
 
 import 'styles/App.css'
+
+const APP_STATE_LS_KEY = 'zen-tab-app-state'
 
 class App extends React.PureComponent {
 
@@ -24,7 +26,19 @@ class App extends React.PureComponent {
 	initStore = () => {
 		const logger = createLogger(AppSettings.REDUX_LOGGER_SETTINGS)
 		const middleware = applyMiddleware(thunk, logger)
-		this.store = createStore(AppReducer, middleware)
+		const previousState = this.loadAppState()
+		this.store = createStore(AppReducer, previousState, middleware)
+		this.store.subscribe(this.saveAppState)
+	}
+
+	loadAppState = (): TAppState => {
+		const appState = localStorage.getItem(APP_STATE_LS_KEY)
+		return (appState) ? JSON.parse(appState) : undefined
+	}
+
+	saveAppState = () => {
+		const state = this.store.getState()
+		localStorage.setItem(APP_STATE_LS_KEY, JSON.stringify(state))
 	}
 
 	render () {
