@@ -1,5 +1,8 @@
+
 import UUID from 'uuid'
 import Moment from 'moment'
+
+import * as T from 'app/domain/Types'
 
 export const Types = {
 	CREATE_NOTE: 'CREATE_NOTE',
@@ -13,7 +16,11 @@ export const createNote = () => {
 		payload: {
 			id: UUID.v1(),
 			created: Moment().format(),
-			data: '',
+			text: '',
+			size: {
+				width: 200,
+				height: 200,
+			},
 		},
 	}
 }
@@ -25,9 +32,9 @@ export const deleteNote = (id: string) => {
 	}
 }
 
-export const updateNote = (id: string, data: string) => {
+export const updateNote = (id: string, params: {text?: string, size?: T.Size}) => {
 	return {
 		type: Types.UPDATE_NOTE,
-		payload: {id, data},
+		payload: {id, params},
 	}
 }

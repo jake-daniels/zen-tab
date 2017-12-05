@@ -1,42 +1,51 @@
 import * as React from 'react'
+import * as Utils from 'app/domain/utility'
 
 type TProps = any
-type TState = {
-	text: string,
-}
 
-export default class Note extends React.PureComponent<TProps, TState> {
+export default class Note extends React.PureComponent<TProps> {
 
-	state: TState = {
-		text: '',
+	textArea: any = null
+
+	inputChangedThrottled = Utils.throttle(this.props.onTextChange, 250)
+
+	inputChanged = (e) => {
+		const {note, onTextChange} = this.props
+		this.inputChangedThrottled(note.id, e.target.value)
 	}
 
-	componentDidMount () {
-		this.setState({text: this.props.data})
+	onMouseUp = (e) => {
+		const {note, onSizeChange} = this.props
+		let {width, height} = this.textArea.style
+		width = Number(width.replace('px', ''))
+		height = Number(height.replace('px', ''))
+
+		onSizeChange(note.id, {width, height})
 	}
 
-	onTextChanged = (e) => {
-		this.setState({text: e.target.value})
-	}
-
-	onBlur = () => {
-		this.props.onChange(this.state.text)
-	}
 
 	render () {
-		const {data, onDelete} = this.props
+		const {note, onDelete} = this.props
+		const {width, height} = note.size
 
 		return (
-			<div className='note' onBlur={this.onBlur}>
+			<div className='note'>
 				<div className='header'>
-					<i className='fa fa-times' aria-hidden={true} onClick={onDelete}/>
+					<i
+						className='fa fa-times'
+						aria-hidden={true}
+						onClick={() => onDelete(note.id)}
+					/>
 				</div>
 				<textarea
 					className='text-area'
+					ref={(c) => c && (this.textArea = c)}
+					style={{width, height}}
 					autoFocus={true}
 					spellCheck={false}
-					onChange={this.onTextChanged}
-					defaultValue={data}
+					defaultValue={note.text}
+					onChange={this.inputChanged}
+					onMouseUp={this.onMouseUp}
 				/>
 			</div>
 		)

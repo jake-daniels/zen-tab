@@ -14,7 +14,7 @@ export default class BookmarkIcon extends React.PureComponent<TProps> {
 		return (
 			<div className='bookmark-icon' onClick={() => {window.location.href = url}}>
 				<div className='bg'>
-					<img className='image' src={icon} title={name}/>
+					<img className='image' src={icon} title={name} alt={name}/>
 				</div>
 			</div>
 		)

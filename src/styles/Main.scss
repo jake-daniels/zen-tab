@@ -116,13 +116,13 @@ $black: rgb(30, 30, 30);
         left: 0px;
         width: 100%;
         height: 24px;
-        padding-right: 5px;
-        background: rgba(0, 0, 0, 0.1);
+        background: rgb(74, 74, 74);
         cursor: pointer;
         .fa {
-            width: 100%;
-            text-align: right;
-            color: $black;
+            position: absolute;
+            top: 3px;
+            right: 5px;
+            color: rgb(236, 236, 168);
         }
     }
     .text-area {

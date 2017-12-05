@@ -2,14 +2,17 @@ import * as React from 'react'
 import {connect} from 'app/domain/connect'
 import Clock from 'app/view/Clock'
 import * as NotesActions from 'app/domain/NotesActions'
+import * as NotesSelectors from 'app/domain/NotesSelectors'
 import Note from 'app/view/Note'
+
+import * as T from 'app/domain/Types'
 
 type TProps = any
 
 @connect(
 	(state) => {
 		return {
-			notes: state.notes,
+			notes: NotesSelectors.getNotes(state),
 		}
 	},
 	{
@@ -28,8 +31,12 @@ export default class Workspace extends React.PureComponent<TProps> {
 		this.props.deleteNote(id)
 	}
 
-	updateNote = (id: string, data: string) => {
-		this.props.updateNote(id, data)
+	updateNoteText = (id: string, text: string) => {
+		this.props.updateNote(id, {text})
+	}
+
+	updateNoteSize = (id: string, size: T.Size) => {
+		this.props.updateNote(id, {size})
 	}
 
 	render () {
@@ -49,9 +56,10 @@ export default class Workspace extends React.PureComponent<TProps> {
 						return (
 							<Note
 								key={i}
-								data={note.data}
-								onChange={(data) => this.updateNote(note.id, data)}
-								onDelete={() => this.removeNote(note.id)}
+								note={note}
+								onTextChange={this.updateNoteText}
+								onSizeChange={this.updateNoteSize}
+								onDelete={this.removeNote}
 							/>
 						)
 					})}

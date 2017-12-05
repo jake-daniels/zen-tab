@@ -1,15 +1,10 @@
 
 import {handleActions} from 'redux-actions'
+import * as T from 'app/domain/Types'
 import * as NotesActions from 'app/domain/NotesActions'
 
-type TNote = {
-	id: string,
-	created: string,
-	data: string,
-}
-
 export type TAppState = {
-	notes: Array<TNote>,
+	notes: Array<T.Note>,
 }
 
 export type TAction = {
@@ -36,9 +31,9 @@ export const AppReducer = handleActions(
 		},
 
 		[NotesActions.Types.UPDATE_NOTE]: (state: TAppState, action: TAction) => {
-			const {id, data} = action.payload
+			const {id, params} = action.payload
 			const note = state.notes.find((item) => item.id === id)
-			const newNote = {...note, data}
+			const newNote = {...note, ...params}
 			const otherNotes = state.notes.filter((item) => item.id !== id)
 			const notes = [...otherNotes, newNote]
 			return {...state, notes}
