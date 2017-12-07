@@ -1,8 +1,24 @@
+
 import * as React from 'react'
+import {DragSource} from 'react-dnd'
+
+import {DraggableItems} from 'app/domain/drag-and-drop'
 import * as Utils from 'app/domain/utility'
 
 type TProps = any
 
+const dragSource = {
+	beginDrag: (props: TProps) => {
+		return {id: props.note.id}
+	},
+}
+const collect = (dndConnect: any, monitor: any) => {
+	return {
+		connectDragSource: dndConnect.dragSource(),
+		isDragging: monitor.isDragging(),
+	}
+}
+@DragSource(DraggableItems.NOTE, dragSource, collect)
 export default class Note extends React.PureComponent<TProps> {
 
 	textArea: any = null
@@ -23,13 +39,14 @@ export default class Note extends React.PureComponent<TProps> {
 		onSizeChange(note.id, {width, height})
 	}
 
-
 	render () {
+		const {connectDragSource, isDragging} = this.props	// DND
 		const {note, onDelete} = this.props
-		const {width, height} = note.size
+		const {width = 0, height = 0} = note.size || {}
+		const {x = 20, y = 20} = note.position || {}
 
-		return (
-			<div className='note'>
+		return connectDragSource(
+			<div className={`note ${(isDragging) ? 'dragging' : ''}`} style={{left: x, top: y}}>
 				<div className='header'>
 					<i
 						className='fa fa-times'

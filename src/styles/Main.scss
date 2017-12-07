@@ -42,7 +42,6 @@ $black: rgb(30, 30, 30);
     position: relative;
     display: flex;
     width: 100%;
-    padding: 20px;
     background: $bg-color;
 
     .clock {
@@ -100,8 +99,20 @@ $black: rgb(30, 30, 30);
 
 }
 
+.notes-controller {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
 .note {
-    position: relative;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    &.dragging {
+        display: none;
+    }
 
     &:hover {
         .header {

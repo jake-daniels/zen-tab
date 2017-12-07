@@ -12,6 +12,8 @@
         "**/node_modules": true,
         "**/build": true,
         "**/build-ext": true,
+        "**/*.crx": true,
+        "**/*.pem": true,
         "src/styles/*.css": true
     },
 
