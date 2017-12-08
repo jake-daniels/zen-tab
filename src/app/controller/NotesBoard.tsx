@@ -24,20 +24,19 @@ const dropTarget = {
 			y: (offset.y - clientRect.y),
 		}
 
-		component.updateNotePosition(id, position)
+		props.updateNote(id, {position})
 	}
 }
 const collect = (dndConnect: any, monitor: any) => {
 	return {
 		connectDropTarget: dndConnect.dropTarget(),
-		isOver: monitor.isOver(),
 	}
 }
 
 @connect(
 	(state) => {
 		return {
-			notes: NotesSelectors.getNotes(state),
+			notes: state.notes //NotesSelectors.getNotes(state),
 		}
 	},
 	{
@@ -65,12 +64,8 @@ export default class NotesBoard extends React.PureComponent<TProps> {
 		this.props.updateNote(id, {size})
 	}
 
-	updateNotePosition = (id: string, position: T.Position) => {
-		this.props.updateNote(id, {position})
-	}
-
 	render () {
-		const {connectDropTarget, isOver} = this.props 	// DND
+		const {connectDropTarget} = this.props 	// DND
 		const {notes} = this.props
 
 		return connectDropTarget(

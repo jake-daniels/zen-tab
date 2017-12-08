@@ -1,5 +1,7 @@
+
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import * as Immutable from 'immutable'
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import {createLogger} from 'redux-logger'
@@ -14,7 +16,13 @@ import 'styles/App.css'
 
 const APP_STATE_LS_KEY = 'zen-tab-app-state'
 
-class App extends React.PureComponent {
+window['Map'] = Immutable.Map
+window['List'] = Immutable.List
+window['Set'] = Immutable.Set
+window['fromJS'] = Immutable.fromJS
+window['is'] = Immutable.is
+
+class App extends React.Component {
 
 	store: any = null
 

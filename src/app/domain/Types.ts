@@ -12,6 +12,7 @@ export type Position = {
 export type Note = {
 	id: string,
 	created: string,
+	updated: string,
 	text: string,
 	size: Size,
 	position?: Position,

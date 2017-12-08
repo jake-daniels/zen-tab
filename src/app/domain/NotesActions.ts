@@ -16,6 +16,7 @@ export const createNote = () => {
 		payload: {
 			id: UUID.v1(),
 			created: Moment().format(),
+			updated: Moment().format(),
 			text: '',
 			size: {
 				width: 200,
@@ -33,8 +34,9 @@ export const deleteNote = (id: string) => {
 }
 
 export const updateNote = (id: string, params: {text?: string, size?: T.Size}) => {
+	const updated = Moment().format()
 	return {
 		type: Types.UPDATE_NOTE,
-		payload: {id, params},
+		payload: {id, updated, params},
 	}
 }

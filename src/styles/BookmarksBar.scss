@@ -1,0 +1,27 @@
+
+$width: 140px;
+$icon-size: 40px;
+
+.bookmarks-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    min-width: $width;
+    width: $width;
+    padding: 10px;
+    background: hsl(222, 10%, 19%);
+
+    .bookmark-icon {
+        padding: 10px;
+        cursor: pointer;
+        .bg {
+            display: flex;
+            justify-content: center;
+            img {
+                width: $icon-size;
+                height: $icon-size;
+            }
+        }
+    }
+}
