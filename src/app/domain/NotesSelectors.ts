@@ -7,6 +7,6 @@ export const getNotes = createSelector(
 		(state: TAppState) => state.notes,
 	],
 	(notes) => {
-		return notes//.sort((x, y) => (x.updated < y.updated) ? 1 : -1)
+		return notes
 	},
 )

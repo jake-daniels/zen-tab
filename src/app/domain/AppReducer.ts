@@ -39,7 +39,7 @@ export const AppReducer = handleActions(
 				return (note.id === id)
 					? {...note, ...params, updated}
 					: note
-			})
+			}).sort((x, y) => (x.updated > y.updated) ? 1 : -1)
 
 			return {...state, notes}
 		},

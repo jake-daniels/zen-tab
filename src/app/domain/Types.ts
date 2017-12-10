@@ -15,5 +15,5 @@ export type Note = {
 	updated: string,
 	text: string,
 	size: Size,
-	position?: Position,
+	position: Position,
 }

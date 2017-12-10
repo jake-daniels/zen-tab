@@ -70,12 +70,8 @@
             color: $border-color;
         }
     }
-    .text-area {
-        min-width: 200px;
-        min-height: 200px;
+    .text-area, .text-preview {
         font-family: 'Roboto';
-        width: 200px;
-        height: 200px;
         background-color: $bg-color;
         color: #1e1e1e;
         border: none;
@@ -97,6 +93,10 @@
             background: $bg-color;
             border-radius: 3px;
         }
-
-	}
+    }
+    .text-preview {
+        white-space: pre-wrap;
+        resize: both;
+        overflow: auto;
+    }
 }

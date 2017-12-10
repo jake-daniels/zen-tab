@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "immutable": "^3.8.2",
+    "linkify-it": "^2.0.3",
     "moment": "^2.18.1",
     "node-sass-chokidar": "0.0.3",
     "npm-run-all": "^4.1.2",
@@ -19,6 +20,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "tlds": "^1.199.0",
     "uuid": "^3.1.0"
   },
   "scripts": {

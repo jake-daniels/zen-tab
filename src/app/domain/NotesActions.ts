@@ -10,6 +10,9 @@ export const Types = {
 	UPDATE_NOTE: 'UPDATE_NOTE',
 }
 
+const DEFAULT_NOTE_SIZE = {width: 300, height: 200}
+const DEFAULT_NOTE_POSITION = {x: 20, y: 20}
+
 export const createNote = () => {
 	return {
 		type: Types.CREATE_NOTE,
@@ -18,10 +21,8 @@ export const createNote = () => {
 			created: Moment().format(),
 			updated: Moment().format(),
 			text: '',
-			size: {
-				width: 200,
-				height: 200,
-			},
+			size: DEFAULT_NOTE_SIZE,
+			position: DEFAULT_NOTE_POSITION,
 		},
 	}
 }

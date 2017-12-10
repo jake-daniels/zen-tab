@@ -36,7 +36,7 @@ const collect = (dndConnect: any, monitor: any) => {
 @connect(
 	(state) => {
 		return {
-			notes: state.notes //NotesSelectors.getNotes(state),
+			notes: NotesSelectors.getNotes(state),
 		}
 	},
 	{

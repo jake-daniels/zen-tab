@@ -25,6 +25,11 @@ body {
 		user-select: none; 				/* Non-prefixed version, currently not supported by any browser */
 		cursor: default;
 	}
+	* {
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+	}
 }
 
 .desktop {
