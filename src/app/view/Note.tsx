@@ -109,6 +109,13 @@ export default class Note extends React.PureComponent<TProps, TState> {
 			return null
 		}
 
+		const linkProps = {
+			target: '_blank',
+			onMouseUp: (e) => {
+				e.stopPropagation()
+			},
+		}
+
 		return connectDragPreview(
 			<div
 				className={`note ${(isDragging) ? 'dragging' : ''}`}
@@ -139,7 +146,7 @@ export default class Note extends React.PureComponent<TProps, TState> {
 						/>
 					)
 					: (
-						<Linkify>
+						<Linkify properties={linkProps}>
 							<div
 								className='text-preview'
 								ref={(c) => c && (this.textPreview = c)}

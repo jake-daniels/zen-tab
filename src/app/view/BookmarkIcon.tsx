@@ -12,9 +12,11 @@ export default class BookmarkIcon extends React.PureComponent<TProps> {
 		const {title, url, icon} = this.props
 
 		return (
-			<div className='bookmark-icon' onClick={() => {window.location.href = url}}>
+			<div className='bookmark-icon'>
 				<div className='bg'>
-					<img className='image' src={icon} title={name} alt={name}/>
+					<a href={url} title={name}>
+						<img className='image' src={icon} title={name} alt={name}/>
+					</a>
 				</div>
 			</div>
 		)
