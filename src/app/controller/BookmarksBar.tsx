@@ -10,7 +10,7 @@ export default class BookmarksBar extends React.PureComponent<TProps> {
 	render () {
 		return (
 			<div className='bookmarks-bar'>
-				{/* BookmarksConfig.map((bookmark, i) => <BookmarkIcon key={i} {...bookmark}/>) */}
+				{BookmarksConfig.map((bookmark, i) => <BookmarkIcon key={i} {...bookmark}/>)}
 			</div>
 		)
 	}

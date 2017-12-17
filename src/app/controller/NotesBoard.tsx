@@ -1,7 +1,7 @@
 
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import {connect} from 'app/domain/connect'
+import {connect} from 'react-redux'
 import {DropTarget} from 'react-dnd'
 
 import {DraggableItems} from 'app/domain/drag-and-drop'
@@ -41,7 +41,7 @@ const collect = (dndConnect: any, monitor: any) => {
 	}
 }
 
-@connect(
+@(connect as any)(
 	(state) => {
 		return {
 			notes: NotesSelectors.getNotes(state),
@@ -53,7 +53,7 @@ const collect = (dndConnect: any, monitor: any) => {
 		updateNote: NotesActions.updateNote,
 	},
 )
-// @DropTarget(DraggableItems.NOTE, dropTarget, collect)
+@DropTarget(DraggableItems.NOTE, dropTarget, collect)
 export default class NotesBoard extends React.PureComponent<TProps, TState> {
 
 	state: TState = {
@@ -86,17 +86,18 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		this.setState({contextMenu})
 	}
 
-	componentDidMount () {
-		document.addEventListener('contextmenu', this.onContextMenu, false)
-		document.addEventListener('click', this.onClick , false)
-	}
+	// componentDidMount () {
+	// 	document.addEventListener('contextmenu', this.onContextMenu, false)
+	// 	document.addEventListener('click', this.onClick , false)
+	// }
 
-	componentWillUnmount () {
-		document.removeEventListener('contextmenu', this.onContextMenu)
-		document.removeEventListener('click', this.onClick)
-	}
+	// componentWillUnmount () {
+	// 	document.removeEventListener('contextmenu', this.onContextMenu)
+	// 	document.removeEventListener('click', this.onClick)
+	// }
 
 	addNote = () => {
+		console.log('ADD')
 		this.props.createNote()
 	}
 
@@ -122,26 +123,28 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 			// isVisible: contextMenu.isActive,
 		}
 
-		console.log(this.state.contextMenu)
+		// console.log(this.state.contextMenu)
 
-		return (
+		return connectDropTarget(
 			<div className='notes-board'>
 
-				<div className='notes-container' id={CONTEXT_MENU_ID}>
-					{notes.map((note, i) => {
-						return (
-							<Note
-								key={i}
-								note={note}
-								onTextChange={this.updateNoteText}
-								onSizeChange={this.updateNoteSize}
-								onDelete={this.removeNote}
-							/>
-						)
-					})}
+				<div className='add-note-button' onClick={this.addNote}>
+					<i className='fa fa-plus' aria-hidden={true}/>
 				</div>
 
-				{(contextMenu.isActive) && (
+				{notes.map((note, i) => {
+					return (
+						<Note
+							key={i}
+							note={note}
+							onTextChange={this.updateNoteText}
+							onSizeChange={this.updateNoteSize}
+							onDelete={this.removeNote}
+						/>
+					)
+				})}
+
+				{/* {(contextMenu.isActive) && (
 					<div
 						className='menu-item noselect'
 						style={contextMenuPositionStyle}
@@ -149,7 +152,7 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 						<i className='fa fa-plus'/>
 						<span> Add new note </span>
 					</div>
-				)}
+				)} */}
 
 			</div>
 		)

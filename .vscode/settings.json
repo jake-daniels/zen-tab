@@ -1,8 +1,5 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    // Controls visibility of the glyph margin
-	"editor.glyphMargin": true,
-
     // Configure glob patterns for excluding files and folders.
     "files.exclude": {
         "**/.git": true,
@@ -16,12 +13,6 @@
         "**/*.pem": true,
         "src/styles/*.css": true
     },
-
-    // When enabled, will trim trailing whitespace when you save a file.
-    "files.trimTrailingWhitespace": true,
-
-    // Insert spaces when pressing Tab. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
-    "editor.insertSpaces": false,
 
     // Enable/disable JavaScript validation.
 	"javascript.validate.enable": false
