@@ -16,11 +16,7 @@ import 'styles/App.css'
 
 const APP_STATE_LS_KEY = 'zen-tab-app-state'
 
-window['Map'] = Immutable.Map
-window['List'] = Immutable.List
-window['Set'] = Immutable.Set
-window['fromJS'] = Immutable.fromJS
-window['is'] = Immutable.is
+window['I'] = Immutable
 
 class App extends React.Component {
 

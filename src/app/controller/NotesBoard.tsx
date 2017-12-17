@@ -63,7 +63,7 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		},
 	}
 
-	onContextMenu = (e) => {
+	showContextMenu = (e) => {
 		if ((e.target as any).id === CONTEXT_MENU_ID) {
 			const {offsetX, offsetY} = e
 			const contextMenu = {
@@ -78,7 +78,7 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		}
 	}
 
-	onClick = (e) => {
+	hideContextMenu = () => {
 		const contextMenu = {
 			isActive: false,
 			position: {x: 0, y: 0},
@@ -86,19 +86,25 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		this.setState({contextMenu})
 	}
 
-	// componentDidMount () {
-	// 	document.addEventListener('contextmenu', this.onContextMenu, false)
-	// 	document.addEventListener('click', this.onClick , false)
-	// }
+	componentDidMount () {
+		const board = document.getElementById(CONTEXT_MENU_ID)
+		if (board) {
+			board.addEventListener('contextmenu', this.showContextMenu, false)
+			board.addEventListener('click', this.hideContextMenu , false)
+		}
+	}
 
-	// componentWillUnmount () {
-	// 	document.removeEventListener('contextmenu', this.onContextMenu)
-	// 	document.removeEventListener('click', this.onClick)
-	// }
+	componentWillUnmount () {
+		const board = document.getElementById(CONTEXT_MENU_ID)
+		if (board) {
+			board.removeEventListener('contextmenu', this.showContextMenu, false)
+			board.removeEventListener('click', this.hideContextMenu , false)
+		}
+	}
 
 	addNote = () => {
-		console.log('ADD')
 		this.props.createNote()
+		this.hideContextMenu()
 	}
 
 	removeNote = (id: string) => {
@@ -120,39 +126,35 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		const contextMenuPositionStyle = {
 			left: contextMenu.position.x,
 			top: contextMenu.position.y,
-			// isVisible: contextMenu.isActive,
 		}
-
-		// console.log(this.state.contextMenu)
 
 		return connectDropTarget(
 			<div className='notes-board'>
 
-				<div className='add-note-button' onClick={this.addNote}>
-					<i className='fa fa-plus' aria-hidden={true}/>
+				<div className='notes-container' id={CONTEXT_MENU_ID}>
+					{notes.map((note, i) => {
+						return (
+							<Note
+								key={i}
+								note={note}
+								onTextChange={this.updateNoteText}
+								onSizeChange={this.updateNoteSize}
+								onDelete={this.removeNote}
+							/>
+						)
+					})}
 				</div>
 
-				{notes.map((note, i) => {
-					return (
-						<Note
-							key={i}
-							note={note}
-							onTextChange={this.updateNoteText}
-							onSizeChange={this.updateNoteSize}
-							onDelete={this.removeNote}
-						/>
-					)
-				})}
-
-				{/* {(contextMenu.isActive) && (
+				{(contextMenu.isActive) && (
 					<div
 						className='menu-item noselect'
 						style={contextMenuPositionStyle}
+						onClick={this.addNote}
 					>
 						<i className='fa fa-plus'/>
 						<span> Add new note </span>
 					</div>
-				)} */}
+				)}
 
 			</div>
 		)
