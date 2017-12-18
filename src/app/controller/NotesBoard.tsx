@@ -63,6 +63,22 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		},
 	}
 
+	componentDidMount () {
+		const board = document.getElementById(CONTEXT_MENU_ID)
+		if (board) {
+			board.addEventListener('contextmenu', this.showContextMenu, false)
+			board.addEventListener('click', this.hideContextMenu , false)
+		}
+	}
+
+	componentWillUnmount () {
+		const board = document.getElementById(CONTEXT_MENU_ID)
+		if (board) {
+			board.removeEventListener('contextmenu', this.showContextMenu, false)
+			board.removeEventListener('click', this.hideContextMenu , false)
+		}
+	}
+
 	showContextMenu = (e) => {
 		if ((e.target as any).id === CONTEXT_MENU_ID) {
 			const {offsetX, offsetY} = e
@@ -84,22 +100,6 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 			position: {x: 0, y: 0},
 		}
 		this.setState({contextMenu})
-	}
-
-	componentDidMount () {
-		const board = document.getElementById(CONTEXT_MENU_ID)
-		if (board) {
-			board.addEventListener('contextmenu', this.showContextMenu, false)
-			board.addEventListener('click', this.hideContextMenu , false)
-		}
-	}
-
-	componentWillUnmount () {
-		const board = document.getElementById(CONTEXT_MENU_ID)
-		if (board) {
-			board.removeEventListener('contextmenu', this.showContextMenu, false)
-			board.removeEventListener('click', this.hideContextMenu , false)
-		}
 	}
 
 	addNote = () => {

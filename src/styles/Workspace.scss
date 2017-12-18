@@ -1,12 +1,11 @@
 
+@import 'styles/variables.scss';
 
 .workspace {
-    $bg-color: hsl(214, 26%, 40%);
-
     position: relative;
     display: flex;
     width: 100%;
-    background: $bg-color;
+    background: $workspace-bg;
 }
 
 .clock {

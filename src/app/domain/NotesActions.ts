@@ -12,9 +12,29 @@ export const Types = {
 
 const DEFAULT_NOTE_SIZE = {width: 300, height: 200}
 const DEFAULT_NOTE_POSITION = {x: 20, y: 20}
+const DEFAULT_NOTE_OFFSET = {x: 10, y: 10}
 
-export const createNote = () => {
-	return {
+const getFirstAvailablePosition = (notes) => {
+	let pos = {...DEFAULT_NOTE_POSITION}
+	let isTaken = true
+	while (isTaken) {
+		isTaken = notes.some((note) => (
+			note.position.x === pos.x &&
+			note.position.y === pos.y
+		))
+		if (isTaken) {
+			pos.x += DEFAULT_NOTE_OFFSET.x
+			pos.y += DEFAULT_NOTE_OFFSET.y
+		}
+	}
+	return pos
+}
+
+export const createNote = () => (dispatch, getState) => {
+	const notes = getState().notes
+	const position = getFirstAvailablePosition(notes)
+
+	dispatch({
 		type: Types.CREATE_NOTE,
 		payload: {
 			id: UUID.v1(),
@@ -22,9 +42,9 @@ export const createNote = () => {
 			updated: Moment().format(),
 			text: '',
 			size: DEFAULT_NOTE_SIZE,
-			position: DEFAULT_NOTE_POSITION,
+			position,
 		},
-	}
+	})
 }
 
 export const deleteNote = (id: string) => {

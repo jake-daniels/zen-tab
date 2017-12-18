@@ -1,4 +1,6 @@
 
+@import 'styles/variables.scss';
+
 @import 'styles/BookmarksBar.scss';
 @import 'styles/Workspace.scss';
 @import 'styles/Notes.scss';
@@ -7,8 +9,8 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: 'Roboto', sans-serif;
-	color: white;
+	font-family: $font-main;
+	color: $font-color-white;
 	div {
 		box-sizing: border-box;
 	}
@@ -31,7 +33,7 @@ body {
 		-webkit-box-sizing: border-box;
 	}
 	a, a:focus, a:visited, a:hover {
-		color: #4848cd;
+		color: $link-color;
 	}
 }
 
@@ -43,7 +45,5 @@ body {
 	display: flex;
 	flex-direction: row;
 
-	color: white;
-
-	$black-font: rgb(32, 32, 32) !global;
+	color: $font-color-white;
 }

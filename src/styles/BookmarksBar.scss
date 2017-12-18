@@ -1,16 +1,15 @@
 
-$width: 140px;
-$icon-size: 40px;
+@import 'styles/variables.scss';
 
 .bookmarks-bar {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
 
-    min-width: $width;
-    width: $width;
+    min-width: $bookmarks-bar-width;
+    width: $bookmarks-bar-width;
     padding: 10px;
-    background: hsl(222, 10%, 19%);
+    background: $bookmarks-bar-bg;
 
     .bookmark-icon {
         padding: 10px;
@@ -19,8 +18,8 @@ $icon-size: 40px;
             display: flex;
             justify-content: center;
             img {
-                width: $icon-size;
-                height: $icon-size;
+                width: $bookmark-icon-size;
+                height: $bookmark-icon-size;
             }
         }
     }
