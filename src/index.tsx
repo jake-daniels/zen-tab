@@ -14,8 +14,6 @@ import Desktop from 'app/controller/Desktop'
 
 import 'styles/App.css'
 
-const APP_STATE_LS_KEY = 'zen-tab-app-state'
-
 window['I'] = Immutable
 
 class App extends React.Component {
@@ -36,13 +34,13 @@ class App extends React.Component {
 	}
 
 	loadAppState = (): TAppState => {
-		const appState = localStorage.getItem(APP_STATE_LS_KEY)
+		const appState = localStorage.getItem(AppSettings.LS_KEYS.AppState)
 		return (appState) ? JSON.parse(appState) : undefined
 	}
 
 	saveAppState = () => {
 		const state = this.store.getState()
-		localStorage.setItem(APP_STATE_LS_KEY, JSON.stringify(state))
+		localStorage.setItem(AppSettings.LS_KEYS.AppState, JSON.stringify(state))
 	}
 
 	render () {

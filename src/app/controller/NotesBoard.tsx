@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
 import {DropTarget} from 'react-dnd'
 
+import {AppSettings} from 'app/AppSettings'
 import {DraggableItems} from 'app/domain/drag-and-drop'
 import * as NotesActions from 'app/domain/NotesActions'
 import * as NotesSelectors from 'app/domain/NotesSelectors'
@@ -69,6 +70,8 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 			board.addEventListener('contextmenu', this.showContextMenu, false)
 			board.addEventListener('click', this.hideContextMenu , false)
 		}
+
+		this.savePendingLinks()
 	}
 
 	componentWillUnmount () {
@@ -76,6 +79,19 @@ export default class NotesBoard extends React.PureComponent<TProps, TState> {
 		if (board) {
 			board.removeEventListener('contextmenu', this.showContextMenu, false)
 			board.removeEventListener('click', this.hideContextMenu , false)
+		}
+	}
+
+	savePendingLinks = () => {
+		const tmpStoreEncoded = localStorage.getItem(AppSettings.LS_KEYS.TmpStore)
+		const tmpStore = (tmpStoreEncoded) ? JSON.parse(tmpStoreEncoded) : {}
+		if (Array.isArray(tmpStore.linksToSave)) {
+			tmpStore.linksToSave.forEach((link) => {
+				const text = `${link.title}\n${link.url}`
+				this.props.createNote(text)
+			})
+			tmpStore.linksToSave = []
+			localStorage.setItem(AppSettings.LS_KEYS.TmpStore, JSON.stringify(tmpStore))
 		}
 	}
 

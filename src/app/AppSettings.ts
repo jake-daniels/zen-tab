@@ -18,4 +18,9 @@ export const AppSettings = {
 		collapsed: true,
 	},
 
+	LS_KEYS: {
+		AppState: 'zen-tab-app-state',
+		TmpStore: 'zen-tab-tmp',
+	},
+
 }

@@ -30,7 +30,7 @@ const getFirstAvailablePosition = (notes) => {
 	return pos
 }
 
-export const createNote = () => (dispatch, getState) => {
+export const createNote = (initialText?: string) => (dispatch, getState) => {
 	const notes = getState().notes
 	const position = getFirstAvailablePosition(notes)
 
@@ -40,7 +40,7 @@ export const createNote = () => (dispatch, getState) => {
 			id: UUID.v1(),
 			created: Moment().format(),
 			updated: Moment().format(),
-			text: '',
+			text: initialText || '',
 			size: DEFAULT_NOTE_SIZE,
 			position,
 		},
