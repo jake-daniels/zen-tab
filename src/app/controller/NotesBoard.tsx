@@ -2,11 +2,10 @@
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
-import {DropTarget} from 'react-dnd'
 
 import {AppSettings} from 'app/AppSettings'
-import {DraggableItems} from 'app/domain/drag-and-drop'
-import {ContextMenuTrigger, ContextMenu, MenuItem} from 'app/domain/ContextMenu'
+import {NoteDropTarget} from 'app/domain/drag-and-drop'
+import {ContextMenuTrigger, ContextMenu, MenuItem} from 'app/domain/context-menu'
 import * as NotesActions from 'app/domain/NotesActions'
 import * as NotesSelectors from 'app/domain/NotesSelectors'
 import Note from 'app/view/Note'
@@ -17,25 +16,6 @@ const CONTEXT_MENU_ID = 'notes-board-context-menu'
 
 type TProps = any
 
-const dropTarget = {
-	drop: (props: any, monitor: any, component: any) => {
-		const {id} = monitor.getItem()
-		const offset = monitor.getSourceClientOffset()
-
-		const clientRect: any = ReactDOM.findDOMNode(component).getBoundingClientRect()
-		const position = {
-			x: (offset.x - clientRect.x),
-			y: (offset.y - clientRect.y),
-		}
-
-		props.updateNote(id, {position})
-	}
-}
-const collect = (dndConnect: any, monitor: any) => {
-	return {
-		connectDropTarget: dndConnect.dropTarget(),
-	}
-}
 
 @(connect as any)(
 	(state) => {
@@ -49,7 +29,7 @@ const collect = (dndConnect: any, monitor: any) => {
 		updateNote: NotesActions.updateNote,
 	},
 )
-@DropTarget(DraggableItems.NOTE, dropTarget, collect)
+@NoteDropTarget()
 export default class NotesBoard extends React.PureComponent<TProps> {
 
 	savePendingLinks = () => {

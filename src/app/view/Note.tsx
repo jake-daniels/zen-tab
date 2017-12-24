@@ -1,8 +1,7 @@
 
 import * as React from 'react'
-import {DragSource} from 'react-dnd'
 
-import {DraggableItems} from 'app/domain/drag-and-drop'
+import {NoteDragSource} from 'app/domain/drag-and-drop'
 import Linkify from 'app/domain/utility/Linkify'
 import * as Utils from 'app/domain/utility'
 
@@ -24,19 +23,8 @@ type TState = {
 	isEditing: boolean,
 }
 
-const dragSource = {
-	beginDrag: (props: TProps) => {
-		return {id: props.note.id}
-	},
-}
-const collect = (dndConnect: any, monitor: any) => {
-	return {
-		connectDragSource: dndConnect.dragSource(),
-		connectDragPreview: dndConnect.dragPreview(),
-		isDragging: monitor.isDragging(),
-	}
-}
-@DragSource(DraggableItems.NOTE, dragSource, collect)
+
+@NoteDragSource()
 export default class Note extends React.PureComponent<TProps, TState> {
 
 	state: TState = {
