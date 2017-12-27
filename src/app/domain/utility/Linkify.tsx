@@ -3,10 +3,10 @@ import * as React from 'react'
 import LinkifyIt from 'linkify-it'
 import tlds from 'tlds'
 
-export const linkify = new LinkifyIt()
+const linkify = new LinkifyIt()
 linkify.tlds(tlds)
 
-type TProps = {
+interface TProps {
 	className?: string,
 	component?: any,
 	properties?: Object,
@@ -14,13 +14,7 @@ type TProps = {
 	emailRegex?: Object,
 }
 
-type TDefaultProps = {
-	className: string,
-	component: string,
-	properties: Object,
-}
-
-export default class Linkify extends React.PureComponent<TProps> {
+export class Linkify extends React.PureComponent<any, TProps> {
 
 	static MATCH = 'LINKIFY_MATCH'
 

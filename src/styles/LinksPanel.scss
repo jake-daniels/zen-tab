@@ -1,0 +1,61 @@
+
+@import 'styles/variables.scss';
+
+.links-panel {
+	display: flex;
+	flex-direction: column;
+
+	width: $links-panel-width;
+	background: $links-panel-bg;
+
+	overflow-y: auto;
+	overflow-x: hidden;
+	&::-webkit-scrollbar {
+		width: 5px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: lighten($links-panel-bg, 50%);
+		border-radius: 3px;
+	}
+	&::-webkit-scrollbar-track {
+		background: lighten($links-panel-bg, 20%);
+		border-radius: 3px;
+	}
+
+	.link {
+		position: relative;
+		cursor: pointer;
+		padding: 15px;
+		font-size: 14px;
+		&:hover {
+			background: lighten($links-panel-bg, 5%);
+			.fa {
+				visibility: visible;
+			}
+		}
+		.fa {
+			visibility: hidden;
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			color: #cccccc;
+		}
+		.title {
+			display: flex;
+			margin-bottom: 5px;
+			background: transparent;
+			border: none;
+			outline: none;
+			color: $font-color-white;
+			width: 100%;
+    		text-overflow: ellipsis;
+			&:focus {
+				background: lighten($links-panel-bg, 20%);
+			}
+		}
+		.url {
+			display: flex;
+			color: #88abdb;
+		}
+	}
+}

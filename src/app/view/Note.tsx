@@ -1,13 +1,11 @@
 
 import * as React from 'react'
 
-import {NoteDragSource} from 'app/domain/drag-and-drop'
-import Linkify from 'app/domain/utility/Linkify'
-import * as Utils from 'app/domain/utility'
-
+import * as Utils from 'app/domain/utility/index'
 import * as T from 'app/domain/Types'
+import {NoteDragSource} from 'app/domain/drag-and-drop'
 
-type TProps = {
+interface TProps {
 	note: T.Note,
 	onTextChange: Function,
 	onSizeChange: Function,
@@ -18,7 +16,7 @@ type TProps = {
 	isDragging?: boolean,
 }
 
-type TState = {
+interface TState {
 	text: string,
 	isEditing: boolean,
 }
@@ -38,8 +36,9 @@ export default class Note extends React.PureComponent<TProps, TState> {
 	}
 
 	componentWillReceiveProps (nextProps: TProps) {
-		if (this.state.text !== nextProps.note.text) {
-			this.setState({text: nextProps.note.text})
+		const {text} = nextProps.note
+		if (this.state.text !== text) {
+			this.setState({text})
 		}
 	}
 
@@ -47,9 +46,8 @@ export default class Note extends React.PureComponent<TProps, TState> {
 	textPreview: any = null
 
 	inputChangedThrottled = Utils.throttle(this.props.onTextChange, 250)
-
 	inputChanged = (e) => {
-		const {note, onTextChange} = this.props
+		const {note} = this.props
 		this.setState({text: e.target.value})
 		this.inputChangedThrottled(note.id, e.target.value)
 	}
@@ -120,8 +118,7 @@ export default class Note extends React.PureComponent<TProps, TState> {
 					</div>
 				)}
 
-				{(isEditing)
-					? (
+				{(isEditing) && (
 						<textarea
 							className='text-area'
 							ref={(c) => c && (this.textArea = c)}
@@ -132,21 +129,21 @@ export default class Note extends React.PureComponent<TProps, TState> {
 							onMouseUp={this.onMouseUp}
 							onBlur={this.onTextAreaBlur}
 						/>
-					)
-					: (
-						<Linkify properties={linkProps}>
-							<div
-								className='text-preview'
-								ref={(c) => c && (this.textPreview = c)}
-								style={{width, height}}
-								spellCheck={false}
-								onMouseUp={this.onMouseUp}
-							>
-								{text}
-							</div>
-						</Linkify>
-					)
-				}
+				)}
+
+				{(!isEditing) && (
+					<Utils.Linkify properties={linkProps}>
+						<div
+							className='text-preview'
+							ref={(c) => c && (this.textPreview = c)}
+							style={{width, height}}
+							spellCheck={false}
+							onMouseUp={this.onMouseUp}
+						>
+							{text}
+						</div>
+					</Utils.Linkify>
+				)}
 
 			</div>
 		)

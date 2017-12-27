@@ -4,11 +4,13 @@ import Moment from 'moment'
 
 import * as T from 'app/domain/Types'
 
+
 export const Types = {
 	CREATE_NOTE: 'CREATE_NOTE',
 	DELETE_NOTE: 'DELETE_NOTE',
 	UPDATE_NOTE: 'UPDATE_NOTE',
 }
+
 
 const DEFAULT_NOTE_SIZE = {width: 300, height: 200}
 const DEFAULT_NOTE_POSITION = {x: 20, y: 20}

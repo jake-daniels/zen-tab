@@ -15,7 +15,8 @@
 		"baseUrl": "src",
 		"strictNullChecks": true,
 		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true
+		"allowSyntheticDefaultImports": true,
+		"noUnusedLocals": true
 	},
 	"exclude": [
 		"node_modules",

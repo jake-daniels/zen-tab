@@ -2,11 +2,11 @@
 import ReactDOM from 'react-dom'
 import {DragSource, DropTarget} from 'react-dnd'
 
+
 export const DraggableItems = {
 	NOTE: Symbol('NOTE'),
 }
 
-// NOTE
 
 export const NoteDragSource = () => {
 

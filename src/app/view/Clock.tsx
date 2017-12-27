@@ -4,25 +4,30 @@ import Moment from 'moment'
 
 const CHECK_INTERVAL = 1000
 
-type TProps = any
-type TState = any
+interface TState {
+	timerID: number | null,
+	date: string,
+	time: string,
+}
 
-export default class Clock extends React.PureComponent<TProps, TState> {
+export default class Clock extends React.PureComponent<any, TState> {
 
-	state = {
+	state: TState = {
 		timerID: null,
-		date: null,
-		time: null,
+		date: '',
+		time: '',
 	}
 
 	componentDidMount () {
-		const id = setInterval(this.setDateTime, CHECK_INTERVAL)
+		const id = window.setInterval(this.setDateTime, CHECK_INTERVAL)
 		this.setDateTime()
 		this.setState({timerID: id})
 	}
 
 	componentWillUnmount () {
-		clearInterval(this.state.timerID || 0)
+		if (this.state.timerID) {
+			window.clearInterval(this.state.timerID)
+		}
 	}
 
 	setDateTime = () => {

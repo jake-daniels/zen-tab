@@ -4,9 +4,9 @@ $font-color-black: rgb(32, 32, 32);
 $font-color-white: white;
 $link-color: #4848cd;
 
-$bookmarks-bar-width: 120px;
+$bookmarks-panel-width: 120px;
 $bookmark-icon-size: 30px;
-$bookmarks-bar-bg: hsl(222, 10%, 19%);
+$bookmarks-panel-bg: hsl(222, 10%, 19%);
 
 $workspace-bg: hsl(214, 26%, 40%);
 
@@ -14,3 +14,6 @@ $note-color: #f4f4a1;
 $note-border-color: $workspace-bg;
 $note-close-button-color: #565651;
 $note-header-color: rgb(248, 248, 197);
+
+$links-panel-width: 400px;
+$links-panel-bg: lighten($bookmarks-panel-bg, 10%);

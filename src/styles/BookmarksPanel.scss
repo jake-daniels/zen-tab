@@ -1,0 +1,26 @@
+
+@import 'styles/variables.scss';
+
+.bookmarks-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    min-width: $bookmarks-panel-width;
+    width: $bookmarks-panel-width;
+    padding: 10px;
+    background: $bookmarks-panel-bg;
+
+    .bookmark-icon {
+        padding: 10px;
+        cursor: pointer;
+        .bg {
+            display: flex;
+            justify-content: center;
+            img {
+                width: $bookmark-icon-size;
+                height: $bookmark-icon-size;
+            }
+        }
+    }
+}

@@ -1,27 +1,21 @@
 
 import * as React from 'react'
 import ReactDOM from 'react-dom'
-import * as T from 'app/domain/Types'
 
 
-const CONTEXT_MENU_ID_SUFFIX = 'context-menu'
+const getContextMenuId = (id: string) => `${id}_menu`
 
-const getContextMenuId = (id: string) => `${id}_context-menu`
-
-
-type TProps_ContextMenuTrigger = {
+interface TPropsContextMenuTrigger {
 	id: string,
 	className?: string,
 	children: any,
 }
 
-export class ContextMenuTrigger extends React.PureComponent<TProps_ContextMenuTrigger> {
+export class ContextMenuTrigger extends React.PureComponent<TPropsContextMenuTrigger> {
 
 	menu: any = null
 
 	onContextMenu = (e) => {
-		const {id} = this.props
-
 		const node = ReactDOM.findDOMNode(this.menu)
 		const isTriggered = (e.target === node)
 
@@ -48,7 +42,7 @@ export class ContextMenuTrigger extends React.PureComponent<TProps_ContextMenuTr
 		const contextMenuId = getContextMenuId(id)
 		const menu = document.getElementById(contextMenuId) as any
 
-		menu.style.visibility = (isVisible) ? 'visible' : 'hidden'
+		menu.style.display = (isVisible) ? 'block' : 'none'
 		menu.style.left = `${left}px`
 		menu.style.top = `${top}px`
 	}
@@ -85,15 +79,14 @@ export class ContextMenuTrigger extends React.PureComponent<TProps_ContextMenuTr
 	}
 }
 
-
-type TProps_ContextMenu = {
+interface TPropsContextMenu {
 	id: string,
 	children: any,
 	className?: string,
 	onClick?: (e: any) => void,
 }
 
-export class ContextMenu extends React.PureComponent<TProps_ContextMenu> {
+export class ContextMenu extends React.PureComponent<TPropsContextMenu> {
 
 	itemClicked = (e) => {
 		const {id, onClick} = this.props
@@ -101,7 +94,7 @@ export class ContextMenu extends React.PureComponent<TProps_ContextMenu> {
 		const contextMenuId = getContextMenuId(id)
 		const menu = document.getElementById(contextMenuId) as any
 
-		menu.style.visibility = 'hidden'
+		menu.style.display = 'none'
 		menu.style.left = '0px'
 		menu.style.top = '0px'
 
@@ -116,7 +109,7 @@ export class ContextMenu extends React.PureComponent<TProps_ContextMenu> {
 		const contextMenuId = getContextMenuId(id)
 
 		const style = {
-			visibility: 'hidden',
+			display: 'none',
 			position: 'absolute',
 			left: 0,
 			top: 0,
@@ -134,14 +127,13 @@ export class ContextMenu extends React.PureComponent<TProps_ContextMenu> {
 	}
 }
 
-
-type TProps_MenuItem = {
+interface TPropsMenuItem {
 	children: any,
 	className?: string,
 	onClick?: (e: any) => void,
 }
 
-export class MenuItem extends React.PureComponent<TProps_MenuItem> {
+export class MenuItem extends React.PureComponent<TPropsMenuItem> {
 
 	render () {
 		const {children, className, onClick} = this.props

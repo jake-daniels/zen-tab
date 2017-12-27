@@ -1,0 +1,43 @@
+
+@import 'styles/variables.scss';
+
+
+.desktop {
+    position: relative;
+	width: 100vw;
+    height: 100vh;
+	padding: 0;
+
+	display: flex;
+	flex-direction: row;
+
+    background: $workspace-bg;
+	color: $font-color-white;
+}
+
+.clock {
+    display: flex;
+    position: absolute;
+    bottom: 50px;
+    right: 70px;
+    & > * {
+        display: block;
+        color: white;
+        text-align: right;
+    }
+    .time {
+        $size: 100px;
+
+        font-family: 'Heebo';
+        font-weight: 100;
+        font-size: $size;
+        height: $size;
+        line-height: $size;
+    }
+    .date {
+        width: 100px;
+        padding-top: 5px;
+        font-weight: 300;
+        font-size: 22px;
+    }
+}
