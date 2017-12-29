@@ -85,7 +85,7 @@ const updatePaths = () => {
     const manifestPath = resolvePath('build-ext/core/asset-manifest.json')
     const manifestData = fs.readJsonSync(manifestPath)
     const mainPath = resolvePath(`build-ext/core/${manifestData['main.js']}`)
-    const mainData = fs.readFileSync(indexPath, {encoding: 'utf8'})
+    const mainData = fs.readFileSync(mainPath, {encoding: 'utf8'})
     const newMainData = mainData.replace(/static/g, 'core/static')
     fs.writeFileSync(mainPath, newMainData, {encoding: 'utf8'})
 }
