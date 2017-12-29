@@ -60,10 +60,10 @@ export default class LinksPanel extends React.PureComponent<any> {
 
 		return (
 			<div className='links-panel'>
-				{links.map((link, i) => {
+				{links.map((link) => {
 					return (
 						<Link
-							key={i}
+							key={link.id}
 							link={link}
 							onTitleChange={this.titleChanged}
 							onDelete={this.linkDeleted}

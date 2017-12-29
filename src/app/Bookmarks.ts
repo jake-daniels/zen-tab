@@ -9,6 +9,10 @@ import CSFD_icon from 'images/csfd.png'
 import Duolingo_icon from 'images/duolingo.png'
 import AirBank_icon from 'images/airbank.png'
 import Chess_icon from 'images/chess.png'
+import ChromeDev_icon from 'images/chromedev.png'
+import PirateBay_icon from 'images/piratebay.png'
+import VaseLiga_icon from 'images/vaseliga.png'
+import VKupe_icon from 'images/vkupe.png'
 
 export const BookmarksConfig = [
 	{
@@ -60,5 +64,25 @@ export const BookmarksConfig = [
 		title: 'Chess',
 		url: 'https://www.chess.com/home',
 		icon: Chess_icon,
+	},
+	{
+		title: 'Chrome Dev',
+		url: 'https://chrome.google.com/webstore/developer/dashboard',
+		icon: ChromeDev_icon,
+	},
+	{
+		title: 'The Pirate Bay',
+		url: 'https://thepiratebay.org/',
+		icon: PirateBay_icon,
+	},
+	{
+		title: 'Vase Liga',
+		url: 'http://www.vaseliga.cz/cz/uzivatelske-menu/moje-ligy/',
+		icon: VaseLiga_icon,
+	},
+	{
+		title: 'V Kupe',
+		url: 'http://www.vkupe.cz/',
+		icon: VKupe_icon,
 	},
 ]

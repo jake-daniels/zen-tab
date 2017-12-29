@@ -9,6 +9,7 @@ interface TPropsContextMenuTrigger {
 	id: string,
 	className?: string,
 	children: any,
+	onMenuActive: (position: any) => void,
 }
 
 export class ContextMenuTrigger extends React.PureComponent<TPropsContextMenuTrigger> {
@@ -30,6 +31,7 @@ export class ContextMenuTrigger extends React.PureComponent<TPropsContextMenuTri
 		const top = e.clientY - y
 
 		this.setContextMenu(true, left, top)
+		this.props.onMenuActive({x: left, y: top})
 	}
 
 	onClick = (e) => {

@@ -4,7 +4,7 @@
     "name": "Zen Tab",
     "short_name": "Zen Tab",
     "description": "Custom tab, that replaces the default New Tab.",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "icons": {
         "16": "/resources/img/icon_16.png",
         "48": "/resources/img/icon_48.png",

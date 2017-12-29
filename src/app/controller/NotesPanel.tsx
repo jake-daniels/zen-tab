@@ -12,6 +12,10 @@ import Note from 'app/view/Note'
 
 const CONTEXT_MENU_ID = 'notes-panel-context'
 
+interface TState {
+	contextMenuPosition: T.Position,
+}
+
 @(connect as any)(
 	(state) => {
 		return {
@@ -25,10 +29,17 @@ const CONTEXT_MENU_ID = 'notes-panel-context'
 	},
 )
 @NoteDropTarget()
-export default class NotesPanel extends React.PureComponent<any> {
+export default class NotesPanel extends React.PureComponent<any, TState> {
+
+	state: TState = {
+		contextMenuPosition: {x: 0, y: 0},
+	}
 
 	addNote = () => {
-		this.props.createNote()
+		const defaults = {
+			position: this.state.contextMenuPosition,
+		}
+		this.props.createNote(defaults)
 	}
 
 	removeNote = (id: string) => {
@@ -43,6 +54,10 @@ export default class NotesPanel extends React.PureComponent<any> {
 		this.props.updateNote(id, {size})
 	}
 
+	onMenuActive = (position: T.Position) => {
+		this.setState({contextMenuPosition: position})
+	}
+
 	render () {
 		const {connectDropTarget} = this.props 	// DND
 		const {notes} = this.props
@@ -50,12 +65,12 @@ export default class NotesPanel extends React.PureComponent<any> {
 		return connectDropTarget(
 			<div className='notes-panel'>
 
-				<ContextMenuTrigger id={CONTEXT_MENU_ID}>
+				<ContextMenuTrigger id={CONTEXT_MENU_ID} onMenuActive={this.onMenuActive}>
 					<div className='notes-container'>
-						{notes.map((note, i) => {
+						{notes.map((note) => {
 							return (
 								<Note
-									key={i}
+									key={note.id}
 									note={note}
 									onTextChange={this.updateNoteText}
 									onSizeChange={this.updateNoteSize}

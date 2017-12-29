@@ -11,6 +11,7 @@
         "**/build-ext": true,
         "**/*.crx": true,
         "**/*.pem": true,
+        "**/*.zip": true,
         "src/styles/*.css": true
     },
 
