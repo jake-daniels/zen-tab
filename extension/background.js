@@ -2,7 +2,7 @@
 const APP_TMP_STORE_LS_KEY = 'zen-tab-tmp'
 
 chrome.commands.onCommand.addListener(function (command) {
-	if (command === 'zen-event') {
+	if (command === 'save-link-event') {
 		chrome.tabs.query({active: true}, (tabs) => {
 			const title = tabs[0].title
 			const url = tabs[0].url
@@ -13,6 +13,8 @@ chrome.commands.onCommand.addListener(function (command) {
 			`
 			chrome.tabs.executeScript({code: initModal})
 		})
+	} else {
+		console.warn('Unknown event received: ', command)
 	}
 })
 

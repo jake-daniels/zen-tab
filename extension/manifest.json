@@ -1,69 +1,59 @@
 {
-	"manifest_version": 2,
-
-	"author": "jake-daniels @ https://github.com/jake-daniels",
-	"name": "Zen Tab",
-	"short_name": "Zen Tab",
-	"description": "Custom tab, that replaces the default New Tab.",
-	"version": "1.0",
-
-	"icons": {
-		"16": "/resources/img/icon_16.png",
-		"48": "/resources/img/icon_48.png",
-		"128": "/resources/img/icon_128.png"
-	},
-
-	"browser_action": {
-		"default_icon": {
-			"16": "/resources/img/icon_16.png",
-			"24": "/resources/img/icon_24.png",
-			"32": "/resources/img/icon_32.png"
-		},
-		"default_popup": "/resources/popup.html",
-		"default_title": "Zen Tab"
-	},
-
-	"chrome_url_overrides" : {
-		"newtab": "/core/index.html"
-	},
-
-	"permissions": [
-		"storage",
-		"activeTab",
-		"bookmarks"
-	],
-
-	"homepage_url": "https://github.com/jake-daniels/zen-tab",
-
-	"incognito": "not_allowed",
-
-	"offline_enabled": true,
-
-	"content_security_policy": "script-src 'self' https://use.fontawesome.com; style-src 'self' https://fonts.googleapis.com https://use.fontawesome.com; object-src 'self'; font-src http://fonts.gstatic.com https://use.fontawesome.com",
-
-	"background": {
-		"scripts": ["/resources/background.js"],
-		"persistent": false
-	},
-
-	"commands": {
-		"zen-event": {
-			"suggested_key": {
-				"default": "Ctrl+Shift+Right"
-			},
-			"description": "Send a Zen Event"
-		}
-	},
-
-	"content_scripts": [
-		{
-			"matches": ["<all_urls>"],
-			"css": [
-				"/resources/save-link.css"
-			],
-			"js": [
-				"/resources/save-link.js"
-			]
-		}
-	]
+    "manifest_version": 2,
+    "author": "jake-daniels @ https://github.com/jake-daniels",
+    "name": "Zen Tab",
+    "short_name": "Zen Tab",
+    "description": "Custom tab, that replaces the default New Tab.",
+    "version": "0.0.8",
+    "icons": {
+        "16": "/resources/img/icon_16.png",
+        "48": "/resources/img/icon_48.png",
+        "128": "/resources/img/icon_128.png"
+    },
+    "browser_action": {
+        "default_icon": {
+            "16": "/resources/img/icon_16.png",
+            "24": "/resources/img/icon_24.png",
+            "32": "/resources/img/icon_32.png"
+        },
+        "default_popup": "/resources/popup.html",
+        "default_title": "Zen Tab"
+    },
+    "chrome_url_overrides": {
+        "newtab": "/core/index.html"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "homepage_url": "https://github.com/jake-daniels/zen-tab",
+    "incognito": "not_allowed",
+    "offline_enabled": true,
+    "content_security_policy": "script-src 'self' https://use.fontawesome.com; style-src 'self' https://fonts.googleapis.com https://use.fontawesome.com; object-src 'self'; font-src http://fonts.gstatic.com https://use.fontawesome.com",
+    "background": {
+        "scripts": [
+            "/resources/background.js"
+        ],
+        "persistent": false
+    },
+    "commands": {
+        "save-link-event": {
+            "suggested_key": {
+                "default": "Ctrl+L"
+            },
+            "description": "Save link of current page"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "css": [
+                "/resources/save-link.css"
+            ],
+            "js": [
+                "/resources/save-link.js"
+            ]
+        }
+    ]
 }

@@ -26,3 +26,4 @@ yarn-error.log*
 
 /build-ext.crx
 /build-ext.pem
+/zen-tab.zip

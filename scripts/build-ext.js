@@ -1,98 +1,124 @@
 
-const chalk = require('chalk');
-const path = require('path');
-const fs = require('fs-extra');
+const chalk = require('chalk')
+const path = require('path')
+const fs = require('fs-extra')
+const archiver = require('archiver')
 
-const APP_DIRECTORY = fs.realpathSync(process.cwd());
+const APP_DIRECTORY = fs.realpathSync(process.cwd())
+
 const resolvePath = (relativePath) => {
-	return path.resolve(APP_DIRECTORY, relativePath);
+	return path.resolve(APP_DIRECTORY, relativePath)
 }
 
 const copy = (src, dest, filter) => {
-    const srcPath = resolvePath(src);
-    const destPath = resolvePath(dest);
+    const srcPath = resolvePath(src)
+    const destPath = resolvePath(dest)
     fs.copySync(srcPath, destPath, {
         clobber: true,
         dereference: true,
         preserveTimestamps: false,
-        filter: filter
-    });
+        filter: filter,
+    })
 }
 
-console.log('-------------------------- [CHROME EXTENSION BUILD] --------------------------');
-console.log();
+const getNewRelease = (version, release) => {
+    let [major, minor, fix] = version.split('.')
 
-console.log('  Creating directories...');
-
-fs.emptyDirSync(resolvePath('build-ext'));
-fs.mkdirsSync(resolvePath('build-ext/core'));
-fs.mkdirsSync(resolvePath('build-ext/resources'));
-
-console.log('  Copying files...');
-
-copy('extension', 'build-ext/resources', (file) => (file !== resolvePath('extension/manifest.json')));
-copy('extension/manifest.json', 'build-ext/manifest.json');
-copy('build', 'build-ext/core');
-
-console.log('  Updating paths in index.html...');
-
-const indexHtml = resolvePath('build-ext/core/index.html')
-fs.readFile(indexHtml, 'utf8', (err, data) => {
-
-    if (err) {
-        console.error(err);
-        process.exit(1);
+    if (release === 'fix' || release === undefined) {
+        fix = (parseInt(fix) + 1).toString()
     }
 
-    const result = data
+    if (release === 'minor') {
+        minor = (parseInt(minor) + 1).toString()
+        fix = '0'
+    }
+
+    if (release === 'major') {
+        major = (parseInt(major) + 1).toString()
+        minor = '0'
+        fix = '0'
+    }
+
+    return [major, minor, fix].join('.')
+}
+
+const updateVersion = () => {
+    console.log('  Updating manifest version...')
+
+    const release = process.argv[2]
+    const manifestPath = resolvePath('extension/manifest.json')
+    const manifest = fs.readJsonSync(manifestPath)
+    manifest.version = getNewRelease(manifest.version, release)
+    fs.writeJsonSync(manifestPath, manifest, {spaces: 4})
+}
+
+const createDirectories = () => {
+    console.log('  Creating directories...')
+
+    fs.emptyDirSync(resolvePath('build-ext'))
+    fs.mkdirsSync(resolvePath('build-ext/core'))
+    fs.mkdirsSync(resolvePath('build-ext/resources'))
+}
+
+const copyAllFiles = () => {
+    console.log('  Copying files...')
+
+    copy('extension', 'build-ext/resources', (file) => (file !== resolvePath('extension/manifest.json')))
+    copy('extension/manifest.json', 'build-ext/manifest.json')
+    copy('build', 'build-ext/core')
+}
+
+const updatePaths = () => {
+    // index.html
+    console.log('  Updating paths in index.html...')
+
+    const indexPath = resolvePath('build-ext/core/index.html')
+    const indexData = fs.readFileSync(indexPath, {encoding: 'utf8'})
+    const newIndexData = indexData
         .replace(/static/g, 'core/static')
-        .replace('/favicon', '/core/favicon');
+        .replace(/favion/g, 'core/favicon')
+    fs.writeFileSync(indexPath, newIndexData, {encoding: 'utf8'})
 
-    fs.writeFile(indexHtml, result, 'utf8', (err) => {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-    });
+    // main.js
+    console.log('  Updating paths in main.js...')
 
-});
+    const manifestPath = resolvePath('build-ext/core/asset-manifest.json')
+    const manifestData = fs.readJsonSync(manifestPath)
+    const mainPath = resolvePath(`build-ext/core/${manifestData['main.js']}`)
+    const mainData = fs.readFileSync(indexPath, {encoding: 'utf8'})
+    const newMainData = mainData.replace(/static/g, 'core/static')
+    fs.writeFileSync(mainPath, newMainData, {encoding: 'utf8'})
+}
 
-console.log('  Updating paths in main.js...');
+const createPackage = () => {
+    console.log('  Creating ZIP package...')
 
-const assetManifest = resolvePath('build-ext/core/asset-manifest.json')
-fs.readFile(assetManifest, 'utf8', (err, data) => {
+    const inputPath = resolvePath('build-ext/')
+    const outputPath = resolvePath('zen-tab.zip')
 
-    if (err) {
-        console.error(err);
-        process.exit(1);
-    }
+    const output = fs.createWriteStream(outputPath)
+    const archive = archiver('zip', {zlib: {level: 9}})
+    archive.pipe(output)
+    archive.directory(inputPath, false)
+    archive.finalize()
+}
 
-    const manifest = JSON.parse(data);
-    const path = manifest['main.js']
-    const mainJs = resolvePath(`build-ext/core/${path}`)
 
-    fs.readFile(mainJs, 'utf8', (err, data) => {
+console.log('-------------------------- [CHROME EXTENSION BUILD] --------------------------')
+console.log()
 
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
+try {
+    updateVersion()
+    createDirectories()
+    copyAllFiles()
+    updatePaths()
+    createPackage()
+} catch (err) {
+    console.error(err)
+    process.exit(1)
+}
 
-        const result = data.replace(/static/g, 'core/static')
-
-        fs.writeFile(mainJs, result, 'utf8', (err) => {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-        });
-
-    });
-
-});
-
-console.log(chalk.yellow('  Extension built successfully.'));
-
-console.log();
-console.log('------------------------------------------------------------------------------');
-console.log();
+console.log(chalk.yellow('  Extension has been built successfully.'))
+console.log()
+console.log('------------------------------------------------------------------------------')
+console.log()

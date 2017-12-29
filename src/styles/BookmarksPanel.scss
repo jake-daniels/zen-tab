@@ -22,5 +22,12 @@
                 height: $bookmark-icon-size;
             }
         }
+        &:hover {
+            padding: 5px;
+            .bg img {
+                width: $bookmark-icon-size + 10;
+                height: $bookmark-icon-size + 10;
+            }
+        }
     }
 }

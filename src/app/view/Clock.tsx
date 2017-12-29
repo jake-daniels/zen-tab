@@ -2,32 +2,29 @@
 import * as React from 'react'
 import Moment from 'moment'
 
-const CHECK_INTERVAL = 1000
+const TIMER_CHECK_INTERVAL = 1000
 
 interface TState {
-	timerID: number | null,
 	date: string,
 	time: string,
 }
 
 export default class Clock extends React.PureComponent<any, TState> {
 
+	timer: number = 0
+
 	state: TState = {
-		timerID: null,
 		date: '',
 		time: '',
 	}
 
 	componentDidMount () {
-		const id = window.setInterval(this.setDateTime, CHECK_INTERVAL)
+		this.timer = window.setInterval(this.setDateTime, TIMER_CHECK_INTERVAL)
 		this.setDateTime()
-		this.setState({timerID: id})
 	}
 
 	componentWillUnmount () {
-		if (this.state.timerID) {
-			window.clearInterval(this.state.timerID)
-		}
+		window.clearInterval(this.timer)
 	}
 
 	setDateTime = () => {
@@ -43,8 +40,8 @@ export default class Clock extends React.PureComponent<any, TState> {
 
 		return (
 			<div className='clock noselect'>
-				<span className='time'>{time}</span>
-				<span className='date'>{date}</span>
+				<span className='time'> {time} </span>
+				<span className='date'> {date} </span>
 			</div>
 		)
 	}

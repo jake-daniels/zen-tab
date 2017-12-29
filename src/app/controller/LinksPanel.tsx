@@ -7,6 +7,7 @@ import * as Selectors from 'app/domain/Selectors'
 import {AppSettings} from 'app/AppSettings'
 import Link from 'app/view/Link'
 
+const LINKS_CHECK_INTERVAL = 3000
 
 @(connect as any)(
 	(state) => {
@@ -22,8 +23,15 @@ import Link from 'app/view/Link'
 )
 export default class LinksPanel extends React.PureComponent<any> {
 
+	pendingLinksTimer: number = 0
+
 	componentDidMount () {
+		this.pendingLinksTimer = window.setInterval(this.savePendingLinks, LINKS_CHECK_INTERVAL)
 		this.savePendingLinks()
+	}
+
+	componentWillUnmount () {
+		window.clearInterval(this.pendingLinksTimer)
 	}
 
 	savePendingLinks = () => {

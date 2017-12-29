@@ -1,19 +1,24 @@
 
+// Global
 $font-main: 'Roboto', sans-serif;
 $font-color-black: rgb(32, 32, 32);
 $font-color-white: white;
 $link-color: #4848cd;
 
-$bookmarks-panel-width: 120px;
-$bookmark-icon-size: 30px;
+// Dekstop
+$desktop-bg: hsl(214, 26%, 40%);
+
+// Bookmarks
+$bookmarks-panel-width: 110px;
+$bookmark-icon-size: 25px;
 $bookmarks-panel-bg: hsl(222, 10%, 19%);
 
-$workspace-bg: hsl(214, 26%, 40%);
-
+// Notes
 $note-color: #f4f4a1;
-$note-border-color: $workspace-bg;
+$note-border-color: $desktop-bg;
 $note-close-button-color: #565651;
 $note-header-color: rgb(248, 248, 197);
 
-$links-panel-width: 400px;
+// Links
+$links-panel-width: 350px;
 $links-panel-bg: lighten($bookmarks-panel-bg, 10%);
