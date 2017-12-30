@@ -37,6 +37,28 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 		dragMode: false,
 	}
 
+	activateDragMode = (e) => {
+		if (e.key === 'Control') {
+			this.setState({dragMode: true})
+		}
+	}
+
+	deactivateDragMode = (e) => {
+		if (e.key === 'Control') {
+			this.setState({dragMode: false})
+		}
+	}
+
+	componentDidMount () {
+		document.addEventListener('keydown', this.activateDragMode, false)
+		document.addEventListener('keyup', this.deactivateDragMode, false)
+	}
+
+	componentWillUnmount () {
+		document.removeEventListener('keydown', this.activateDragMode, false)
+		document.removeEventListener('keyup', this.deactivateDragMode, false)
+	}
+
 	addNote = () => {
 		const defaults = {
 			position: this.state.contextMenuPosition,
@@ -63,6 +85,7 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 	render () {
 		const {connectDropTarget} = this.props 	// DND
 		const {notes} = this.props
+		const {dragMode} = this.state
 
 		return connectDropTarget(
 			<div className='notes-panel'>
@@ -73,6 +96,7 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 							return (
 								<Note
 									key={note.id}
+									dragMode={dragMode}
 									note={note}
 									onTextChange={this.updateNoteText}
 									onSizeChange={this.updateNoteSize}

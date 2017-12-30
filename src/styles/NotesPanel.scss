@@ -21,6 +21,9 @@
 
     &.drag-mode {
         cursor: move;
+        & * {
+            cursor: move !important;
+        }
     }
     &.dragging {
         display: none;

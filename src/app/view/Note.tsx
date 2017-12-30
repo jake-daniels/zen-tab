@@ -1,12 +1,12 @@
 
 import * as React from 'react'
-import Mousetrap from 'mousetrap'
 
 import * as Utils from 'app/domain/utility/index'
 import * as T from 'app/domain/Types'
 import {NoteDragSource, EMPTY_IMAGE} from 'app/domain/drag-and-drop'
 
 interface TProps {
+	dragMode: boolean,
 	note: T.Note,
 	onTextChange: Function,
 	onSizeChange: Function,
@@ -20,7 +20,6 @@ interface TProps {
 interface TState {
 	text: string,
 	isEditing: boolean,
-	dragMode: boolean,
 }
 
 
@@ -30,7 +29,6 @@ export default class Note extends React.PureComponent<TProps, TState> {
 	state: TState = {
 		text: '',
 		isEditing: false,
-		dragMode: false,
 	}
 
 	textArea: any = null
@@ -47,14 +45,6 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		if (connectDragPreview) {
 			connectDragPreview(EMPTY_IMAGE)
 		}
-
-
-		Mousetrap.bind('ctrl', () => this.setState({dragMode: true}), 'keydown')
-		Mousetrap.bind('ctrl', () => this.setState({dragMode: false}), 'keyup')
-	}
-
-	componentWillUnmount () {
-		Mousetrap.unbind('ctrl')
 	}
 
 	componentWillReceiveProps (nextProps: TProps) {
@@ -105,13 +95,13 @@ export default class Note extends React.PureComponent<TProps, TState> {
 	}
 
 	render () {
-		const {connectDragSource, connectDragPreview, isDragging} = this.props	// DND
-		const {note, onDelete} = this.props
+		const {text, isEditing} = this.state
+		const {connectDragSource, isDragging} = this.props	// DND
+		const {dragMode, note, onDelete} = this.props
 		const {width, height} = note.size
 		const {x, y} = note.position
-		const {text, isEditing, dragMode} = this.state
 
-		if (!connectDragPreview || !connectDragSource) {
+		if (!connectDragSource) {
 			return null
 		}
 
@@ -124,11 +114,7 @@ export default class Note extends React.PureComponent<TProps, TState> {
 
 		const result = (
 			<div
-				className={`
-					note
-					${(isDragging) ? 'dragging' : ''}
-					${(dragMode) ? 'drag-mode' : ''}
-				`}
+				className={`note ${(isDragging) ? 'dragging' : ''} ${(dragMode) ? 'drag-mode' : ''}`}
 				style={{left: x, top: y}}
 			>
 
