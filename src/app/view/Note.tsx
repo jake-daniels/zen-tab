@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import * as Utils from 'app/domain/utility/index'
 import * as T from 'app/domain/Types'
-import {NoteDragSource} from 'app/domain/drag-and-drop'
+import {NoteDragSource, EMPTY_IMAGE} from 'app/domain/drag-and-drop'
 
 interface TProps {
 	note: T.Note,
@@ -30,9 +30,20 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		isEditing: false,
 	}
 
+	textArea: any = null
+	textPreview: any = null
+
+
 	constructor (props: TProps) {
 		super(props)
 		this.state.text = props.note.text
+	}
+
+	componentDidMount () {
+		const {connectDragPreview} = this.props
+		if (connectDragPreview) {
+			connectDragPreview(EMPTY_IMAGE)
+		}
 	}
 
 	componentWillReceiveProps (nextProps: TProps) {
@@ -42,8 +53,6 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		}
 	}
 
-	textArea: any = null
-	textPreview: any = null
 
 	inputChangedThrottled = Utils.throttle(this.props.onTextChange, 250)
 	inputChanged = (e) => {
@@ -102,7 +111,7 @@ export default class Note extends React.PureComponent<TProps, TState> {
 			},
 		}
 
-		return connectDragPreview(
+		return (
 			<div
 				className={`note ${(isDragging) ? 'dragging' : ''}`}
 				style={{left: x, top: y}}
