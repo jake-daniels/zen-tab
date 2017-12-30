@@ -1,5 +1,6 @@
 
 import * as React from 'react'
+import Mousetrap from 'mousetrap'
 
 import * as Utils from 'app/domain/utility/index'
 import * as T from 'app/domain/Types'
@@ -19,6 +20,7 @@ interface TProps {
 interface TState {
 	text: string,
 	isEditing: boolean,
+	dragMode: boolean,
 }
 
 
@@ -28,6 +30,7 @@ export default class Note extends React.PureComponent<TProps, TState> {
 	state: TState = {
 		text: '',
 		isEditing: false,
+		dragMode: false,
 	}
 
 	textArea: any = null
@@ -44,6 +47,14 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		if (connectDragPreview) {
 			connectDragPreview(EMPTY_IMAGE)
 		}
+
+
+		Mousetrap.bind('ctrl', () => this.setState({dragMode: true}), 'keydown')
+		Mousetrap.bind('ctrl', () => this.setState({dragMode: false}), 'keyup')
+	}
+
+	componentWillUnmount () {
+		Mousetrap.unbind('ctrl')
 	}
 
 	componentWillReceiveProps (nextProps: TProps) {
@@ -98,11 +109,13 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		const {note, onDelete} = this.props
 		const {width, height} = note.size
 		const {x, y} = note.position
-		const {text, isEditing} = this.state
+		const {text, isEditing, dragMode} = this.state
 
 		if (!connectDragPreview || !connectDragSource) {
 			return null
 		}
+
+		console.log('dragmode ', dragMode)
 
 		const linkProps = {
 			target: '_blank',
@@ -111,25 +124,25 @@ export default class Note extends React.PureComponent<TProps, TState> {
 			},
 		}
 
-		return (
+		const result = (
 			<div
-				className={`note ${(isDragging) ? 'dragging' : ''}`}
+				className={`
+					note
+					${(isDragging) ? 'dragging' : ''}
+					${(dragMode) ? 'drag-mode' : ''}
+				`}
 				style={{left: x, top: y}}
 			>
 
-				{connectDragSource(
-					<div className='header'>
-						<i
-							className='fa fa-times'
-							aria-hidden={true}
-							onClick={() => onDelete(note.id)}
-						/>
-					</div>
-				)}
+				<i
+					className='fa fa-times'
+					aria-hidden={true}
+					onClick={() => onDelete(note.id)}
+				/>
 
 				{(isEditing) && (
 						<textarea
-							className='text-area'
+							className='text-area mousetrap'
 							ref={(c) => c && (this.textArea = c)}
 							style={{width, height}}
 							spellCheck={false}
@@ -156,5 +169,11 @@ export default class Note extends React.PureComponent<TProps, TState> {
 
 			</div>
 		)
+
+		if (dragMode) {
+			return connectDragSource(result)
+		} else {
+			return result
+		}
 	}
 }

@@ -77,7 +77,7 @@ export class CustomDragLayer extends React.PureComponent<any> {
 
 		return {
 			width,
-			height: height + 24,	// due to header
+			height,
 			transform: transform,
 			WebkitTransform: transform,
 		}

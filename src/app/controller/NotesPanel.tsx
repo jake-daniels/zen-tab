@@ -14,6 +14,7 @@ const CONTEXT_MENU_ID = 'notes-panel-context'
 
 interface TState {
 	contextMenuPosition: T.Position,
+	dragMode: boolean,
 }
 
 @(connect as any)(
@@ -33,6 +34,7 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 
 	state: TState = {
 		contextMenuPosition: {x: 0, y: 0},
+		dragMode: false,
 	}
 
 	addNote = () => {
