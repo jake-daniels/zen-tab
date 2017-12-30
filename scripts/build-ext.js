@@ -50,6 +50,8 @@ const updateVersion = () => {
     const manifest = fs.readJsonSync(manifestPath)
     manifest.version = getNewRelease(manifest.version, release)
     fs.writeJsonSync(manifestPath, manifest, {spaces: 4})
+
+    return manifest.version
 }
 
 const createDirectories = () => {
@@ -104,11 +106,12 @@ const createPackage = () => {
 }
 
 
-console.log('-------------------------- [CHROME EXTENSION BUILD] --------------------------')
+console.log('-------------------------- [ZEN TAB EXTENSION BUILD] --------------------------')
 console.log()
 
+let releaseVersion = 'unknown'
 try {
-    updateVersion()
+    releaseVersion = updateVersion()
     createDirectories()
     copyAllFiles()
     updatePaths()
@@ -118,7 +121,7 @@ try {
     process.exit(1)
 }
 
-console.log(chalk.yellow('  Extension has been built successfully.'))
+console.log(chalk.yellow(`  Zen Tab [version ${releaseVersion}] has been built successfully.`))
 console.log()
-console.log('------------------------------------------------------------------------------')
+console.log('-------------------------------------------------------------------------------')
 console.log()

@@ -115,8 +115,6 @@ export default class Note extends React.PureComponent<TProps, TState> {
 			return null
 		}
 
-		console.log('dragmode ', dragMode)
-
 		const linkProps = {
 			target: '_blank',
 			onMouseUp: (e) => {
