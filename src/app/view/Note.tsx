@@ -94,6 +94,10 @@ export default class Note extends React.PureComponent<TProps, TState> {
 		this.setState({isEditing: false})
 	}
 
+	edit = () => {
+		this.setState({isEditing: true}, () => this.textArea.focus())
+	}
+
 	render () {
 		const {text, isEditing} = this.state
 		const {connectDragSource, isDragging} = this.props	// DND
@@ -112,9 +116,15 @@ export default class Note extends React.PureComponent<TProps, TState> {
 			},
 		}
 
+
 		const result = (
 			<div
-				className={`note ${(isDragging) ? 'dragging' : ''} ${(dragMode) ? 'drag-mode' : ''}`}
+				className={cn({
+					'note': true,
+					'dragging': isDragging,
+					'drag-mode': dragMode,
+					'editing': isEditing,
+				})}
 				style={{left: x, top: y}}
 			>
 

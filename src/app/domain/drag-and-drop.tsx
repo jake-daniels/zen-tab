@@ -11,9 +11,13 @@ export const DraggableItems = {
 export const NoteDragSource = () => {
 
 	const source = {
-		beginDrag: (props: any) => {
-			return {note: props.note}
+		beginDrag: (props: any, monitor: any) => {
+
+			return {note: props.note, getOffset: () => monitor.getClientOffset()}
 		},
+		// canDrag: (props: any, monitor: any) => {
+
+		// },
 	}
 
 	const collect = (connect: any, monitor: any) => {
@@ -97,6 +101,8 @@ export class CustomDragLayer extends React.PureComponent<any> {
 
 	render () {
 		const {isDragging} = this.props
+
+		// console.log(this.props.currentOffset)
 
 		if (!isDragging) {
 			return null

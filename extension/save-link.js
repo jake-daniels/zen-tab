@@ -24,26 +24,48 @@ modal.setAttribute('class', 'save-link-modal')
 modal.innerHTML = content
 document.body.appendChild(modal)
 
-const onCancel = () => {
+
+
+const MESSAGE_SAVE_LINK = 'MESSAGE_SAVE_LINK'
+const MESSAGE_SHOW_MODAL = 'MESSAGE_SHOW_MODAL'
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (request && request.type === MESSAGE_SHOW_MODAL) {
+		document.addEventListener('keypress', onKeyPress)
+	}
+})
+
+function closeModal () {
 	document.getElementById('zenTabSaveLinkModal').style.display = 'none'
+	document.removeEventListener('keypress', onKeyPress)
 }
 
-const onSave = () => {
-	document.getElementById('zenTabSaveLinkModal').style.display = 'none'
-
+function sendLinkToBackgroundPage () {
 	const title = document.getElementById('zenTabSaveLinkModalTitleInput').value
 	const url = document.getElementById('zenTabSaveLinkModalUrlInput').value
 	const message = {
-		type: 'SAVE_LINK',
+		type: MESSAGE_SAVE_LINK,
 		payload: {title, url},
 	}
+
 	chrome.runtime.sendMessage(message)
+
+	closeModal()
+}
+
+function onKeyPress (e) {
+	const isVisible = (document.getElementById('zenTabSaveLinkModal').style.display === 'block')
+	const enterPressed = (e.key === 'Enter')
+	if (isVisible && enterPressed) {
+		sendLinkToBackgroundPage()
+	}
 }
 
 document
 	.getElementById('zenTabSaveLinkModalCancelButton')
-	.addEventListener('click', onCancel)
+	.addEventListener('click', closeModal)
 
 document
 	.getElementById('zenTabSaveLinkModalSaveButton')
-	.addEventListener('click', onSave)
+	.addEventListener('click', sendLinkToBackgroundPage)
+

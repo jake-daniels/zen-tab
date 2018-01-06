@@ -1,28 +1,54 @@
 
+// Constants
+
 const APP_TMP_STORE_LS_KEY = 'zen-tab-tmp'
+const MESSAGE_SAVE_LINK = 'MESSAGE_SAVE_LINK'
+const MESSAGE_SHOW_MODAL = 'MESSAGE_SHOW_MODAL'
+
+const ECommand = {
+	SAVE_LINK_COMMAND: 'save-link-command',
+}
+
+const CommandConfig = {
+	[ECommand.SAVE_LINK_COMMAND]: {
+		execute: () => {
+			chrome.tabs.query({active: true}, (tabs) => {
+				const {id, title, url} = tabs[0]
+				const initModal = `
+					document.getElementById('zenTabSaveLinkModal').style.display = 'block'
+					document.getElementById('zenTabSaveLinkModalTitleInput').value = \`${title}\`
+					document.getElementById('zenTabSaveLinkModalUrlInput').value = \`${url}\`
+				`
+				chrome.tabs.executeScript({code: initModal})
+
+				const message = {
+					type: MESSAGE_SHOW_MODAL,
+					payload: {isVisible: true},
+				}
+				chrome.tabs.sendMessage(id, message)
+			})
+		}
+	}
+}
+
+
+// Chrome API
 
 chrome.commands.onCommand.addListener(function (command) {
-	if (command === 'save-link-event') {
-		chrome.tabs.query({active: true}, (tabs) => {
-			const title = tabs[0].title
-			const url = tabs[0].url
-			const initModal = `
-				document.getElementById('zenTabSaveLinkModal').style.display = 'block'
-				document.getElementById('zenTabSaveLinkModalTitleInput').value = '${title}'
-				document.getElementById('zenTabSaveLinkModalUrlInput').value = '${url}'
-			`
-			chrome.tabs.executeScript({code: initModal})
-		})
+	if (Object.keys(CommandConfig).includes(command)) {
+		CommandConfig[command].execute()
 	} else {
 		console.warn('Unknown event received: ', command)
 	}
 })
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	if (request && request.type === 'SAVE_LINK') {
+	if (request && request.type === MESSAGE_SAVE_LINK) {
 		saveLink(request.payload)
 	}
 })
+
+// Functions
 
 function saveLink ({title, url}) {
 	const tmpStoreEncoded = localStorage.getItem(APP_TMP_STORE_LS_KEY)

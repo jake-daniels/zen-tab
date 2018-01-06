@@ -1,6 +1,7 @@
 
 import * as React from 'react'
 import {connect} from 'react-redux'
+import {Set} from 'immutable'
 
 import * as T from 'app/domain/Types'
 import * as NotesActions from 'app/domain/NotesActions'
@@ -37,6 +38,8 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 		dragMode: false,
 	}
 
+	_notes: any = {}
+
 	activateDragMode = (e) => {
 		if (e.key === 'Control') {
 			this.setState({dragMode: true})
@@ -57,6 +60,25 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 	componentWillUnmount () {
 		document.removeEventListener('keydown', this.activateDragMode, false)
 		document.removeEventListener('keyup', this.deactivateDragMode, false)
+	}
+
+	componentWillReceiveProps (nextProps: any) {
+		this.focusNewNote(nextProps)
+	}
+
+	focusNewNote = (nextProps: any) => {
+		const currentNotes = Set<T.Note>(this.props.notes)
+		const nextNotes = Set<T.Note>(nextProps.notes)
+
+		if (nextNotes.size > currentNotes.size) {
+			const newNote = nextNotes.subtract(currentNotes).first()
+			window.setTimeout(() => {
+				const ref = this._notes[newNote.id]
+				if (ref) {
+					ref.decoratedComponentInstance.edit()
+				}
+			}, 250)
+		}
 	}
 
 	addNote = () => {
@@ -87,6 +109,8 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 		const {notes} = this.props
 		const {dragMode} = this.state
 
+		this._notes = {}
+
 		return connectDropTarget(
 			<div className='notes-panel'>
 
@@ -95,6 +119,7 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 						{notes.map((note) => {
 							return (
 								<Note
+									ref={(x) => x && (this._notes[note.id] = x)}
 									key={note.id}
 									dragMode={dragMode}
 									note={note}

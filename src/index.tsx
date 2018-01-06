@@ -14,7 +14,22 @@ import Desktop from 'app/controller/Desktop'
 
 import 'styles/App.css'
 
-window['I'] = Immutable
+// GLOBALS
+
+function cn (def: Object) {
+	let result = ''
+	Object.keys(def).forEach((key) => {
+		const value = def[key]
+		if (value) {
+			result += ` ${key}`
+		}
+	})
+	return result
+}
+
+const _global = (window || global) as any
+_global.cn = cn
+_global.I = Immutable
 
 class App extends React.Component {
 
