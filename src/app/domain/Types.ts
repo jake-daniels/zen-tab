@@ -22,6 +22,7 @@ export interface Link {
 	id: string,
 	created: string,
 	updated: string,
+	order: number,
 	title: string,
 	url: string,
 }

@@ -4,16 +4,23 @@ import ReactDOM from 'react-dom'
 import {DragSource, DropTarget, DragLayer} from 'react-dnd'
 import {getEmptyImage} from 'react-dnd-html5-backend'
 
+export const EMPTY_IMAGE = getEmptyImage()
+
 export const DraggableItems = {
 	NOTE: Symbol('NOTE'),
+	LINK: Symbol('LINK'),
+}
+
+const getClientRect = (component: any) => {
+	return ReactDOM.findDOMNode(component).getBoundingClientRect() as any
 }
 
 export const NoteDragSource = () => {
 
-	const source = {
-		beginDrag: (props: any, monitor: any) => {
-
-			return {note: props.note, getOffset: () => monitor.getClientOffset()}
+	const spec = {
+		beginDrag: (props: any, monitor: any, component: any) => {
+			const clientRect = getClientRect(component)
+			return {note: props.note, clientRect}
 		},
 		// canDrag: (props: any, monitor: any) => {
 
@@ -28,24 +35,24 @@ export const NoteDragSource = () => {
 		}
 	}
 
-	return DragSource(DraggableItems.NOTE, source, collect)
+	return DragSource(DraggableItems.NOTE, spec, collect)
 }
 
 export const NoteDropTarget = () => {
 
-	const target = {
+	const spec = {
 		drop: (props: any, monitor: any, component: any) => {
-			const {note} = monitor.getItem()
+			const {id} = monitor.getItem().note
 			const offset = monitor.getSourceClientOffset()
 
-			const clientRect: any = ReactDOM.findDOMNode(component).getBoundingClientRect()
+			const clientRect = getClientRect(component)
 			const position = {
 				x: (offset.x - clientRect.x),
 				y: (offset.y - clientRect.y),
 			}
 
-			props.updateNote(note.id, {position})
-		}
+			props.updateNote(id, {position})
+		},
 	}
 	const collect = (connect: any, monitor: any) => {
 		return {
@@ -53,10 +60,98 @@ export const NoteDropTarget = () => {
 		}
 	}
 
-	return DropTarget(DraggableItems.NOTE, target, collect)
+	return DropTarget(DraggableItems.NOTE, spec, collect)
 }
 
-export const EMPTY_IMAGE = getEmptyImage()
+export const LinkDragSource = () => {
+
+	const spec = {
+		beginDrag: (props: any, monitor: any, component: any) => {
+			const clientRect = getClientRect(component)
+			return {link: props.link, clientRect}
+		},
+	}
+
+	const collect = (connect: any, monitor: any) => {
+		return {
+			connectDragSource: connect.dragSource(),
+			connectDragPreview: connect.dragPreview(),
+			isDragging: monitor.isDragging(),
+		}
+	}
+
+	return DragSource(DraggableItems.LINK, spec, collect)
+}
+
+export const LinkDropTarget = () => {
+
+	const spec = {
+		hover: (props: any, monitor: any, component: any) => {
+
+			if (props.isDropSpot) {
+				return
+			}
+
+			const clientRect = getClientRect(component)
+			const clientRectMiddleY = clientRect.height / 2
+			const cursorY = monitor.getClientOffset().y - clientRect.top
+
+			const sourceLinkOrder = monitor.getItem().link.order
+
+			let dropSpotPosition
+
+			if (sourceLinkOrder > props.link.order) {
+				dropSpotPosition = (cursorY < clientRectMiddleY)
+					? props.link.order
+					: props.link.order + 1
+			} else {
+				dropSpotPosition = (cursorY < clientRectMiddleY)
+					? props.link.order - 1
+					: props.link.order
+			}
+
+			const sourceLinkClientRect = monitor.getItem().clientRect
+
+			props.showDropSpot(dropSpotPosition, sourceLinkClientRect, sourceLinkOrder)
+		},
+		drop: (props: any, monitor: any, component: any) => {
+			const sourceLink = monitor.getItem().link
+			props.drop(sourceLink)
+		},
+	}
+	const collect = (connect: any, monitor: any) => {
+		return {
+			connectDropTarget: connect.dropTarget(),
+		}
+	}
+
+	return DropTarget(DraggableItems.LINK, spec, collect)
+}
+
+
+const ITEM_PREVIEW_CONFIG = {
+
+	[DraggableItems.NOTE]: {
+		className: 'note-drag-preview',
+		getStyle: (clientRect: any, currentOffset: any) => {
+			const {width, height} = clientRect
+			const {x, y} = currentOffset
+			const transform = `translate(${x}px, ${y}px)`
+			return {width, height, transform}
+		},
+	},
+
+	[DraggableItems.LINK]: {
+		className: 'link-drag-preview',
+		getStyle: (clientRect: any, currentOffset: any) => {
+			const {width, height, left} = clientRect
+			const {y} = currentOffset
+			const transform = `translate(${0}px, ${y}px)`
+			return {width, height, left, transform}
+		},
+	},
+
+}
 
 @DragLayer((monitor) => ({
 	item: monitor.getItem(),
@@ -66,37 +161,24 @@ export const EMPTY_IMAGE = getEmptyImage()
 }))
 export class CustomDragLayer extends React.PureComponent<any> {
 
-	getItemStyle = () => {
-		const {currentOffset, item} = this.props
-		const {width, height} = item.note.size
+	Item = () => {
+		const {type, item, currentOffset} = this.props
 
-		if (!currentOffset) {
-			return {
-				display: 'none'
+		let itemProps = {}
+
+		if (currentOffset) {
+			const config = ITEM_PREVIEW_CONFIG[type]
+			const style = config.getStyle(item.clientRect, currentOffset)
+			const className = config.className
+			itemProps = {style, className}
+		} else {
+			itemProps = {
+				style: {display: 'none'},
+				className: '',
 			}
 		}
 
-		const {x, y} = currentOffset
-		const transform = `translate(${x}px, ${y}px)`
-
-		return {
-			width,
-			height,
-			transform: transform,
-			WebkitTransform: transform,
-		}
-	}
-
-	Item = () => {
-		const {type} = this.props
-
-		const itemStyle = this.getItemStyle()
-
-		if (type === DraggableItems.NOTE) {
-			return <div style={itemStyle} className='note-drag-preview'/>
-		}
-
-		return null
+		return <div {...itemProps}/>
 	}
 
 	render () {

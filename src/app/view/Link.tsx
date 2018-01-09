@@ -1,17 +1,30 @@
 
 import * as React from 'react'
+
 import * as T from 'app/domain/Types'
 import * as Utils from 'app/domain/utility/index'
+import {LinkDragSource, LinkDropTarget, EMPTY_IMAGE} from 'app/domain/drag-and-drop'
+
 
 interface TProps {
+	dragMode: boolean,
 	link: T.Link,
 	onDelete: Function,
 	onTitleChange: Function,
+	showDropSpot: Function,
+	drop: Function,
+
+	connectDragSource?: Function,
+	connectDropTarget?: Function,
+	connectDragPreview?: Function,
+	isDragging?: boolean,
 }
 interface TState {
 	title: string,
 }
 
+@LinkDragSource()
+@LinkDropTarget()
 export default class Link extends React.PureComponent<TProps, TState> {
 
 	state: TState = {
@@ -21,6 +34,13 @@ export default class Link extends React.PureComponent<TProps, TState> {
 	constructor (props: TProps) {
 		super(props)
 		this.state.title = props.link.title
+	}
+
+	componentDidMount () {
+		const {connectDragPreview} = this.props
+		if (connectDragPreview) {
+			connectDragPreview(EMPTY_IMAGE)
+		}
 	}
 
 	componentWillReceiveProps (nextProps: TProps) {
@@ -48,11 +68,19 @@ export default class Link extends React.PureComponent<TProps, TState> {
 	}
 
 	render () {
-		const {link} = this.props
 		const {title} = this.state
+		const {connectDragSource, connectDropTarget, isDragging} = this.props	// DND
+		const {dragMode, link} = this.props
 
-		return (
-			<div className='link' onClick={this.onClicked}>
+		if (!connectDragSource || !connectDropTarget) {
+			return null
+		}
+
+		const result = (
+			<div
+				className={`link ${(isDragging) ? 'dragging' : ''} ${(dragMode) ? 'drag-mode' : ''}`}
+				onClick={this.onClicked}
+			>
 				<i
 					className='fa fa-times'
 					aria-hidden={true}
@@ -68,5 +96,15 @@ export default class Link extends React.PureComponent<TProps, TState> {
 				<span className='url'> {link.url} </span>
 			</div>
 		)
+
+		if (dragMode) {
+			return connectDropTarget(
+				connectDragSource(
+					result
+				)
+			)
+		} else {
+			return result
+		}
 	}
 }

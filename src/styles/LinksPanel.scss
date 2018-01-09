@@ -2,6 +2,8 @@
 @import 'styles/variables.scss';
 
 .links-panel {
+	position: relative;
+
 	display: flex;
 	flex-direction: column;
 
@@ -27,6 +29,17 @@
 		cursor: pointer;
 		padding: 15px;
 		font-size: 12px;
+
+		&.drag-mode {
+			cursor: move;
+			& * {
+				cursor: move !important;
+			}
+		}
+		&.dragging {
+			display: none;
+		}
+
 		&:hover {
 			background: lighten($links-panel-bg, 5%);
 			.fa {
@@ -60,4 +73,23 @@
 			overflow: hidden;
 		}
 	}
+
+	.link-drag-preview {
+		position: absolute;
+		border: solid 1px white;
+		background: lighten($links-panel-bg, 10%);
+		opacity: 0.5;
+	}
+
+	.link-drop-spot {
+		display: flex;
+		border: dotted 1px rgba(255, 255, 255, 0.8);
+		background: darken($links-panel-bg, 5%);
+		justify-content: center;
+		align-items: center;
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.8);
+	}
 }
+
+

@@ -66,15 +66,20 @@ export const Reducers = {
 		return {...state, links}
 	},
 
-	[LinksActions.UPDATE_LINK_TITLE]: (state: TAppState, action: TAction) => {
-		const {id, title, updated} = action.payload
+	[LinksActions.UPDATE_LINK]: (state: TAppState, action: TAction) => {
+		const {id, updated, params} = action.payload
 
 		const links = state.links.map((link) => {
 			return (link.id === id)
-				? {...link, title, updated}
+				? {...link, ...params, updated}
 				: link
-		}).sort((x, y) => (x.updated > y.updated) ? 1 : -1)
+		}).sort((x, y) => x.order - y.order)
 
+		return {...state, links}
+	},
+
+	[LinksActions.SET_LINKS]: (state: TAppState, action: TAction) => {
+		const {links} = action.payload
 		return {...state, links}
 	},
 
