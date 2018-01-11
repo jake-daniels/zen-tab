@@ -3,6 +3,7 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {Set} from 'immutable'
 
+import Keyboard from 'app/domain/Keyboard'
 import * as T from 'app/domain/Types'
 import * as NotesActions from 'app/domain/NotesActions'
 import * as Selectors from 'app/domain/Selectors'
@@ -40,26 +41,18 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 
 	_notes: any = {}
 
-	activateDragMode = (e) => {
-		if (e.key === 'Control') {
-			this.setState({dragMode: true})
-		}
-	}
+	activateDragMode = () => this.setState({dragMode: true})
 
-	deactivateDragMode = (e) => {
-		if (e.key === 'Control') {
-			this.setState({dragMode: false})
-		}
-	}
+	deactivateDragMode = () => this.setState({dragMode: false})
 
 	componentDidMount () {
-		document.addEventListener('keydown', this.activateDragMode, false)
-		document.addEventListener('keyup', this.deactivateDragMode, false)
+		Keyboard.subscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
+		Keyboard.subscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
 	}
 
 	componentWillUnmount () {
-		document.removeEventListener('keydown', this.activateDragMode, false)
-		document.removeEventListener('keyup', this.deactivateDragMode, false)
+		Keyboard.unsubscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
+		Keyboard.unsubscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
 	}
 
 	componentWillReceiveProps (nextProps: any) {

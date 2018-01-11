@@ -3,6 +3,7 @@ import * as React from 'react'
 import {connect} from 'react-redux'
 import {List} from 'immutable'
 
+import Keyboard from 'app/domain/Keyboard'
 import * as T from 'app/domain/Types'
 import * as LinksActions from 'app/domain/LinksActions'
 import * as Selectors from 'app/domain/Selectors'
@@ -59,31 +60,23 @@ export default class LinksPanel extends React.PureComponent<any, TState> {
 
 	pendingLinksTimer: number = 0
 
-	activateDragMode = (e) => {
-		if (e.key === 'Control') {
-			this.setState({dragMode: true})
-		}
-	}
+	activateDragMode = () => this.setState({dragMode: true})
 
-	deactivateDragMode = (e) => {
-		if (e.key === 'Control') {
-			this.setState({dragMode: false})
-		}
-	}
+	deactivateDragMode = () => this.setState({dragMode: false})
 
 	componentDidMount () {
 		this.pendingLinksTimer = window.setInterval(this.savePendingLinks, LINKS_CHECK_INTERVAL)
 		this.savePendingLinks()
 
-		document.addEventListener('keydown', this.activateDragMode, false)
-		document.addEventListener('keyup', this.deactivateDragMode, false)
+		Keyboard.subscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
+		Keyboard.subscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
 	}
 
 	componentWillUnmount () {
 		window.clearInterval(this.pendingLinksTimer)
 
-		document.removeEventListener('keydown', this.activateDragMode, false)
-		document.removeEventListener('keyup', this.deactivateDragMode, false)
+		Keyboard.unsubscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
+		Keyboard.unsubscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
 	}
 
 	savePendingLinks = () => {
@@ -108,7 +101,6 @@ export default class LinksPanel extends React.PureComponent<any, TState> {
 	}
 
 	showDropSpot = (dropSpotPosition: number, draggedLinkClientRect: any, draggedLinkOrder) => {
-		console.log('dropSpotPosition ', dropSpotPosition)
 		this.setState({dropSpotPosition, draggedLinkClientRect, draggedLinkOrder})
 	}
 
