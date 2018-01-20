@@ -154,6 +154,7 @@ const ITEM_PREVIEW_CONFIG = {
 }
 
 @DragLayer((monitor) => ({
+	monitor,
 	item: monitor.getItem(),
 	type: monitor.getItemType(),
 	currentOffset: monitor.getSourceClientOffset(),
@@ -183,8 +184,10 @@ export class CustomDragLayer extends React.PureComponent<any> {
 
 	render () {
 		const {isDragging} = this.props
+		// const {monitor} = this.props
 
 		// console.log(this.props.currentOffset)
+		// console.log(monitor.getSourceClientOffset())
 
 		if (!isDragging) {
 			return null

@@ -8,7 +8,7 @@ export const Types = {
 	CREATE_LINK: 'CREATE_LINK',
 	DELETE_LINK: 'DELETE_LINK',
 	UPDATE_LINK: 'UPDATE_LINK',
-	SET_LINKS: 'SET_LINKS',
+	REORDER_LINKS: 'REORDER_LINKS',
 }
 
 
@@ -52,27 +52,26 @@ export const reorderLinks = (sourceLink: T.Link, newOrder: number) => (dispatch,
 	const leftStop = Math.min(sourceLink.order, newOrder)
 	const rightStop = Math.max(sourceLink.order, newOrder)
 
-	const reorderedLinks = existingLinks.map((link) => {
-		// only relevant links
-		if (link.order === sourceLink.order) {
-			return {...link, order: newOrder}
-		} else if (link.order >= leftStop && link.order <= rightStop) {
-			if (rightStop === newOrder) {
-				// shifting left
-				return {...link, order: link.order - 1}
-			} else {
-				// shifting right
-				return {...link, order: link.order + 1}
-			}
-		} else {
-			return link
+	const orderMap = existingLinks.map((link) => {
+		const isSourceLink = (link.order === sourceLink.order)
+		const isBetween = (link.order >= leftStop && link.order <= rightStop)
+		const shiftLeft = (rightStop === newOrder)
+
+		if (isSourceLink) {
+			return {current: link.order, next: newOrder}
 		}
+
+		if (isBetween) {
+			return (shiftLeft)
+				? {current: link.order, next: link.order - 1}
+				: {current: link.order, next: link.order + 1}
+		}
+
+		return {current: link.order, next: link.order}
 	})
-	const sortedLinks = reorderedLinks.sort((x, y) => x.order - y.order)
-	const normalizedLinks = sortedLinks.map((link, i) => ({...link, order: i}))
 
 	dispatch({
-		type: Types.SET_LINKS,
-		payload: {links: normalizedLinks},
+		type: Types.REORDER_LINKS,
+		payload: {orderMap},
 	})
 }

@@ -78,9 +78,17 @@ export const Reducers = {
 		return {...state, links}
 	},
 
-	[LinksActions.SET_LINKS]: (state: TAppState, action: TAction) => {
-		const {links} = action.payload
-		return {...state, links}
+	[LinksActions.REORDER_LINKS]: (state: TAppState, action: TAction) => {
+		const {orderMap} = action.payload
+
+		const reorderedLinks = state.links.map((link) => {
+			const order = orderMap.find((item) => item.current === link.order)
+			return {...link, order: order.next}
+		})
+		const sortedLinks = reorderedLinks.sort((x, y) => x.order - y.order)
+		const normalizedLinks = sortedLinks.map((link, i) => ({...link, order: i}))
+
+		return {...state, links: normalizedLinks}
 	},
 
 }
