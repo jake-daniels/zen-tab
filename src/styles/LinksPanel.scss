@@ -7,8 +7,12 @@
 	width: $links-panel-width;
 	background: $links-panel-bg;
 
-	overflow-y: auto;
+	overflow-y: hidden;
 	overflow-x: hidden;
+	&:hover {
+		overflow-y: auto;
+	}
+
 	&::-webkit-scrollbar {
 		width: 5px;
 	}
