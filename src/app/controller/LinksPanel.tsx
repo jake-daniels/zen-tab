@@ -1,40 +1,22 @@
 
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {List} from 'immutable'
 
 import Keyboard from 'app/domain/Keyboard'
-import * as T from 'app/domain/Types'
 import * as LinksActions from 'app/domain/LinksActions'
 import * as Selectors from 'app/domain/Selectors'
 import {AppSettings} from 'app/AppSettings'
-import {LinkDropTarget, CustomDragLayer} from 'app/domain/drag-and-drop'
 
-import Link from 'app/view/Link'
+import Link, {LinkDropSpot} from 'app/view/Link'
 
 const LINKS_CHECK_INTERVAL = 3000
 
 interface TState {
 	dragMode: boolean,
-	dropSpotPosition: number,
-	draggedLinkOrder: number,
-	draggedLinkClientRect: any,
+	dropSpotOrder: number,
+	draggedItem: any,
 }
 
-@LinkDropTarget()
-class LinkDropSpot extends React.PureComponent<any> {
-
-	render () {
-		const {connectDropTarget, height} = this.props
-
-		return connectDropTarget(
-			<div className='link-drop-spot' style={{height}}>
-				Drop here
-			</div>
-		)
-	}
-
-}
 
 @(connect as any)(
 	(state) => {
@@ -53,16 +35,11 @@ export default class LinksPanel extends React.PureComponent<any, TState> {
 
 	state: TState = {
 		dragMode: false,
-		dropSpotPosition: -1,
-		draggedLinkClientRect: null,
-		draggedLinkOrder: -1,
+		dropSpotOrder: -1,
+		draggedItem: null,
 	}
 
 	pendingLinksTimer: number = 0
-
-	activateDragMode = () => this.setState({dragMode: true})
-
-	deactivateDragMode = () => this.setState({dragMode: false})
 
 	componentDidMount () {
 		this.pendingLinksTimer = window.setInterval(this.savePendingLinks, LINKS_CHECK_INTERVAL)
@@ -100,28 +77,32 @@ export default class LinksPanel extends React.PureComponent<any, TState> {
 		this.props.deleteLink(id)
 	}
 
-	showDropSpot = (dropSpotPosition: number, draggedLinkClientRect: any, draggedLinkOrder) => {
-		this.setState({dropSpotPosition, draggedLinkClientRect, draggedLinkOrder})
+	// Drag & Drop
+
+	activateDragMode = () => this.setState({dragMode: true})
+
+	deactivateDragMode = () => this.setState({dragMode: false})
+
+	showDropSpot = (draggedItem: any, dropSpotOrder: number) => this.setState({draggedItem, dropSpotOrder})
+
+	dropItem = () => {
+		const {draggedItem, dropSpotOrder} = this.state
+		const {reorderLinks} = this.props
+
+		reorderLinks(draggedItem.link, dropSpotOrder)
+		this.setState({draggedItem: null, dropSpotOrder: -1})
 	}
 
-	dropLink = (link: T.Link) => {
-		const {dropSpotPosition} = this.state
-		this.props.reorderLinks(link, dropSpotPosition)
-		this.setState({
-			dropSpotPosition: -1,
-			draggedLinkClientRect: null,
-		})
-	}
+	// Render
 
 	render () {
-		const {dragMode, dropSpotPosition, draggedLinkClientRect, draggedLinkOrder} = this.state
+		const {dragMode, draggedItem, dropSpotOrder} = this.state
+		let {links} = this.props
 
-		let links = List<T.Link>(this.props.links) as any
-
-		if (dropSpotPosition !== -1) {
-			links = links.filterNot((link) => link.order === draggedLinkOrder)
+		// create link components
+		if (draggedItem !== null) {
+			links = links.filter((link) => link.order !== draggedItem.link.order)
 		}
-
 		let items = links.map((link) => {
 			return (
 				<Link
@@ -131,30 +112,27 @@ export default class LinksPanel extends React.PureComponent<any, TState> {
 					onTitleChange={this.titleChanged}
 					onDelete={this.linkDeleted}
 					showDropSpot={this.showDropSpot}
-					drop={this.dropLink}
+					drop={this.dropItem}
 				/>
 			)
 		})
 
-		if (dropSpotPosition !== -1) {
-			const {height} = draggedLinkClientRect
+		// insert drop spot
+		if (dropSpotOrder !== -1) {
 			const DropSpotComponent = (
 				<LinkDropSpot
-					isDropSpot={true}
 					key='link-drop-spot'
-					height={height}
-					link={{order: dropSpotPosition}}
-					showDropSpot={this.showDropSpot}
-					drop={this.dropLink}
+					height={draggedItem.clientRect.height}
+					isDropSpot={true}
+					drop={this.dropItem}
 				/>
 			)
-			items = items.splice(dropSpotPosition, 0, DropSpotComponent)
+			items.splice(dropSpotOrder, 0, DropSpotComponent)
 		}
 
 		return (
 			<div className='links-panel'>
-				{items.toArray()}
-				<CustomDragLayer/>
+				{items}
 			</div>
 		)
 	}

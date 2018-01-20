@@ -69,7 +69,7 @@ export default class Link extends React.PureComponent<TProps, TState> {
 
 	render () {
 		const {title} = this.state
-		const {connectDragSource, connectDropTarget, isDragging} = this.props	// DND
+		const {connectDragSource, connectDropTarget, isDragging} = this.props
 		const {dragMode, link} = this.props
 
 		if (!connectDragSource || !connectDropTarget) {
@@ -78,7 +78,11 @@ export default class Link extends React.PureComponent<TProps, TState> {
 
 		const result = (
 			<div
-				className={`link ${(isDragging) ? 'dragging' : ''} ${(dragMode) ? 'drag-mode' : ''}`}
+				className={cn({
+					'link': true,
+					'dragging': isDragging,
+					'drag-mode': dragMode,
+				})}
 				onClick={this.onClicked}
 			>
 				<i
@@ -98,13 +102,22 @@ export default class Link extends React.PureComponent<TProps, TState> {
 		)
 
 		if (dragMode) {
-			return connectDropTarget(
-				connectDragSource(
-					result
-				)
-			)
+			return connectDropTarget(connectDragSource(result))
 		} else {
 			return result
 		}
+	}
+}
+
+@LinkDropTarget()
+export class LinkDropSpot extends React.PureComponent<any> {
+	render () {
+		const {connectDropTarget, height} = this.props
+
+		return connectDropTarget(
+			<div className='link-drop-spot' style={{height}}>
+				Drop here
+			</div>
+		)
 	}
 }

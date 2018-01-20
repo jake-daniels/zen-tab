@@ -7,7 +7,7 @@ import Keyboard from 'app/domain/Keyboard'
 import * as T from 'app/domain/Types'
 import * as NotesActions from 'app/domain/NotesActions'
 import * as Selectors from 'app/domain/Selectors'
-import {NoteDropTarget, CustomDragLayer} from 'app/domain/drag-and-drop'
+import {NoteDropTarget} from 'app/domain/drag-and-drop'
 import {ContextMenuTrigger, ContextMenu, MenuItem} from 'app/domain/context-menu'
 import Note from 'app/view/Note'
 
@@ -131,8 +131,6 @@ export default class NotesPanel extends React.PureComponent<any, TState> {
 						<span> Add new note </span>
 					</MenuItem>
 				</ContextMenu>
-
-				<CustomDragLayer/>
 
 			</div>
 		)

@@ -54,6 +54,7 @@ export const NoteDropTarget = () => {
 			props.updateNote(id, {position})
 		},
 	}
+
 	const collect = (connect: any, monitor: any) => {
 		return {
 			connectDropTarget: connect.dropTarget(),
@@ -85,40 +86,40 @@ export const LinkDragSource = () => {
 
 export const LinkDropTarget = () => {
 
+	const getDropSpotOrder = (sourceLink: any, targetLink: any, targetHoverPosition: string) => {
+		if (sourceLink.order > targetLink.order) {
+			if (targetHoverPosition === 'top') {
+				return targetLink.order
+			} else {
+				return targetLink.order + 1
+			}
+		} else {
+			if (targetHoverPosition === 'top') {
+				return targetLink.order - 1
+			} else {
+				return targetLink.order
+			}
+		}
+	}
+
 	const spec = {
 		hover: (props: any, monitor: any, component: any) => {
-
 			if (props.isDropSpot) {
 				return
 			}
 
-			const clientRect = getClientRect(component)
-			const clientRectMiddleY = clientRect.height / 2
-			const cursorY = monitor.getClientOffset().y - clientRect.top
+			const sourceItem = monitor.getItem()
+			const linkRect = getClientRect(component)
+			const linkVerticalMiddle = linkRect.height / 2
+			const cursorY = monitor.getClientOffset().y - linkRect.top
+			const targetHoverPosition = (cursorY < linkVerticalMiddle) ? 'top' : 'bottom'
+			const dropSpotOrder = getDropSpotOrder(sourceItem.link, props.link, targetHoverPosition)
 
-			const sourceLinkOrder = monitor.getItem().link.order
-
-			let dropSpotPosition
-
-			if (sourceLinkOrder > props.link.order) {
-				dropSpotPosition = (cursorY < clientRectMiddleY)
-					? props.link.order
-					: props.link.order + 1
-			} else {
-				dropSpotPosition = (cursorY < clientRectMiddleY)
-					? props.link.order - 1
-					: props.link.order
-			}
-
-			const sourceLinkClientRect = monitor.getItem().clientRect
-
-			props.showDropSpot(dropSpotPosition, sourceLinkClientRect, sourceLinkOrder)
+			props.showDropSpot(sourceItem, dropSpotOrder)
 		},
-		drop: (props: any, monitor: any, component: any) => {
-			const sourceLink = monitor.getItem().link
-			props.drop(sourceLink)
-		},
+		drop: (props: any) => props.drop(),
 	}
+
 	const collect = (connect: any, monitor: any) => {
 		return {
 			connectDropTarget: connect.dropTarget(),
