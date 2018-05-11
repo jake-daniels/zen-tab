@@ -45,6 +45,11 @@ class ErrorBoundary extends React.PureComponent<any, TState> {
 @DragDropContext(HTML5Backend)
 export default class Desktop extends React.PureComponent {
 
+	componentDidMount () {
+		chrome.bookmarks.getTree((result) => console.log(result))
+		// https://www.google.com/s2/favicons?domain=https://toggl.com/app/timer
+	}
+
 	render () {
 		return (
 			<ErrorBoundary>

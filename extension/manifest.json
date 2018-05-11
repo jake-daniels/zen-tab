@@ -4,7 +4,7 @@
     "name": "Zen Tab",
     "short_name": "Zen Tab",
     "description": "Custom tab, that replaces the default New Tab.",
-    "version": "0.2.3",
+    "version": "0.2.4",
     "icons": {
         "16": "/resources/img/icon_16.png",
         "48": "/resources/img/icon_48.png",
@@ -23,7 +23,8 @@
         "newtab": "/core/index.html"
     },
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "bookmarks"
     ],
     "homepage_url": "https://github.com/jake-daniels/zen-tab",
     "incognito": "not_allowed",

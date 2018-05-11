@@ -9,5 +9,3 @@ Based on [React](https://facebook.github.io/react/) & [Redux](http://redux.js.or
 Created on top of [create-react-app](https://github.com/facebookincubator/create-react-app).
 <br/>
 
-## Installation guide
-[Basic packages](/docs/InstallationGuide.md)<br/>
