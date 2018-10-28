@@ -8,10 +8,6 @@
 
 # production
 /build
-/build-ext
-
-# styles
-/src/styles/*.css
 
 # misc
 .DS_Store
@@ -23,7 +19,3 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-/build-ext.crx
-/build-ext.pem
-/zen-tab.zip

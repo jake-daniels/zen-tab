@@ -1,0 +1,42 @@
+.error-boundary {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+  .error-boundary h1 {
+    color: #d12828; }
+
+.desktop {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  background: #4b6281;
+  color: white; }
+
+.clock {
+  display: flex;
+  position: absolute;
+  bottom: 50px;
+  right: 70px; }
+  .clock > * {
+    display: block;
+    color: white;
+    text-align: right; }
+  .clock .time {
+    font-family: 'Heebo';
+    font-weight: 100;
+    font-size: 100px;
+    height: 100px;
+    line-height: 100px; }
+  .clock .date {
+    width: 100px;
+    padding-top: 5px;
+    font-weight: 300;
+    font-size: 22px; }

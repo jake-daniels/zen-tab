@@ -2,9 +2,6 @@
 import React from 'react'
 
 import Keyboard from 'app/domain/keyboard'
-import * as LinksActions from 'app/domain/LinksActions'
-import * as Selectors from 'app/domain/Selectors'
-import {AppSettings} from 'app/domain/app-settings'
 
 import Link, {LinkDropSpot} from 'app/view/components/Link'
 
@@ -43,15 +40,15 @@ export default class QuickLinks extends React.PureComponent<any, IState> {
 	}
 
 	savePendingLinks = () => {
-		const tmpStoreEncoded = localStorage.getItem(AppSettings.LS_KEYS.TmpStore)
+		const tmpStoreEncoded = localStorage.getItem('what')
 		const tmpStore = (tmpStoreEncoded) ? JSON.parse(tmpStoreEncoded) : {}
 
 		if (Array.isArray(tmpStore.linksToSave)) {
-			tmpStore.linksToSave.forEach((link) => {
+			tmpStore.linksToSave.forEach((link: any) => {
 				this.props.createLink(link.title, link.url)
 			})
 			tmpStore.linksToSave = []
-			localStorage.setItem(AppSettings.LS_KEYS.TmpStore, JSON.stringify(tmpStore))
+			localStorage.setItem('what', JSON.stringify(tmpStore))
 		}
 	}
 
@@ -87,9 +84,9 @@ export default class QuickLinks extends React.PureComponent<any, IState> {
 
 		// create link components
 		if (draggedItem !== null) {
-			links = links.filter((link) => link.order !== draggedItem.link.order)
+			links = links.filter((link: any) => link.order !== draggedItem.link.order)
 		}
-		let items = links.map((link) => {
+		let items = links.map((link: any) => {
 			return (
 				<Link
 					key={link.id}

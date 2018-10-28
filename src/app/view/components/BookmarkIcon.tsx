@@ -1,4 +1,3 @@
-
 import React from 'react'
 
 interface IProps {
@@ -9,7 +8,7 @@ interface IProps {
 
 export default class BookmarkIcon extends React.PureComponent<IProps> {
 
-	render () {
+	public render () {
 		const {title, url, icon} = this.props
 
 		return (

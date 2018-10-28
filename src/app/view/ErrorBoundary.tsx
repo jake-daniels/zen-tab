@@ -6,16 +6,16 @@ export interface IState {
 
 export default class ErrorBoundary extends React.PureComponent<{}, IState> {
 
-	state: IState = {
+	public state: IState = {
 		hasError: false,
 	}
 
-	componentDidCatch (error: any, info: any) {
+	public componentDidCatch (error: any) {
 		this.setState({hasError: true})
-		console.log(error)
+		console.error(error)
 	}
 
-	render () {
+	public render () {
 		if (this.state.hasError) {
 			return (
 				<div className='error-boundary'>

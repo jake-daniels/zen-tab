@@ -13,14 +13,14 @@ const KeyboardEvents = {
 
 	[EKeyboardEvent.CONTROL_DOWN]: {
 		trigger: EKeyPress.DOWN,
-		isFired: (e) => {
+		isFired: (e: any) => {
 			return (e.key === 'Control')
 		}
 	},
 
 	[EKeyboardEvent.CONTROL_UP]: {
 		trigger: EKeyPress.UP,
-		isFired: (e) => {
+		isFired: (e: any) => {
 			return (e.key === 'Control')
 		}
 	},
@@ -53,7 +53,7 @@ class KeyboardCore {
 			const eventConfig = KeyboardEvents[event]
 			const isFired = eventConfig.isFired(e)
 			if (isFired) {
-				this.callbacks[event].forEach((callback) => callback())
+				this.callbacks[event].forEach((callback: any) => callback())
 			}
 		})
 	}
@@ -63,7 +63,7 @@ class KeyboardCore {
 	}
 
 	unsubscribe = (event: EKeyboardEvent, callback: Function) => {
-		this.callbacks[event] = this.callbacks[event].filter((item) => (item !== callback))
+		this.callbacks[event] = this.callbacks[event].filter((item: any) => (item !== callback))
 	}
 }
 

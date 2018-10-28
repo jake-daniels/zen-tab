@@ -14,9 +14,9 @@ interface IPropsContextMenuTrigger {
 
 export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTrigger> {
 
-	menu: any = null
+	private menu: any = null
 
-	onContextMenu = (e) => {
+	private onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
 		const node = ReactDOM.findDOMNode(this.menu)
 		const isTriggered = (e.target === node)
 
@@ -34,11 +34,11 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 		this.props.onMenuActive({x: left, y: top})
 	}
 
-	onClick = (e) => {
+	private onClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		this.setContextMenu(false, 0, 0)
 	}
 
-	setContextMenu = (isVisible: boolean, left: number, top: number) => {
+	private setContextMenu = (isVisible: boolean, left: number, top: number) => {
 		const {id} = this.props
 
 		const contextMenuId = getContextMenuId(id)
@@ -49,7 +49,7 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 		menu.style.top = `${top}px`
 	}
 
-	render () {
+	public render () {
 		const {children, id, className} = this.props
 
 		if (React.Children.count(children) > 1) {
@@ -58,7 +58,7 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 		}
 
 		const childWithRef = React.cloneElement((children as any), {
-			ref: (c) => (c && (this.menu = c))
+			ref: (c: any) => (c && (this.menu = c))
 		})
 
 		const style  = {
@@ -90,7 +90,7 @@ interface IPropsContextMenu {
 
 export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
 
-	itemClicked = (e) => {
+	private itemClicked = (e: React.MouseEvent<HTMLDivElement>) => {
 		const {id, onClick} = this.props
 
 		const contextMenuId = getContextMenuId(id)
@@ -105,7 +105,7 @@ export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
 		}
 	}
 
-	render () {
+	public render () {
 		const {children, id} = this.props
 
 		const contextMenuId = getContextMenuId(id)
@@ -137,7 +137,7 @@ interface IPropsMenuItem {
 
 export class MenuItem extends React.PureComponent<IPropsMenuItem> {
 
-	render () {
+	public render () {
 		const {children, className, onClick} = this.props
 		const style = {width: '100%', height: '100%'}
 

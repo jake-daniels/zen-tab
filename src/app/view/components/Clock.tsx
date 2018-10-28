@@ -1,6 +1,5 @@
-
 import React from 'react'
-import Moment from 'moment'
+import {format} from 'date-fns'
 
 const TIMER_CHECK_INTERVAL = 1000
 
@@ -11,31 +10,31 @@ interface IState {
 
 export default class Clock extends React.PureComponent<any, IState> {
 
-	timer: number = 0
+	private timer: number = 0
 
-	state: IState = {
+	public state: IState = {
 		date: '',
 		time: '',
 	}
 
-	componentDidMount () {
+	public componentDidMount () {
 		this.timer = window.setInterval(this.setDateTime, TIMER_CHECK_INTERVAL)
 		this.setDateTime()
 	}
 
-	componentWillUnmount () {
+	public componentWillUnmount () {
 		window.clearInterval(this.timer)
 	}
 
-	setDateTime = () => {
-		const date = Moment().format('MMM Do YYYY')
-		const time = Moment().format('HH:mm')
+	private setDateTime = () => {
+		const date = format(new Date(), 'MMM Do YYYY')
+		const time = format(new Date(), 'HH:mm')
 		if (this.state.time !== time) {
 			this.setState({date, time})
 		}
 	}
 
-	render () {
+	public render () {
 		const {date, time} = this.state
 
 		return (

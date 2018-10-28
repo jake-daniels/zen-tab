@@ -1,14 +1,12 @@
 
 import React from 'react'
 
-import * as T from 'app/domain/Types'
-import * as Utils from 'app/domain/utility/index'
 import {LinkDragSource, LinkDropTarget, EMPTY_IMAGE} from 'app/domain/drag-and-drop'
 
 
 interface IProps {
 	dragMode: boolean,
-	link: T.ILink,
+	link: ILink,
 	onDelete: Function,
 	onTitleChange: Function,
 	showDropSpot: Function,
@@ -50,16 +48,16 @@ export default class Link extends React.PureComponent<IProps, IState> {
 		}
 	}
 
-	inputChanged = (e) => {
+	inputChanged = (e: any) => {
 		const {link} = this.props
 		this.setState({title: e.target.value})
 	}
 
-	onClicked = (e) => {
+	onClicked = (e: any) => {
 		window.open(this.props.link.url, '_blank')
 	}
 
-	linkDeleted = (e) => {
+	linkDeleted = (e: any) => {
 		const {link, onDelete} = this.props
 		onDelete(link.id)
 		e.stopPropagation()
