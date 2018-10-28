@@ -1,24 +1,6 @@
 
-export interface Size {
-	width: number,
-	height: number,
-}
 
-export interface Position {
-	x: number,
-	y: number,
-}
-
-export interface Note {
-	id: string,
-	created: string,
-	updated: string,
-	text: string,
-	size: Size,
-	position: Position,
-}
-
-export interface Link {
+export interface ILink {
 	id: string,
 	created: string,
 	updated: string,

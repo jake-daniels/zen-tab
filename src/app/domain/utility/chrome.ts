@@ -1,4 +1,6 @@
 
+import {bookmarks} from './bookmarks'
+
 export interface IChrome {
 	bookmarks: {
 		getTree: Function,
@@ -7,6 +9,6 @@ export interface IChrome {
 
 export const chrome = {
 	bookmarks: {
-		getTree: (fn) => fn(),
+		getTree: (fn) => fn(bookmarks),
 	}
 }

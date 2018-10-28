@@ -12,9 +12,9 @@ export const Types = {
 }
 
 
-export const createLink = (title: string, url: string) => (dispatch, getState) => {
+export const createLink = (title: string, url: string) => (dispatch, geIState) => {
 
-	const existingLinksOrders = getState().links.map((link) => link.order)
+	const existingLinksOrders = geIState().links.map((link) => link.order)
 	const maxOrder = Math.max(...existingLinksOrders)
 
 	dispatch({
@@ -45,9 +45,9 @@ export const updateLink = (id: string, params: {title?: string}) => {
 	}
 }
 
-export const reorderLinks = (sourceLink: T.Link, newOrder: number) => (dispatch, getState) => {
+export const reorderLinks = (sourceLink: T.ILink, newOrder: number) => (dispatch, geIState) => {
 
-	const existingLinks = getState().links
+	const existingLinks = geIState().links
 
 	const leftStop = Math.min(sourceLink.order, newOrder)
 	const rightStop = Math.max(sourceLink.order, newOrder)
@@ -75,3 +75,44 @@ export const reorderLinks = (sourceLink: T.Link, newOrder: number) => (dispatch,
 		payload: {orderMap},
 	})
 }
+
+// {
+// 	[LinksActions.CREATE_LINK]: (state: TAppState, action: TAction) => {
+// 		const newLink = {...action.payload}
+// 		const links = [...state.links, newLink]
+
+// 		return {...state, links}
+// 	},
+
+// 		[LinksActions.DELETE_LINK]: (state: TAppState, action: TAction) => {
+// 			const {id} = action.payload
+// 			const links = state.links.filter((item) => item.id !== id)
+
+// 			return {...state, links}
+// 		},
+
+// 			[LinksActions.UPDATE_LINK]: (state: TAppState, action: TAction) => {
+// 				const {id, updated, params} = action.payload
+
+// 				const links = state.links.map((link) => {
+// 					return (link.id === id)
+// 						? {...link, ...params, updated}
+// 						: link
+// 				}).sort((x, y) => x.order - y.order)
+
+// 				return {...state, links}
+// 			},
+
+// 				[LinksActions.REORDER_LINKS]: (state: TAppState, action: TAction) => {
+// 					const {orderMap} = action.payload
+
+// 					const reorderedLinks = state.links.map((link) => {
+// 						const order = orderMap.find((item) => item.current === link.order)
+// 						return {...link, order: order.next}
+// 					})
+// 					const sortedLinks = reorderedLinks.sort((x, y) => x.order - y.order)
+// 					const normalizedLinks = sortedLinks.map((link, i) => ({...link, order: i}))
+
+// 					return {...state, links: normalizedLinks}
+// 				},
+// }

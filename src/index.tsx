@@ -3,37 +3,36 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 
-import {AppSettings} from 'app/AppSettings'
+import {AppSettings} from 'app/domain/app-settings'
 
-import Desktop from 'app/controller/Desktop'
+import Desktop from 'app/view/Desktop'
 
 import 'styles/App.css'
 import './globals'
 
 class App extends React.Component {
 
-	store: any = null
+	// initStore = () => {
+	// 	const logger = createLogger(AppSettings.REDUX_LOGGER_SETTINGS)
+	// 	const middleware = applyMiddleware(thunk, logger)
+	// 	const previousState = this.loadAppState()
+	// 	this.store = createStore(AppReducer, previousState, middleware)
+	// 	this.store.subscribe(this.saveAppState)
+	// }
 
-	constructor (props: any) {
-		super(props)
-		this.initStore()
-	}
+	// loadAppState = (): TAppState => {
+	// 	const appState = localStorage.getItem(AppSettings.LS_KEYS.AppState)
+	// 	return (appState) ? JSON.parse(appState) : undefined
+	// }
 
-	loadAppState = (): TAppState => {
-		const appState = localStorage.getItem(AppSettings.LS_KEYS.AppState)
-		return (appState) ? JSON.parse(appState) : undefined
-	}
-
-	saveAppState = () => {
-		const state = this.store.getState()
-		localStorage.setItem(AppSettings.LS_KEYS.AppState, JSON.stringify(state))
-	}
+	// saveAppState = () => {
+	// 	const state = this.store.geIState()
+	// 	localStorage.setItem(AppSettings.LS_KEYS.AppState, JSON.stringify(state))
+	// }
 
 	render () {
 		return (
-			<Provider store={this.store}>
-				<Desktop/>
-			</Provider>
+			<Desktop />
 		)
 	}
 }

@@ -1,18 +1,18 @@
 
-import * as React from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
 
 const getContextMenuId = (id: string) => `${id}_menu`
 
-interface TPropsContextMenuTrigger {
+interface IPropsContextMenuTrigger {
 	id: string,
 	className?: string,
 	children: any,
 	onMenuActive: (position: any) => void,
 }
 
-export class ContextMenuTrigger extends React.PureComponent<TPropsContextMenuTrigger> {
+export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTrigger> {
 
 	menu: any = null
 
@@ -26,7 +26,7 @@ export class ContextMenuTrigger extends React.PureComponent<TPropsContextMenuTri
 
 		e.preventDefault()
 
-		const {x, y} = (node.getBoundingClientRect() as any)
+		const {x, y} = ((node as any).getBoundingClientRect() as any)
 		const left = e.clientX - x
 		const top = e.clientY - y
 
@@ -81,14 +81,14 @@ export class ContextMenuTrigger extends React.PureComponent<TPropsContextMenuTri
 	}
 }
 
-interface TPropsContextMenu {
+interface IPropsContextMenu {
 	id: string,
 	children: any,
 	className?: string,
 	onClick?: (e: any) => void,
 }
 
-export class ContextMenu extends React.PureComponent<TPropsContextMenu> {
+export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
 
 	itemClicked = (e) => {
 		const {id, onClick} = this.props
@@ -129,13 +129,13 @@ export class ContextMenu extends React.PureComponent<TPropsContextMenu> {
 	}
 }
 
-interface TPropsMenuItem {
+interface IPropsMenuItem {
 	children: any,
 	className?: string,
 	onClick?: (e: any) => void,
 }
 
-export class MenuItem extends React.PureComponent<TPropsMenuItem> {
+export class MenuItem extends React.PureComponent<IPropsMenuItem> {
 
 	render () {
 		const {children, className, onClick} = this.props

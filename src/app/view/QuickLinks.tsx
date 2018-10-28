@@ -1,39 +1,25 @@
 
-import * as React from 'react'
-import {connect} from 'react-redux'
+import React from 'react'
 
-import Keyboard from 'app/domain/Keyboard'
+import Keyboard from 'app/domain/keyboard'
 import * as LinksActions from 'app/domain/LinksActions'
 import * as Selectors from 'app/domain/Selectors'
-import {AppSettings} from 'app/AppSettings'
+import {AppSettings} from 'app/domain/app-settings'
 
-import Link, {LinkDropSpot} from 'app/view/Link'
+import Link, {LinkDropSpot} from 'app/view/components/Link'
 
 const LINKS_CHECK_INTERVAL = 3000
 
-interface TState {
+interface IState {
 	dragMode: boolean,
 	dropSpotOrder: number,
 	draggedItem: any,
 }
 
 
-@(connect as any)(
-	(state) => {
-		return {
-			links: Selectors.getLinks(state),
-		}
-	},
-	{
-		createLink: LinksActions.createLink,
-		deleteLink: LinksActions.deleteLink,
-		updateLink: LinksActions.updateLink,
-		reorderLinks: LinksActions.reorderLinks,
-	},
-)
-export default class LinksPanel extends React.PureComponent<any, TState> {
+export default class QuickLinks extends React.PureComponent<any, IState> {
 
-	state: TState = {
+	state: IState = {
 		dragMode: false,
 		dropSpotOrder: -1,
 		draggedItem: null,
@@ -97,7 +83,7 @@ export default class LinksPanel extends React.PureComponent<any, TState> {
 
 	render () {
 		const {dragMode, draggedItem, dropSpotOrder} = this.state
-		let {links} = this.props
+		let links: any = []
 
 		// create link components
 		if (draggedItem !== null) {

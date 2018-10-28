@@ -1,14 +1,14 @@
 
-import * as React from 'react'
+import React from 'react'
 
 import * as T from 'app/domain/Types'
 import * as Utils from 'app/domain/utility/index'
 import {LinkDragSource, LinkDropTarget, EMPTY_IMAGE} from 'app/domain/drag-and-drop'
 
 
-interface TProps {
+interface IProps {
 	dragMode: boolean,
-	link: T.Link,
+	link: T.ILink,
 	onDelete: Function,
 	onTitleChange: Function,
 	showDropSpot: Function,
@@ -19,19 +19,19 @@ interface TProps {
 	connectDragPreview?: Function,
 	isDragging?: boolean,
 }
-interface TState {
+interface IState {
 	title: string,
 }
 
 @LinkDragSource()
 @LinkDropTarget()
-export default class Link extends React.PureComponent<TProps, TState> {
+export default class Link extends React.PureComponent<IProps, IState> {
 
-	state: TState = {
+	state: IState = {
 		title: '',
 	}
 
-	constructor (props: TProps) {
+	constructor (props: IProps) {
 		super(props)
 		this.state.title = props.link.title
 	}
@@ -43,18 +43,16 @@ export default class Link extends React.PureComponent<TProps, TState> {
 		}
 	}
 
-	componentWillReceiveProps (nextProps: TProps) {
-		const {title} = nextProps.link
+	componentWillReceiveProps (nexIProps: IProps) {
+		const {title} = nexIProps.link
 		if (this.state.title !== title) {
 			this.setState({title})
 		}
 	}
 
-	inputChangedThrottled = Utils.throttle(this.props.onTitleChange, 250)
 	inputChanged = (e) => {
 		const {link} = this.props
 		this.setState({title: e.target.value})
-		this.inputChangedThrottled(link.id, e.target.value)
 	}
 
 	onClicked = (e) => {

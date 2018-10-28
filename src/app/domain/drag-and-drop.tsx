@@ -1,5 +1,5 @@
 
-import * as React from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 import {DragSource, DropTarget, DragLayer} from 'react-dnd'
 import {getEmptyImage} from 'react-dnd-html5-backend'
@@ -7,61 +7,11 @@ import {getEmptyImage} from 'react-dnd-html5-backend'
 export const EMPTY_IMAGE = getEmptyImage()
 
 export const DraggableItems = {
-	NOTE: Symbol('NOTE'),
 	LINK: Symbol('LINK'),
 }
 
 const getClientRect = (component: any) => {
-	return ReactDOM.findDOMNode(component).getBoundingClientRect() as any
-}
-
-export const NoteDragSource = () => {
-
-	const spec = {
-		beginDrag: (props: any, monitor: any, component: any) => {
-			const clientRect = getClientRect(component)
-			return {note: props.note, clientRect}
-		},
-		// canDrag: (props: any, monitor: any) => {
-
-		// },
-	}
-
-	const collect = (connect: any, monitor: any) => {
-		return {
-			connectDragSource: connect.dragSource(),
-			connectDragPreview: connect.dragPreview(),
-			isDragging: monitor.isDragging(),
-		}
-	}
-
-	return DragSource(DraggableItems.NOTE, spec, collect)
-}
-
-export const NoteDropTarget = () => {
-
-	const spec = {
-		drop: (props: any, monitor: any, component: any) => {
-			const {id} = monitor.getItem().note
-			const offset = monitor.getSourceClientOffset()
-
-			const clientRect = getClientRect(component)
-			const position = {
-				x: (offset.x - clientRect.x),
-				y: (offset.y - clientRect.y),
-			}
-
-			props.updateNote(id, {position})
-		},
-	}
-
-	const collect = (connect: any, monitor: any) => {
-		return {
-			connectDropTarget: connect.dropTarget(),
-		}
-	}
-
-	return DropTarget(DraggableItems.NOTE, spec, collect)
+	return (ReactDOM.findDOMNode(component) as any).getBoundingClientRect() as any
 }
 
 export const LinkDragSource = () => {
@@ -131,16 +81,6 @@ export const LinkDropTarget = () => {
 
 
 const ITEM_PREVIEW_CONFIG = {
-
-	[DraggableItems.NOTE]: {
-		className: 'note-drag-preview',
-		getStyle: (clientRect: any, currentOffset: any) => {
-			const {width, height} = clientRect
-			const {x, y} = currentOffset
-			const transform = `translate(${x}px, ${y}px)`
-			return {width, height, transform}
-		},
-	},
 
 	[DraggableItems.LINK]: {
 		className: 'link-drag-preview',
