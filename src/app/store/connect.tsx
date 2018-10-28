@@ -20,7 +20,7 @@ export interface IProviderOptions {
 	subscribe?: (store: IStore) => void,
 }
 
-const HYDRATION_LS_KEY = 'app-store'
+const HYDRATION_LS_KEY = 'zen-tab-app-state'
 
 function loadStore (): IStore {
 	const item = localStorage.getItem(HYDRATION_LS_KEY)

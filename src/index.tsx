@@ -1,4 +1,4 @@
-import 'styles/App.css'
+import 'styles/index.css'
 import 'app/globals'
 
 import React from 'react'

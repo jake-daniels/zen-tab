@@ -1,0 +1,22 @@
+.bookmarks-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  min-width: 110px;
+  width: 110px;
+  padding: 10px;
+  background: #2c2f35; }
+  .bookmarks-panel .bookmark-icon {
+    padding: 10px;
+    cursor: pointer; }
+    .bookmarks-panel .bookmark-icon .bg {
+      display: flex;
+      justify-content: center; }
+      .bookmarks-panel .bookmark-icon .bg img {
+        width: 25px;
+        height: 25px; }
+    .bookmarks-panel .bookmark-icon:hover {
+      padding: 5px; }
+      .bookmarks-panel .bookmark-icon:hover .bg img {
+        width: 35px;
+        height: 35px; }

@@ -1,30 +1,41 @@
-
 import React from 'react'
 
-import Keyboard from 'app/domain/keyboard'
+import {withState} from 'app/store/connect'
+import * as Actions from 'app/store/actions'
 
-import Link, {LinkDropSpot} from 'app/view/components/Link'
+import Keyboard from 'app/domain/keyboard'
+import Link, {LinkDropSpot} from 'app/view/Link'
+
 
 const LINKS_CHECK_INTERVAL = 3000
 
+interface IOwnProps {}
+interface IStateProps {
+	links: ILink[],
+}
+interface IProps extends IOwnProps, IStateProps {}
 interface IState {
 	dragMode: boolean,
 	dropSpotOrder: number,
 	draggedItem: any,
 }
 
+@withState<IOwnProps, IStateProps>(
+	(store: IStore) => ({
+		links: store.links,
+	})
+)
+class QuickLinks extends React.PureComponent<IProps, IState> {
 
-export default class QuickLinks extends React.PureComponent<any, IState> {
+	private pendingLinksTimer: number = 0
 
-	state: IState = {
+	public state: IState = {
 		dragMode: false,
 		dropSpotOrder: -1,
 		draggedItem: null,
 	}
 
-	pendingLinksTimer: number = 0
-
-	componentDidMount () {
+	public componentDidMount () {
 		this.pendingLinksTimer = window.setInterval(this.savePendingLinks, LINKS_CHECK_INTERVAL)
 		this.savePendingLinks()
 
@@ -32,67 +43,62 @@ export default class QuickLinks extends React.PureComponent<any, IState> {
 		Keyboard.subscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
 	}
 
-	componentWillUnmount () {
+	public componentWillUnmount () {
 		window.clearInterval(this.pendingLinksTimer)
 
 		Keyboard.unsubscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
 		Keyboard.unsubscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
 	}
 
-	savePendingLinks = () => {
+	private savePendingLinks = () => {
 		const tmpStoreEncoded = localStorage.getItem('what')
 		const tmpStore = (tmpStoreEncoded) ? JSON.parse(tmpStoreEncoded) : {}
 
 		if (Array.isArray(tmpStore.linksToSave)) {
 			tmpStore.linksToSave.forEach((link: any) => {
-				this.props.createLink(link.title, link.url)
+				Actions.createLink(link.title, link.url)
 			})
 			tmpStore.linksToSave = []
 			localStorage.setItem('what', JSON.stringify(tmpStore))
 		}
 	}
 
-	titleChanged = (id: string, title: string) => {
-		this.props.updateLink(id, {title})
-	}
-
-	linkDeleted = (id: string) => {
-		this.props.deleteLink(id)
+	private linkDeleted = (id: string) => {
+		Actions.deleteLink(id)
 	}
 
 	// Drag & Drop
 
-	activateDragMode = () => this.setState({dragMode: true})
+	private activateDragMode = () => this.setState({dragMode: true})
 
-	deactivateDragMode = () => this.setState({dragMode: false})
+	private deactivateDragMode = () => this.setState({dragMode: false})
 
-	showDropSpot = (draggedItem: any, dropSpotOrder: number) => this.setState({draggedItem, dropSpotOrder})
+	private showDropSpot = (draggedItem: any, dropSpotOrder: number) => this.setState({draggedItem, dropSpotOrder})
 
-	dropItem = () => {
+	private dropItem = () => {
 		const {draggedItem, dropSpotOrder} = this.state
-		const {reorderLinks} = this.props
-
-		reorderLinks(draggedItem.link, dropSpotOrder)
+		Actions.reorderLinks(draggedItem.link, dropSpotOrder)
 		this.setState({draggedItem: null, dropSpotOrder: -1})
 	}
 
 	// Render
 
-	render () {
+	public render () {
 		const {dragMode, draggedItem, dropSpotOrder} = this.state
-		let links: any = []
+
+		let links = this.props.links
 
 		// create link components
 		if (draggedItem !== null) {
-			links = links.filter((link: any) => link.order !== draggedItem.link.order)
+			links = links.filter((link) => link.position !== draggedItem.link.position)
 		}
-		let items = links.map((link: any) => {
+
+		const items = links.map((link) => {
 			return (
 				<Link
 					key={link.id}
 					dragMode={dragMode}
 					link={link}
-					onTitleChange={this.titleChanged}
 					onDelete={this.linkDeleted}
 					showDropSpot={this.showDropSpot}
 					drop={this.dropItem}
@@ -120,3 +126,5 @@ export default class QuickLinks extends React.PureComponent<any, IState> {
 		)
 	}
 }
+
+export default QuickLinks as React.ComponentType<IOwnProps>

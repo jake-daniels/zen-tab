@@ -4,7 +4,7 @@ import {DragDropContext} from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
 import {CustomDragLayer} from 'app/domain/drag-and-drop'
-import Clock from 'app/view/components/Clock'
+import Clock from 'app/view/Clock'
 import ErrorBoundary from 'app/view/ErrorBoundary'
 import Favorites from 'app/view/Favorites'
 import QuickLinks from 'app/view/QuickLinks'
@@ -22,10 +22,10 @@ export default class Desktop extends React.PureComponent {
 		return (
 			<ErrorBoundary>
 				<div className='desktop'>
-					{/* <QuickLinks /> */}
-					<Favorites />
+					<QuickLinks />
+					{/* <Favorites /> */}
 					<Clock />
-					{/* <CustomDragLayer /> */}
+					<CustomDragLayer />
 				</div>
 			</ErrorBoundary>
 		)

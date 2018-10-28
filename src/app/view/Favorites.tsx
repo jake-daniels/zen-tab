@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {FavoritesConfig} from 'app/domain/favorites-config'
-import BookmarkIcon from 'app/view/components/BookmarkIcon'
+import BookmarkIcon from 'app/view/BookmarkIcon'
 
 export default class Favorites extends React.PureComponent {
 

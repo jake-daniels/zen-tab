@@ -36,18 +36,18 @@ export const LinkDragSource = () => {
 
 export const LinkDropTarget = () => {
 
-	const getDropSpotOrder = (sourceLink: any, targetLink: any, targetHoverPosition: string) => {
-		if (sourceLink.order > targetLink.order) {
+	const getDropSpotOrder = (sourceLink: ILink, targetLink: ILink, targetHoverPosition: string) => {
+		if (sourceLink.position > targetLink.position) {
 			if (targetHoverPosition === 'top') {
-				return targetLink.order
+				return targetLink.position
 			} else {
-				return targetLink.order + 1
+				return targetLink.position + 1
 			}
 		} else {
 			if (targetHoverPosition === 'top') {
-				return targetLink.order - 1
+				return targetLink.position - 1
 			} else {
-				return targetLink.order
+				return targetLink.position
 			}
 		}
 	}
