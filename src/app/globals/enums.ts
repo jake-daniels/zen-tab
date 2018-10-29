@@ -1,24 +1,19 @@
 
 export {}
 
-enum EView {
-	Dashboard = 'Dashboard',
-	Workspace = 'Workspace',
-	History = 'History',
-	Settings = 'Settings',
+enum EBookmarkType {
+	Personal = 'Personal',
+	Work = 'Work',
 }
 
 declare global {
 
-	enum EView {
-		Dashboard = 'Dashboard',
-		Workspace = 'Workspace',
-		WorkspaceIntro = 'WorkspaceIntro',
-		History = 'History',
-		Settings = 'Settings',
+	enum EBookmarkType {
+		Personal = 'Personal',
+		Work = 'Work',
 	}
 
 }
 
 const GLOBAL = (window as any)
-GLOBAL.EView = EView
+GLOBAL.EBookmarkType = EBookmarkType

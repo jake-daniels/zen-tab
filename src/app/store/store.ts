@@ -14,7 +14,10 @@ const LINKS = [...new Array(10)].fill(null).map((_, i) => {
 
 export const InitialState: IStore = {
 	links: LINKS,
-	bookmarks: [],
+	bookmarks: {
+		[EBookmarkType.Personal]: [],
+		[EBookmarkType.Work]: [],
+	},
 }
 
 export const {

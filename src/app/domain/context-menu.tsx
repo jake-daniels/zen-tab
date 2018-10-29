@@ -1,7 +1,5 @@
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 
 const getContextMenuId = (id: string) => `${id}_menu`
 
@@ -9,20 +7,15 @@ interface IPropsContextMenuTrigger {
 	id: string,
 	className?: string,
 	children: any,
-	onMenuActive: (position: any) => void,
+	onMenuActive?: (position: any) => void,
 }
 
 export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTrigger> {
 
-	private menu: any = null
+	private menu = React.createRef<any>()
 
 	private onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
-		const node = ReactDOM.findDOMNode(this.menu)
-		const isTriggered = (e.target === node)
-
-		if (!isTriggered) {
-			return
-		}
+		const node = ReactDOM.findDOMNode(this.menu.current)
 
 		e.preventDefault()
 
@@ -31,7 +24,10 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 		const top = e.clientY - y
 
 		this.setContextMenu(true, left, top)
-		this.props.onMenuActive({x: left, y: top})
+
+		if (this.props.onMenuActive) {
+			this.props.onMenuActive({x: left, y: top})
+		}
 	}
 
 	private onClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -57,9 +53,7 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 			return null
 		}
 
-		const childWithRef = React.cloneElement((children as any), {
-			ref: (c: any) => (c && (this.menu = c))
-		})
+		const childWithRef = React.cloneElement((children as any), {ref: this.menu})
 
 		const style  = {
 			position: 'relative',

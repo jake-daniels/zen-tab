@@ -1,31 +1,22 @@
 import React from 'react'
-
-import {withState} from 'app/store/connect'
-import * as Actions from 'app/store/actions'
-
 import Keyboard from 'app/domain/keyboard'
 import Link, {LinkDropSpot} from 'app/view/Link'
 
-
 const LINKS_CHECK_INTERVAL = 3000
 
-interface IOwnProps {}
-interface IStateProps {
+interface IProps {
 	links: ILink[],
+	createLink: (title: string, url: string) => void,
+	deleteLink: (id: string) => void,
+	reorderLinks: (source: ILink, newPosition: number) => void,
 }
-interface IProps extends IOwnProps, IStateProps {}
 interface IState {
 	dragMode: boolean,
 	dropSpotOrder: number,
 	draggedItem: any,
 }
 
-@withState<IOwnProps, IStateProps>(
-	(store: IStore) => ({
-		links: store.links,
-	})
-)
-class QuickLinks extends React.PureComponent<IProps, IState> {
+export default class QuickLinks extends React.PureComponent<IProps, IState> {
 
 	private pendingLinksTimer: number = 0
 
@@ -56,15 +47,11 @@ class QuickLinks extends React.PureComponent<IProps, IState> {
 
 		if (Array.isArray(tmpStore.linksToSave)) {
 			tmpStore.linksToSave.forEach((link: any) => {
-				Actions.createLink(link.title, link.url)
+				this.props.createLink(link.title, link.url)
 			})
 			tmpStore.linksToSave = []
 			localStorage.setItem('what', JSON.stringify(tmpStore))
 		}
-	}
-
-	private linkDeleted = (id: string) => {
-		Actions.deleteLink(id)
 	}
 
 	// Drag & Drop
@@ -77,7 +64,7 @@ class QuickLinks extends React.PureComponent<IProps, IState> {
 
 	private dropItem = () => {
 		const {draggedItem, dropSpotOrder} = this.state
-		Actions.reorderLinks(draggedItem.link, dropSpotOrder)
+		this.props.reorderLinks(draggedItem.link, dropSpotOrder)
 		this.setState({draggedItem: null, dropSpotOrder: -1})
 	}
 
@@ -99,7 +86,7 @@ class QuickLinks extends React.PureComponent<IProps, IState> {
 					key={link.id}
 					dragMode={dragMode}
 					link={link}
-					onDelete={this.linkDeleted}
+					onDelete={this.props.deleteLink}
 					showDropSpot={this.showDropSpot}
 					drop={this.dropItem}
 				/>
@@ -110,7 +97,7 @@ class QuickLinks extends React.PureComponent<IProps, IState> {
 		if (dropSpotOrder !== -1) {
 			const DropSpotComponent = (
 				<LinkDropSpot
-					key='link-drop-spot'
+					key='drop-spot'
 					height={draggedItem.clientRect.height}
 					isDropSpot={true}
 					drop={this.dropItem}
@@ -120,11 +107,12 @@ class QuickLinks extends React.PureComponent<IProps, IState> {
 		}
 
 		return (
-			<div className='links-panel'>
+			<div className='panel links-panel'>
+				<div className='panel-title'>
+					<h2>Quick Links</h2>
+				</div>
 				{items}
 			</div>
 		)
 	}
 }
-
-export default QuickLinks as React.ComponentType<IOwnProps>

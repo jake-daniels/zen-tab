@@ -4,7 +4,7 @@
   align-content: flex-start;
   min-width: 350px;
   width: 350px;
-  padding: 10px;
+  padding: 10px 0;
   background: #33363d;
   position: relative; }
   .bookmarks-panel .add-button {
@@ -23,17 +23,48 @@
     cursor: pointer;
     width: 100%;
     height: 30px;
-    padding: 5px;
+    padding: 5px 10px;
     display: flex;
     align-items: center; }
-    .bookmarks-panel .bookmark:hover {
-      background: rgba(255, 255, 255, 0.1); }
     .bookmarks-panel .bookmark img {
       width: 16px;
       height: 16px;
       margin-right: 10px; }
     .bookmarks-panel .bookmark .title {
       font-size: 14px; }
+    .bookmarks-panel .bookmark .fa {
+      font-size: 14px;
+      visibility: hidden;
+      margin-left: auto;
+      color: #cccccc; }
+      .bookmarks-panel .bookmark .fa:hover {
+        transform: scale(1.3);
+        color: white; }
+    .bookmarks-panel .bookmark.drag-mode {
+      cursor: move; }
+      .bookmarks-panel .bookmark.drag-mode * {
+        cursor: move !important; }
+    .bookmarks-panel .bookmark.dragging {
+      display: none; }
+    .bookmarks-panel .bookmark:hover {
+      background: rgba(255, 255, 255, 0.1); }
+      .bookmarks-panel .bookmark:hover .fa {
+        visibility: visible; }
+
+.link-drag-preview {
+  position: absolute;
+  border: solid 1px white;
+  background: #434751;
+  opacity: 0.5; }
+
+.bookmark-drop-spot {
+  display: flex;
+  border: dotted 1px rgba(255, 255, 255, 0.8);
+  background: #202227;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8); }
 
 .bookmark-detail {
   position: absolute;

@@ -12,7 +12,7 @@ declare global {
 
 	interface IStore {
 		links: ILink[],
-		bookmarks: ILink[],
+		bookmarks: {[key in EBookmarkType]: ILink[]},
 	}
 
 }

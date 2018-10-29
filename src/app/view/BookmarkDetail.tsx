@@ -15,7 +15,9 @@ export default class BookmarkDetail extends PureComponent<IProps> {
 		const {bookmark, onSave} = this.props
 		const title = this.titleRef.current!.value
 		const url = this.urlRef.current!.value
-		onSave({...bookmark, title, url})
+		if (title !== '' && url !== '') {
+			onSave({...bookmark, title, url})
+		}
 	}
 
 	public render () {

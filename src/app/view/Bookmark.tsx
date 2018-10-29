@@ -2,8 +2,8 @@ import React from 'react'
 import {LinkDragSource, LinkDropTarget, EMPTY_IMAGE} from 'app/domain/drag-and-drop'
 
 interface IProps {
-	dragMode: boolean,
 	link: ILink,
+	dragMode: boolean,
 	onDelete: Function,
 	showDropSpot: Function,
 	drop: Function,
@@ -15,7 +15,7 @@ interface IProps {
 
 @LinkDragSource()
 @LinkDropTarget()
-export default class Link extends React.PureComponent<IProps> {
+export default class Bookmark extends React.PureComponent<IProps> {
 
 	public componentDidMount () {
 		const {connectDragPreview} = this.props
@@ -25,7 +25,7 @@ export default class Link extends React.PureComponent<IProps> {
 	}
 
 	private onClicked = () => {
-		window.open(this.props.link.url, '_blank')
+		window.location.href = this.props.link.url
 	}
 
 	private onDeleteClicked = (e: React.MouseEvent<HTMLElement>) => {
@@ -42,21 +42,23 @@ export default class Link extends React.PureComponent<IProps> {
 			return null
 		}
 
+		const icon = `https://www.google.com/s2/favicons?domain_url=${link.url}`
+
 		const result = (
 			<div
-				className={cn('link', {
+				className={cn('bookmark', {
 					'dragging': isDragging,
 					'drag-mode': dragMode,
 				})}
 				onClick={this.onClicked}
 			>
+				<img src={icon} />
+				<span className='title'>{link.title}</span>
 				<i
 					className='fa fa-times'
 					aria-hidden={true}
 					onClick={this.onDeleteClicked}
 				/>
-				<span className='title no-wrap'> {link.title} </span>
-				<span className='url no-wrap'> {link.url} </span>
 			</div>
 		)
 
@@ -69,7 +71,7 @@ export default class Link extends React.PureComponent<IProps> {
 }
 
 @LinkDropTarget()
-export class LinkDropSpot extends React.PureComponent<any> {
+export class BookmarkDropSpot extends React.PureComponent<any> {
 	public render () {
 		const {connectDropTarget, height} = this.props
 		return connectDropTarget(
