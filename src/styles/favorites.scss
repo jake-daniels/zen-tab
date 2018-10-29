@@ -9,25 +9,82 @@
     min-width: $bookmarks-panel-width;
     width: $bookmarks-panel-width;
     padding: 10px;
-    background: $bookmarks-panel-bg;
+	background: $bookmarks-panel-bg;
+	position: relative;
 
-    .bookmark-icon {
-        padding: 10px;
-        cursor: pointer;
-        .bg {
-            display: flex;
-            justify-content: center;
-            img {
-                width: $bookmark-icon-size;
-                height: $bookmark-icon-size;
-            }
-        }
-        &:hover {
-            padding: 5px;
-            .bg img {
-                width: $bookmark-icon-size + 10;
-                height: $bookmark-icon-size + 10;
-            }
-        }
-    }
+	.add-button {
+		position: absolute;
+		right: 20px;
+		bottom: 20px;
+		font-size: 30px;
+		color: rgba(white, 0.5);
+		cursor: pointer;
+		&:hover {
+			transform: scale(1.2);
+			color: white;
+		}
+	}
+
+	.list {
+		width: 100%;
+	}
+    .bookmark {
+		cursor: pointer;
+		width: 100%;
+		height: 30px;
+		padding: 5px;
+		display: flex;
+		align-items: center;
+		&:hover {
+			background: rgba(white, 0.1);
+		}
+		img {
+			width: 16px;
+			height: 16px;
+			margin-right: 10px;
+		}
+		.title {
+			font-size: 14px;
+		}
+	}
+}
+
+.bookmark-detail {
+	position: absolute;
+	bottom: 70px;
+	left: 20px;
+	width: calc(#{$bookmarks-panel-width} - 40px);
+	background: rgba(white, 0.2);
+	padding: 15px;
+
+	.line {
+		margin-bottom: 15px;
+		height: 20px;
+		display: flex;
+		.label {
+			width: 50px;
+			font-size: 14px;
+		}
+		input {
+			display: inline-block;
+			flex: 1;
+			outline: none;
+			border: none;
+			padding: 5px;
+		}
+		button {
+			margin-left: 15px;
+			background: white;
+			outline: none;
+			border: none;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+			justify-content: flex-end;
+		}
+	}
 }

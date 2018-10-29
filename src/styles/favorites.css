@@ -2,21 +2,67 @@
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  min-width: 110px;
-  width: 110px;
+  min-width: 350px;
+  width: 350px;
   padding: 10px;
-  background: #2c2f35; }
-  .bookmarks-panel .bookmark-icon {
-    padding: 10px;
+  background: #33363d;
+  position: relative; }
+  .bookmarks-panel .add-button {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 30px;
+    color: rgba(255, 255, 255, 0.5);
     cursor: pointer; }
-    .bookmarks-panel .bookmark-icon .bg {
-      display: flex;
-      justify-content: center; }
-      .bookmarks-panel .bookmark-icon .bg img {
-        width: 25px;
-        height: 25px; }
-    .bookmarks-panel .bookmark-icon:hover {
+    .bookmarks-panel .add-button:hover {
+      transform: scale(1.2);
+      color: white; }
+  .bookmarks-panel .list {
+    width: 100%; }
+  .bookmarks-panel .bookmark {
+    cursor: pointer;
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    display: flex;
+    align-items: center; }
+    .bookmarks-panel .bookmark:hover {
+      background: rgba(255, 255, 255, 0.1); }
+    .bookmarks-panel .bookmark img {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px; }
+    .bookmarks-panel .bookmark .title {
+      font-size: 14px; }
+
+.bookmark-detail {
+  position: absolute;
+  bottom: 70px;
+  left: 20px;
+  width: calc(350px - 40px);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 15px; }
+  .bookmark-detail .line {
+    margin-bottom: 15px;
+    height: 20px;
+    display: flex; }
+    .bookmark-detail .line .label {
+      width: 50px;
+      font-size: 14px; }
+    .bookmark-detail .line input {
+      display: inline-block;
+      flex: 1;
+      outline: none;
+      border: none;
       padding: 5px; }
-      .bookmarks-panel .bookmark-icon:hover .bg img {
-        width: 35px;
-        height: 35px; }
+    .bookmark-detail .line button {
+      margin-left: 15px;
+      background: white;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold; }
+    .bookmark-detail .line:last-child {
+      margin-bottom: 0;
+      justify-content: flex-end; }

@@ -13,17 +13,12 @@ import QuickLinks from 'app/view/QuickLinks'
 @DragDropContext(HTML5Backend)
 export default class Desktop extends React.PureComponent {
 
-	// public componentDidMount () {
-	// 	chrome.bookmarks.getTree((result) => console.log(result))
-	// 	// https://www.google.com/s2/favicons?domain=https://toggl.com/app/timer
-	// }
-
 	public render () {
 		return (
 			<ErrorBoundary>
 				<div className='desktop'>
 					<QuickLinks />
-					{/* <Favorites /> */}
+					<Favorites />
 					<Clock />
 					<CustomDragLayer />
 				</div>

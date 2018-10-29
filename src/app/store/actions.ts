@@ -9,8 +9,6 @@ export function createLink (title: string, url: string) {
 	mutate((store) => {
 		const newLink = {
 			id: UUID.generate(),
-			created: new Date().toISOString(),
-			updated: new Date().toISOString(),
 			position: -1,
 			title,
 			url,
@@ -36,3 +34,27 @@ export function reorderLinks (sourceLink: ILink, newPosition: number) {
 		store.links = normalizePositions(store.links)
 	})
 }
+
+export function addBookmark (bookmark: ILink) {
+	mutate((store) => {
+		store.bookmarks.push(bookmark)
+	})
+}
+
+// export function deleteLink (id: string) {
+// 	mutate((store) => {
+// 		store.links = store.links.filter((link) => link.id !== id)
+// 		store.links = normalizePositions(store.links)
+// 	})
+// }
+
+// export function reorderLinks (sourceLink: ILink, newPosition: number) {
+// 	mutate((store) => {
+// 		const currentIndex = store.links.findIndex((link) => link.id === sourceLink.id)
+// 		store.links.splice(currentIndex, 1)
+// 		store.links.splice(newPosition, 0, sourceLink)
+// 		store.links = normalizePositions(store.links)
+// 	})
+// }
+
+
