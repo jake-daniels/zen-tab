@@ -4,12 +4,13 @@ import {LinkDragSource, LinkDropTarget, EMPTY_IMAGE} from 'app/domain/drag-and-d
 interface IProps {
 	dragMode: boolean,
 	link: ILink,
-	onDelete: Function,
-	showDropSpot: Function,
-	drop: Function,
-	connectDragSource?: Function,
-	connectDropTarget?: Function,
-	connectDragPreview?: Function,
+	onDelete: (id: string) => void,
+
+	showDropSpot: (source: ILink, position: number) => void,
+	drop: () => void,
+	connectDragSource?: (source: any) => any,
+	connectDropTarget?: (target: any) => any,
+	connectDragPreview?: (preview: any) => any,
 	isDragging?: boolean,
 }
 

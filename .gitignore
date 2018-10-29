@@ -8,6 +8,8 @@
 
 # production
 /build
+/build-ext
+zen-tab.zip
 
 # misc
 .DS_Store

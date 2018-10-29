@@ -17,7 +17,7 @@ function generateBookmark () {
 interface IProps {
 	type: EBookmarkType,
 	bookmarks: ILink[],
-	addBookmark: (bookmark: ILink) => void,
+	saveBookmark: (bookmark: ILink) => void,
 	deleteBookmark: (id: string) => void,
 	reorderBookmarks: (source: ILink, newPosition: number) => void,
 }
@@ -56,8 +56,13 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 		this.props.deleteBookmark(id)
 	}
 
+	private editBookmark = (id: string) => {
+		const bookmark = this.props.bookmarks.find((x) => x.id === id) as ILink
+		this.setState({openBookmark: bookmark})
+	}
+
 	private saveBookmark = (bookmark: ILink) => {
-		this.props.addBookmark(bookmark)
+		this.props.saveBookmark(bookmark)
 		this.setState({openBookmark: null})
 	}
 
@@ -71,7 +76,7 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 
 	private deactivateDragMode = () => this.setState({dragMode: false})
 
-	private showDropSpot = (draggedItem: any, dropSpotOrder: number) => this.setState({draggedItem, dropSpotOrder})
+	private showDropSpot = (draggedItem: ILink, dropSpotOrder: number) => this.setState({draggedItem, dropSpotOrder})
 
 	private dropItem = () => {
 		const {draggedItem, dropSpotOrder} = this.state
@@ -97,6 +102,7 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 				<Bookmark
 					key={bookmark.id}
 					link={bookmark}
+					onEdit={this.editBookmark}
 					onDelete={this.deleteBookmark}
 					dragMode={dragMode}
 					showDropSpot={this.showDropSpot}

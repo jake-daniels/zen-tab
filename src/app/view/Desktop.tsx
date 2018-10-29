@@ -8,7 +8,6 @@ import * as Actions from 'app/store/actions'
 
 import {CustomDragLayer} from 'app/domain/drag-and-drop'
 import Clock from 'app/view/Clock'
-import ErrorBoundary from 'app/view/ErrorBoundary'
 import Bookmarks from 'app/view/Bookmarks'
 import QuickLinks from 'app/view/QuickLinks'
 
@@ -44,8 +43,8 @@ class Desktop extends React.PureComponent<IProps> {
 		Actions.reorderLinks(source, newPosition)
 	}
 
-	private addBookmark = (type: EBookmarkType) => (bookmark: ILink) => {
-		Actions.addBookmark(type, bookmark)
+	private saveBookmark = (type: EBookmarkType) => (bookmark: ILink) => {
+		Actions.saveBookmark(type, bookmark)
 	}
 
 	private deleteBookmark = (type: EBookmarkType) => (id: string) => {
@@ -60,38 +59,39 @@ class Desktop extends React.PureComponent<IProps> {
 		const {links, personalBookmarks, workBookmarks} = this.props
 
 		return (
-			<ErrorBoundary>
-				<div className='desktop'>
-					<QuickLinks
-						links={links}
-						createLink={this.createLink}
-						deleteLink={this.deleteLink}
-						reorderLinks={this.reorderLinks}
-					/>
-					<div className='separator' />
+			<div className='desktop'>
 
-					<Bookmarks
-						type={EBookmarkType.Personal}
-						bookmarks={personalBookmarks}
-						addBookmark={this.addBookmark(EBookmarkType.Personal)}
-						deleteBookmark={this.deleteBookmark(EBookmarkType.Personal)}
-						reorderBookmarks={this.reorderBookmarks(EBookmarkType.Personal)}
-						/>
-					<div className='separator' />
+				<QuickLinks
+					links={links}
+					createLink={this.createLink}
+					deleteLink={this.deleteLink}
+					reorderLinks={this.reorderLinks}
+				/>
+				<div className='separator' />
 
-					<Bookmarks
-						type={EBookmarkType.Work}
-						bookmarks={workBookmarks}
-						addBookmark={this.addBookmark(EBookmarkType.Work)}
-						deleteBookmark={this.deleteBookmark(EBookmarkType.Work)}
-						reorderBookmarks={this.reorderBookmarks(EBookmarkType.Work)}
-					/>
-					<div className='separator' />
+				<Bookmarks
+					type={EBookmarkType.Personal}
+					bookmarks={personalBookmarks}
+					saveBookmark={this.saveBookmark(EBookmarkType.Personal)}
+					deleteBookmark={this.deleteBookmark(EBookmarkType.Personal)}
+					reorderBookmarks={this.reorderBookmarks(EBookmarkType.Personal)}
+				/>
+				<div className='separator' />
 
-					<Clock />
-					<CustomDragLayer />
-				</div>
-			</ErrorBoundary>
+				<Bookmarks
+					type={EBookmarkType.Work}
+					bookmarks={workBookmarks}
+					saveBookmark={this.saveBookmark(EBookmarkType.Work)}
+					deleteBookmark={this.deleteBookmark(EBookmarkType.Work)}
+					reorderBookmarks={this.reorderBookmarks(EBookmarkType.Work)}
+				/>
+				<div className='separator' />
+
+				<Clock />
+
+				<CustomDragLayer />
+
+			</div>
 		)
 	}
 }

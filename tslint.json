@@ -8,7 +8,10 @@
 	"linterOptions": {
 		"exclude": [
 			"config/**/*.js",
-			"node_modules/**/*.ts"
+			"node_modules/**/*.ts",
+			"extension",
+			"build",
+			"build-ext"
 		]
 	},
 	"rules": {

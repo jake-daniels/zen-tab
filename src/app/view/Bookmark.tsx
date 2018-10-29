@@ -4,12 +4,14 @@ import {LinkDragSource, LinkDropTarget, EMPTY_IMAGE} from 'app/domain/drag-and-d
 interface IProps {
 	link: ILink,
 	dragMode: boolean,
-	onDelete: Function,
-	showDropSpot: Function,
-	drop: Function,
-	connectDragSource?: Function,
-	connectDropTarget?: Function,
-	connectDragPreview?: Function,
+	onDelete: (id: string) => void,
+	onEdit: (id: string) => void,
+
+	showDropSpot: (source: ILink, position: number) => void,
+	drop: () => void,
+	connectDragSource?: (source: any) => any,
+	connectDropTarget?: (target: any) => any,
+	connectDragPreview?: (preview: any) => any,
 	isDragging?: boolean,
 }
 
@@ -34,6 +36,12 @@ export default class Bookmark extends React.PureComponent<IProps> {
 		e.stopPropagation()
 	}
 
+	private onEditClicked = (e: React.MouseEvent<HTMLElement>) => {
+		const {link, onEdit} = this.props
+		onEdit(link.id)
+		e.stopPropagation()
+	}
+
 	public render () {
 		const {connectDragSource, connectDropTarget, isDragging} = this.props
 		const {dragMode, link} = this.props
@@ -53,9 +61,14 @@ export default class Bookmark extends React.PureComponent<IProps> {
 				onClick={this.onClicked}
 			>
 				<img src={icon} />
-				<span className='title'>{link.title}</span>
+				<span className='title no-wrap'>{link.title}</span>
 				<i
-					className='fa fa-times'
+					className='fas fa-edit'
+					aria-hidden={true}
+					onClick={this.onEditClicked}
+				/>
+				<i
+					className='fas fa-times'
 					aria-hidden={true}
 					onClick={this.onDeleteClicked}
 				/>

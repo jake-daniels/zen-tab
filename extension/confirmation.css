@@ -1,0 +1,40 @@
+.zen-tab-confirmation-modal {
+	pointer-events: none;
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9999;
+	width: 100vw;
+	height: 100vh;
+	opacity: 0;
+}
+.zen-tab-confirmation-modal .zen-tab-confirmation-modal-content {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	width: 200px;
+	background: rgb(72, 163, 72);
+	padding: 15px;
+	border-radius: 5px;
+	text-align: center;
+}
+.zen-tab-confirmation-modal .zen-tab-confirmation-modal-content .text{
+	color: #ffffff;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+	font-size: 14px !important;
+	font-weight: bold;
+}
+.zen-tab-confirmation-modal .zen-tab-confirmation-modal-content .checkmark{
+	display: inline-block;
+	margin-left: 20px;
+}
+.zen-tab-confirmation-modal .zen-tab-confirmation-modal-content .checkmark:after{
+    content: '';
+    display: block;
+    width: 8px;
+    height: 16px;
+    border: solid rgb(255, 255, 255);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}

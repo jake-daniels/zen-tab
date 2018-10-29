@@ -14,21 +14,37 @@ const CommandConfig = {
 		execute: () => {
 			chrome.tabs.query({active: true}, (tabs) => {
 				const {id, title, url} = tabs[0]
-				const initModal = `
-					document.getElementById('zenTabSaveLinkModal').style.display = 'block'
-					document.getElementById('zenTabSaveLinkModalTitleInput').value = \`${title}\`
-					document.getElementById('zenTabSaveLinkModalUrlInput').value = \`${url}\`
-				`
-				chrome.tabs.executeScript({code: initModal})
-
-				const message = {
-					type: MESSAGE_SHOW_MODAL,
-					payload: {isVisible: true},
-				}
-				chrome.tabs.sendMessage(id, message)
+				saveLink({title, url})
 			})
+			const initModal = `
+					document.getElementById('zenTabConfirmationModal').style.opacity = 1
+					document.getElementById('zenTabConfirmationModal').style.transition = 'opacity 0.5s'
+					window.setTimeout(function() {
+						document.getElementById('zenTabConfirmationModal').style.opacity = 0
+					}, 3000)
+				`
+			chrome.tabs.executeScript({code: initModal})
 		}
 	}
+	// [ECommand.SAVE_LINK_COMMAND]: {
+	// 	execute: () => {
+	// 		chrome.tabs.query({active: true}, (tabs) => {
+	// 			const {id, title, url} = tabs[0]
+	// 			const initModal = `
+	// 				document.getElementById('zenTabSaveLinkModal').style.display = 'block'
+	// 				document.getElementById('zenTabSaveLinkModalTitleInput').value = \`${title}\`
+	// 				document.getElementById('zenTabSaveLinkModalUrlInput').value = \`${url}\`
+	// 			`
+	// 			chrome.tabs.executeScript({code: initModal})
+
+	// 			const message = {
+	// 				type: MESSAGE_SHOW_MODAL,
+	// 				payload: {isVisible: true},
+	// 			}
+	// 			chrome.tabs.sendMessage(id, message)
+	// 		})
+	// 	}
+	// }
 }
 
 

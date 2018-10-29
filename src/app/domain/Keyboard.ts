@@ -29,11 +29,11 @@ const KeyboardEvents = {
 
 class KeyboardCore {
 
-	callbacks = {}
+	private callbacks = {}
 
-	Events = EKeyboardEvent
+	public Events = EKeyboardEvent
 
-	constructor () {
+	public constructor () {
 		Object.keys(KeyboardEvents).forEach((event) => {
 			this.callbacks[event] = []
 		})
@@ -41,7 +41,7 @@ class KeyboardCore {
 		document.addEventListener('keyup', (e) => this.onKey(e, EKeyPress.UP), false)
 	}
 
-	onKey = (e: any, keyPress: EKeyPress) => {
+	private onKey = (e: any, keyPress: EKeyPress) => {
 		const events = Object.keys(KeyboardEvents)
 
 		const relevantEvents = events.filter((event) => {
@@ -58,11 +58,11 @@ class KeyboardCore {
 		})
 	}
 
-	subscribe = (event: EKeyboardEvent, callback: Function) => {
+	public subscribe = (event: EKeyboardEvent, callback: any) => {
 		this.callbacks[event].push(callback)
 	}
 
-	unsubscribe = (event: EKeyboardEvent, callback: Function) => {
+	public unsubscribe = (event: EKeyboardEvent, callback: any) => {
 		this.callbacks[event] = this.callbacks[event].filter((item: any) => (item !== callback))
 	}
 }

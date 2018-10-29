@@ -20,13 +20,20 @@
     height: 16px;
     margin-right: 10px; }
   .bookmark .title {
-    font-size: 14px; }
-  .bookmark .fa {
+    font-size: 14px;
+    flex: 1; }
+  .bookmark .no-wrap {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%; }
+  .bookmark .fas {
     font-size: 14px;
     visibility: hidden;
-    margin-left: auto;
-    color: #cccccc; }
-    .bookmark .fa:hover {
+    color: #cccccc;
+    margin-left: 10px; }
+    .bookmark .fas:hover {
       transform: scale(1.3);
       color: white; }
   .bookmark.drag-mode {
@@ -37,7 +44,7 @@
     display: none; }
   .bookmark:hover {
     background: #434d64; }
-    .bookmark:hover .fa {
+    .bookmark:hover .fas {
       visibility: visible; }
 
 .bookmark-detail {

@@ -35,10 +35,15 @@ export function reorderLinks (sourceLink: ILink, newPosition: number) {
 	})
 }
 
-export function addBookmark (type: EBookmarkType, bookmark: ILink) {
+export function saveBookmark (type: EBookmarkType, bookmark: ILink) {
 	mutate((store) => {
 		const bookmarks = store.bookmarks[type]
-		bookmarks.push(bookmark)
+		const index = bookmarks.findIndex((x) => x.id === bookmark.id)
+		if (index >= 0) {
+			bookmarks[index] = bookmark
+		} else {
+			bookmarks.push(bookmark)
+		}
 		store.bookmarks[type] = normalizePositions(bookmarks)
 	})
 }

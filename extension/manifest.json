@@ -4,7 +4,7 @@
     "name": "Zen Tab",
     "short_name": "Zen Tab",
     "description": "Custom tab, that replaces the default New Tab.",
-    "version": "0.2.5",
+    "version": "0.3.0",
     "icons": {
         "16": "/resources/img/icon_16.png",
         "48": "/resources/img/icon_48.png",
@@ -39,9 +39,9 @@
     "commands": {
         "save-link-command": {
             "suggested_key": {
-                "default": "Ctrl+Shift+Right"
+                "default": "Ctrl+Shift+S"
             },
-            "description": "Save link of current page"
+            "description": "Save quick link of current page"
         }
     },
     "content_scripts": [
@@ -50,10 +50,10 @@
                 "<all_urls>"
             ],
             "css": [
-                "/resources/save-link.css"
+                "/resources/confirmation.css"
             ],
             "js": [
-                "/resources/save-link.js"
+                "/resources/confirmation.js"
             ]
         }
     ]

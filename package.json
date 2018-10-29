@@ -41,6 +41,7 @@
 		"@types/reselect": "^2.2.0",
 		"@types/shortid": "0.0.29",
 		"@types/urijs": "^1.15.38",
+		"archiver": "^3.0.0",
 		"typescript": "^3.1.3"
 	}
 }

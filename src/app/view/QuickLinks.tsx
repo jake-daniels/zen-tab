@@ -27,8 +27,10 @@ export default class QuickLinks extends React.PureComponent<IProps, IState> {
 	}
 
 	public componentDidMount () {
-		this.pendingLinksTimer = window.setInterval(this.savePendingLinks, LINKS_CHECK_INTERVAL)
-		this.savePendingLinks()
+		window.setTimeout(() => {
+			this.pendingLinksTimer = window.setInterval(this.savePendingLinks, LINKS_CHECK_INTERVAL)
+			this.savePendingLinks()
+		}, 0)
 
 		Keyboard.subscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
 		Keyboard.subscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
@@ -42,15 +44,15 @@ export default class QuickLinks extends React.PureComponent<IProps, IState> {
 	}
 
 	private savePendingLinks = () => {
-		const tmpStoreEncoded = localStorage.getItem('what')
+		const tmpStoreEncoded = localStorage.getItem('zen-tab-tmp')
 		const tmpStore = (tmpStoreEncoded) ? JSON.parse(tmpStoreEncoded) : {}
 
 		if (Array.isArray(tmpStore.linksToSave)) {
-			tmpStore.linksToSave.forEach((link: any) => {
+			tmpStore.linksToSave.forEach((link: {title: string, url: string}) => {
 				this.props.createLink(link.title, link.url)
 			})
 			tmpStore.linksToSave = []
-			localStorage.setItem('what', JSON.stringify(tmpStore))
+			localStorage.setItem('zen-tab-tmp', JSON.stringify(tmpStore))
 		}
 	}
 
