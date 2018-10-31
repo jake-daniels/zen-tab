@@ -6,6 +6,13 @@ export const InitialState: IStore = {
 		[EBookmarkType.Personal]: [],
 		[EBookmarkType.Work]: [],
 	},
+	// ui: {
+	// 	panels: {
+	// 		[EPanel.QuickLinks]: {width: 300},
+	// 		[EPanel.PersonalBookmarks]: {width: 300},
+	// 		[EPanel.WorkBookmarks]: {width: 300},
+	// 	},
+	// }
 }
 
 export const {

@@ -113,7 +113,7 @@ export default class QuickLinks extends React.PureComponent<IProps, IState> {
 				<div className='panel-title'>
 					<h2>Quick Links</h2>
 				</div>
-				{items}
+				{items.reverse()}
 			</div>
 		)
 	}

@@ -18,39 +18,43 @@
   display: flex;
   flex-direction: row;
   background: #2b2e35;
-  color: white; }
-  .desktop .panel .panel-title {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: center; }
-    .desktop .panel .panel-title h2 {
-      display: inline-block;
+  color: white;
+  overflow: hidden; }
+  .desktop .panel {
+    border-right: solid 1px rgba(255, 255, 255, 0.1); }
+    .desktop .panel:nth-child(1) {
+      width: 400px; }
+    .desktop .panel:nth-child(2) {
+      width: 300px; }
+    .desktop .panel:nth-child(3) {
+      width: 300px; }
+    .desktop .panel .panel-title {
+      position: relative;
       width: 100%;
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 1px;
-      color: whitesmoke;
-      text-align: center;
-      height: 36px;
-      line-height: 36px; }
-    .desktop .panel .panel-title .add-button {
-      visibility: hidden;
-      position: absolute;
-      right: 10px;
-      font-size: 16px;
-      color: rgba(255, 255, 255, 0.5);
-      cursor: pointer; }
-      .desktop .panel .panel-title .add-button:hover {
-        transform: scale(1.2);
-        color: white; }
-    .desktop .panel .panel-title:hover .add-button {
-      visibility: visible; }
-
-.separator {
-  width: 1px;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.1); }
+      display: flex;
+      align-items: center; }
+      .desktop .panel .panel-title h2 {
+        display: inline-block;
+        width: 100%;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 1px;
+        color: whitesmoke;
+        text-align: center;
+        height: 36px;
+        line-height: 36px; }
+      .desktop .panel .panel-title .add-button {
+        visibility: hidden;
+        position: absolute;
+        right: 10px;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.5);
+        cursor: pointer; }
+        .desktop .panel .panel-title .add-button:hover {
+          transform: scale(1.2);
+          color: white; }
+      .desktop .panel .panel-title:hover .add-button {
+        visibility: visible; }
 
 .clock {
   display: flex;
@@ -87,3 +91,24 @@
   align-items: center;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8); }
+
+.resizable-box {
+  display: flex;
+  position: relative; }
+  .resizable-box .handle {
+    cursor: col-resize;
+    z-index: 2;
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    top: 0;
+    right: -5px;
+    background: rgba(255, 255, 0, 0.2); }
+  .resizable-box .detector {
+    z-index: 1;
+    position: absolute;
+    width: 300%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 0, 0, 0.2); }

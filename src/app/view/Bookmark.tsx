@@ -61,7 +61,7 @@ export default class Bookmark extends React.PureComponent<IProps> {
 				onClick={this.onClicked}
 			>
 				<img src={icon} />
-				<span className='title no-wrap'>{link.title}</span>
+				<span className='title no-wrap noselect'>{link.title}</span>
 				<i
 					className='fas fa-edit'
 					aria-hidden={true}

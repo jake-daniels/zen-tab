@@ -3,7 +3,6 @@
 
 .links-panel {
 	position: relative;
-	width: $panel-width;
 	overflow-y: hidden;
 	overflow-x: hidden;
 
@@ -68,6 +67,7 @@
 		margin-bottom: 5px;
 		color: $font-color-white;
 		font-size: 13px;
+		color: #ddd;
 	}
 	.url {
 		color: #74a5e9;

@@ -5,6 +5,12 @@ function normalizePositions (links: ILink[]) {
 	return links.map((link, i) => ({...link, position: i}))
 }
 
+export function changePanelWidth (panel: EPanel, diff: number) {
+	// mutate((store) => {
+	// 	store.ui.panels[panel].width += diff
+	// })
+}
+
 export function createLink (title: string, url: string) {
 	mutate((store) => {
 		const newLink = {

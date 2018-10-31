@@ -5,9 +5,6 @@
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
-
-    min-width: $panel-width;
-    width: $panel-width;
 	position: relative;
 
 	.list {
@@ -19,18 +16,20 @@
 	cursor: pointer;
 	width: 100%;
 	height: 36px;
-	padding: 5px 15px;
+	padding: 5px 20px;
 	display: flex;
 	align-items: center;
 
 	img {
 		width: 16px;
 		height: 16px;
-		margin-right: 10px;
+		margin-right: 15px;
 	}
 	.title {
 		font-size: 14px;
+		font-weight: 300;
 		flex: 1;
+		color: #ddd;
 	}
 	.no-wrap {
 		display: inline-block;
@@ -72,7 +71,7 @@
 	position: absolute;
 	top: 36px;
 	left: 0;
-	width: $panel-width;
+	width: 100%;
 	background: lighten($desktop-bg, 10%);
 	padding: 15px;
 

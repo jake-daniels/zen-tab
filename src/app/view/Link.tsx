@@ -56,8 +56,8 @@ export default class Link extends React.PureComponent<IProps> {
 					aria-hidden={true}
 					onClick={this.onDeleteClicked}
 				/>
-				<span className='title no-wrap'> {link.title} </span>
-				<span className='url no-wrap'> {link.url} </span>
+				<span className='title no-wrap noselect'> {link.title} </span>
+				<span className='url no-wrap noselect'> {link.url} </span>
 			</div>
 		)
 

@@ -17,6 +17,7 @@ interface IStateProps {
 	links: ILink[],
 	personalBookmarks: ILink[],
 	workBookmarks: ILink[],
+	ui: IUi,
 }
 interface IProps extends IOwnProps, IStateProps {}
 
@@ -56,7 +57,7 @@ class Desktop extends React.PureComponent<IProps> {
 	}
 
 	public render () {
-		const {links, personalBookmarks, workBookmarks} = this.props
+		const {links, personalBookmarks, workBookmarks, ui} = this.props
 
 		return (
 			<div className='desktop'>
@@ -67,7 +68,6 @@ class Desktop extends React.PureComponent<IProps> {
 					deleteLink={this.deleteLink}
 					reorderLinks={this.reorderLinks}
 				/>
-				<div className='separator' />
 
 				<Bookmarks
 					type={EBookmarkType.Personal}
@@ -76,7 +76,6 @@ class Desktop extends React.PureComponent<IProps> {
 					deleteBookmark={this.deleteBookmark(EBookmarkType.Personal)}
 					reorderBookmarks={this.reorderBookmarks(EBookmarkType.Personal)}
 				/>
-				<div className='separator' />
 
 				<Bookmarks
 					type={EBookmarkType.Work}
@@ -85,7 +84,6 @@ class Desktop extends React.PureComponent<IProps> {
 					deleteBookmark={this.deleteBookmark(EBookmarkType.Work)}
 					reorderBookmarks={this.reorderBookmarks(EBookmarkType.Work)}
 				/>
-				<div className='separator' />
 
 				<Clock />
 

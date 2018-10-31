@@ -26,8 +26,21 @@
 	flex-direction: row;
     background: $desktop-bg;
 	color: $font-color-white;
+	overflow: hidden;
 
 	.panel {
+		border-right: solid 1px rgba(white, 0.1);
+		&:nth-child(1) {
+			width: 400px;
+		}
+		&:nth-child(2) {
+			width: 300px;
+		}
+		&:nth-child(3) {
+			width: 300px;
+		}
+
+
 		.panel-title {
 			position: relative;
 			width: 100%;
@@ -63,12 +76,6 @@
 			}
 		}
 	}
-}
-
-.separator {
-	width: 1px;
-	height: 100%;
-	background: rgba(white, 0.1);
 }
 
 .clock {
@@ -113,4 +120,28 @@
 	align-items: center;
 	font-size: 14px;
 	color: rgba(255, 255, 255, 0.8);
+}
+
+.resizable-box {
+	display: flex;
+	position: relative;
+	.handle {
+		cursor: col-resize;
+		z-index: 2;
+		position: absolute;
+		width: 10px;
+		height: 100%;
+		top: 0;
+		right: -5px;
+		background: rgba(yellow, 0.2);
+	}
+	.detector {
+		z-index: 1;
+		position: absolute;
+		width: 300%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background: rgba(red, 0.2);
+	}
 }
