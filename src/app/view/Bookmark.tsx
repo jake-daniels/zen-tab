@@ -26,19 +26,17 @@ export default class Bookmark extends React.PureComponent<IProps> {
 		}
 	}
 
-	private onClicked = () => {
-		window.location.href = this.props.link.url
-	}
-
 	private onDeleteClicked = (e: React.MouseEvent<HTMLElement>) => {
 		const {link, onDelete} = this.props
 		onDelete(link.id)
+		e.preventDefault()
 		e.stopPropagation()
 	}
 
 	private onEditClicked = (e: React.MouseEvent<HTMLElement>) => {
 		const {link, onEdit} = this.props
 		onEdit(link.id)
+		e.preventDefault()
 		e.stopPropagation()
 	}
 
@@ -53,12 +51,12 @@ export default class Bookmark extends React.PureComponent<IProps> {
 		const icon = `https://www.google.com/s2/favicons?domain_url=${link.url}`
 
 		const result = (
-			<div
+			<a
 				className={cn('bookmark', {
 					'dragging': isDragging,
 					'drag-mode': dragMode,
 				})}
-				onClick={this.onClicked}
+				href={link.url}
 			>
 				<img src={icon} />
 				<span className='title no-wrap noselect'>{link.title}</span>
@@ -72,7 +70,7 @@ export default class Bookmark extends React.PureComponent<IProps> {
 					aria-hidden={true}
 					onClick={this.onDeleteClicked}
 				/>
-			</div>
+			</a>
 		)
 
 		if (dragMode) {

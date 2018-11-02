@@ -9,9 +9,9 @@
 		"exclude": [
 			"config/**/*.js",
 			"node_modules/**/*.ts",
-			"extension",
-			"build",
-			"build-ext"
+			"extension/**/*.*",
+			"build/**/*.*",
+			"build-ext/**/*.*"
 		]
 	},
 	"rules": {

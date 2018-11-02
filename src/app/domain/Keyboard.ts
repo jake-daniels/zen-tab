@@ -1,7 +1,7 @@
 
 enum EKeyboardEvent {
-	CONTROL_DOWN = 'CONTROL_DOWN',
-	CONTROL_UP = 'CONTROL_UP',
+	SHIFT_DOWN = 'SHIFT_DOWN',
+	SHIFT_UP = 'SHIFT_UP',
 }
 
 enum EKeyPress {
@@ -10,21 +10,18 @@ enum EKeyPress {
 }
 
 const KeyboardEvents = {
-
-	[EKeyboardEvent.CONTROL_DOWN]: {
+	[EKeyboardEvent.SHIFT_DOWN]: {
 		trigger: EKeyPress.DOWN,
 		isFired: (e: any) => {
-			return (e.key === 'Control')
+			return (e.key === 'Shift')
 		}
 	},
-
-	[EKeyboardEvent.CONTROL_UP]: {
+	[EKeyboardEvent.SHIFT_UP]: {
 		trigger: EKeyPress.UP,
 		isFired: (e: any) => {
-			return (e.key === 'Control')
+			return (e.key === 'Shift')
 		}
 	},
-
 }
 
 class KeyboardCore {

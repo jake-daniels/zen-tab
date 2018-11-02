@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import URI from 'urijs'
 
 interface IProps {
 	bookmark: ILink,

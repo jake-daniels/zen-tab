@@ -32,15 +32,15 @@ export default class QuickLinks extends React.PureComponent<IProps, IState> {
 			this.savePendingLinks()
 		}, 0)
 
-		Keyboard.subscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
-		Keyboard.subscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
+		Keyboard.subscribe(Keyboard.Events.SHIFT_DOWN, this.activateDragMode)
+		Keyboard.subscribe(Keyboard.Events.SHIFT_UP, this.deactivateDragMode)
 	}
 
 	public componentWillUnmount () {
 		window.clearInterval(this.pendingLinksTimer)
 
-		Keyboard.unsubscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
-		Keyboard.unsubscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
+		Keyboard.unsubscribe(Keyboard.Events.SHIFT_DOWN, this.activateDragMode)
+		Keyboard.unsubscribe(Keyboard.Events.SHIFT_UP, this.deactivateDragMode)
 	}
 
 	private savePendingLinks = () => {

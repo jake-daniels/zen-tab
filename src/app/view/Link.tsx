@@ -25,10 +25,6 @@ export default class Link extends React.PureComponent<IProps> {
 		}
 	}
 
-	private onClicked = () => {
-		window.open(this.props.link.url, '_blank')
-	}
-
 	private onDeleteClicked = (e: React.MouseEvent<HTMLElement>) => {
 		const {link, onDelete} = this.props
 		onDelete(link.id)
@@ -44,12 +40,12 @@ export default class Link extends React.PureComponent<IProps> {
 		}
 
 		const result = (
-			<div
+			<a
 				className={cn('link', {
 					'dragging': isDragging,
 					'drag-mode': dragMode,
 				})}
-				onClick={this.onClicked}
+				href={link.url}
 			>
 				<i
 					className='fa fa-times'
@@ -58,7 +54,7 @@ export default class Link extends React.PureComponent<IProps> {
 				/>
 				<span className='title no-wrap noselect'> {link.title} </span>
 				<span className='url no-wrap noselect'> {link.url} </span>
-			</div>
+			</a>
 		)
 
 		if (dragMode) {

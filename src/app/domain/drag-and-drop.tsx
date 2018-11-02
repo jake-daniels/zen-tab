@@ -103,7 +103,7 @@ const ITEM_PREVIEW_CONFIG = {
 }))
 export class CustomDragLayer extends React.PureComponent<any> {
 
-	Item = () => {
+	private Item = () => {
 		const {type, item, currentOffset} = this.props
 
 		let itemProps = {}
@@ -123,7 +123,7 @@ export class CustomDragLayer extends React.PureComponent<any> {
 		return <div {...itemProps}/>
 	}
 
-	render () {
+	public render () {
 		const {isDragging} = this.props
 		// const {monitor} = this.props
 

@@ -38,13 +38,13 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 	}
 
 	public componentDidMount () {
-		Keyboard.subscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
-		Keyboard.subscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
+		Keyboard.subscribe(Keyboard.Events.SHIFT_DOWN, this.activateDragMode)
+		Keyboard.subscribe(Keyboard.Events.SHIFT_UP, this.deactivateDragMode)
 	}
 
 	public componentWillUnmount () {
-		Keyboard.unsubscribe(Keyboard.Events.CONTROL_DOWN, this.activateDragMode)
-		Keyboard.unsubscribe(Keyboard.Events.CONTROL_UP, this.deactivateDragMode)
+		Keyboard.unsubscribe(Keyboard.Events.SHIFT_DOWN, this.activateDragMode)
+		Keyboard.unsubscribe(Keyboard.Events.SHIFT_UP, this.deactivateDragMode)
 	}
 
 	private addBookmark = () => {
