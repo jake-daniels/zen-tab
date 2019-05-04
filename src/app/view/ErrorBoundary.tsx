@@ -1,21 +1,20 @@
 import React from 'react'
 
 export interface IState {
-	hasError: boolean,
+	hasError: boolean
 }
 
 export default class ErrorBoundary extends React.PureComponent<{}, IState> {
-
 	public state: IState = {
 		hasError: false,
 	}
 
-	public componentDidCatch (error: any) {
-		this.setState({hasError: true})
+	public componentDidCatch(error: any) {
+		this.setState({ hasError: true })
 		console.error(error)
 	}
 
-	public render () {
+	public render() {
 		if (this.state.hasError) {
 			return (
 				<div className='error-boundary'>

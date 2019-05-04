@@ -1,35 +1,37 @@
 import React from 'react'
 import UUID from 'shortid'
 import Keyboard from 'app/domain/keyboard'
-import Bookmark, {BookmarkDropSpot} from 'app/view/Bookmark'
+import Bookmark, { BookmarkDropSpot } from 'app/view/Bookmark'
 import BookmarkDetail from 'app/view/BookmarkDetail'
+import { ILink, IStore } from 'app/globals/interfaces'
+import { EBookmarkType, EPanel } from 'app/globals/enums'
+import { ReactComponent as Plus } from 'img/plus.svg'
 
-
-function generateBookmark () {
+function generateBookmark() {
 	return {
 		id: UUID.generate(),
 		position: -1,
 		title: '',
 		url: '',
+		useFavicon: true,
 	} as ILink
 }
 
 interface IProps {
-	type: EBookmarkType,
-	bookmarks: ILink[],
-	saveBookmark: (bookmark: ILink) => void,
-	deleteBookmark: (id: string) => void,
-	reorderBookmarks: (source: ILink, newPosition: number) => void,
+	type: EBookmarkType
+	bookmarks: ILink[]
+	saveBookmark: (bookmark: ILink) => void
+	deleteBookmark: (id: string) => void
+	reorderBookmarks: (source: ILink, newPosition: number) => void
 }
 interface IState {
-	openBookmark: ILink | null,
-	dragMode: boolean,
-	dropSpotOrder: number,
-	draggedItem: any,
+	openBookmark: ILink | null
+	dragMode: boolean
+	dropSpotOrder: number
+	draggedItem: any
 }
 
 export default class Bookmarks extends React.PureComponent<IProps, IState> {
-
 	public state: IState = {
 		openBookmark: null,
 		dragMode: false,
@@ -37,19 +39,19 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 		draggedItem: null,
 	}
 
-	public componentDidMount () {
+	public componentDidMount() {
 		Keyboard.subscribe(Keyboard.Events.SHIFT_DOWN, this.activateDragMode)
 		Keyboard.subscribe(Keyboard.Events.SHIFT_UP, this.deactivateDragMode)
 	}
 
-	public componentWillUnmount () {
+	public componentWillUnmount() {
 		Keyboard.unsubscribe(Keyboard.Events.SHIFT_DOWN, this.activateDragMode)
 		Keyboard.unsubscribe(Keyboard.Events.SHIFT_UP, this.deactivateDragMode)
 	}
 
 	private addBookmark = () => {
 		const bookmark = generateBookmark()
-		this.setState({openBookmark: bookmark})
+		this.setState({ openBookmark: bookmark })
 	}
 
 	private deleteBookmark = (id: string) => {
@@ -58,37 +60,37 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 
 	private editBookmark = (id: string) => {
 		const bookmark = this.props.bookmarks.find((x) => x.id === id) as ILink
-		this.setState({openBookmark: bookmark})
+		this.setState({ openBookmark: bookmark })
 	}
 
 	private saveBookmark = (bookmark: ILink) => {
 		this.props.saveBookmark(bookmark)
-		this.setState({openBookmark: null})
+		this.setState({ openBookmark: null })
 	}
 
 	private closeDetail = () => {
-		this.setState({openBookmark: null})
+		this.setState({ openBookmark: null })
 	}
 
 	// Drag & Drop
 
-	private activateDragMode = () => this.setState({dragMode: true})
+	private activateDragMode = () => this.setState({ dragMode: true })
 
-	private deactivateDragMode = () => this.setState({dragMode: false})
+	private deactivateDragMode = () => this.setState({ dragMode: false })
 
-	private showDropSpot = (draggedItem: ILink, dropSpotOrder: number) => this.setState({draggedItem, dropSpotOrder})
+	private showDropSpot = (draggedItem: ILink, dropSpotOrder: number) => this.setState({ draggedItem, dropSpotOrder })
 
 	private dropItem = () => {
-		const {draggedItem, dropSpotOrder} = this.state
+		const { draggedItem, dropSpotOrder } = this.state
 		this.props.reorderBookmarks(draggedItem.link, dropSpotOrder)
-		this.setState({draggedItem: null, dropSpotOrder: -1})
+		this.setState({ draggedItem: null, dropSpotOrder: -1 })
 	}
 
 	// Render
 
-	public render () {
-		const {openBookmark} = this.state
-		const {dragMode, draggedItem, dropSpotOrder} = this.state
+	public render() {
+		const { openBookmark } = this.state
+		const { dragMode, draggedItem, dropSpotOrder } = this.state
 
 		let bookmarks = this.props.bookmarks
 
@@ -126,27 +128,20 @@ export default class Bookmarks extends React.PureComponent<IProps, IState> {
 
 		return (
 			<div className='panel bookmarks-panel'>
-
 				<div className='panel-title'>
 					<h2> {this.props.type} </h2>
 					<div className='add-button' onClick={this.addBookmark}>
-						<i className='fas fa-plus-circle' />
+						<div className='fas'>
+							<Plus width={18} height={18} />
+						</div>
 					</div>
 				</div>
 
-				<div className='list'>
-					{items}
-				</div>
+				<div className='list'>{items}</div>
 
-
-				{openBookmark &&
-					<BookmarkDetail
-						bookmark={openBookmark!}
-						onSave={this.saveBookmark}
-						onCancel={this.closeDetail}
-					/>
-				}
-
+				{openBookmark && (
+					<BookmarkDetail bookmark={openBookmark!} onSave={this.saveBookmark} onCancel={this.closeDetail} />
+				)}
 			</div>
 		)
 	}

@@ -1,4 +1,6 @@
 import createState from 'react-copy-write'
+import { ILink, IStore } from 'app/globals/interfaces'
+import { EBookmarkType, EPanel } from 'app/globals/enums'
 
 export const InitialState: IStore = {
 	links: [],
@@ -15,8 +17,4 @@ export const InitialState: IStore = {
 	// }
 }
 
-export const {
-	Provider,
-	Consumer,
-	mutate,
-} = createState(InitialState)
+export const { Provider, Consumer, mutate } = createState(InitialState)

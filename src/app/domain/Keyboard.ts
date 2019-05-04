@@ -1,4 +1,3 @@
-
 enum EKeyboardEvent {
 	SHIFT_DOWN = 'SHIFT_DOWN',
 	SHIFT_UP = 'SHIFT_UP',
@@ -13,24 +12,23 @@ const KeyboardEvents = {
 	[EKeyboardEvent.SHIFT_DOWN]: {
 		trigger: EKeyPress.DOWN,
 		isFired: (e: any) => {
-			return (e.key === 'Shift')
-		}
+			return e.key === 'Shift'
+		},
 	},
 	[EKeyboardEvent.SHIFT_UP]: {
 		trigger: EKeyPress.UP,
 		isFired: (e: any) => {
-			return (e.key === 'Shift')
-		}
+			return e.key === 'Shift'
+		},
 	},
 }
 
 class KeyboardCore {
-
 	private callbacks = {}
 
 	public Events = EKeyboardEvent
 
-	public constructor () {
+	public constructor() {
 		Object.keys(KeyboardEvents).forEach((event) => {
 			this.callbacks[event] = []
 		})
@@ -43,7 +41,7 @@ class KeyboardCore {
 
 		const relevantEvents = events.filter((event) => {
 			const eventConfig = KeyboardEvents[event]
-			return (eventConfig.trigger === keyPress)
+			return eventConfig.trigger === keyPress
 		})
 
 		relevantEvents.forEach((event) => {
@@ -60,7 +58,7 @@ class KeyboardCore {
 	}
 
 	public unsubscribe = (event: EKeyboardEvent, callback: any) => {
-		this.callbacks[event] = this.callbacks[event].filter((item: any) => (item !== callback))
+		this.callbacks[event] = this.callbacks[event].filter((item: any) => item !== callback)
 	}
 }
 

@@ -1,8 +1,9 @@
-
+import { ILink, IStore } from 'app/globals/interfaces'
+import { EBookmarkType, EPanel } from 'app/globals/enums'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {DragSource, DropTarget, DragLayer} from 'react-dnd'
-import {getEmptyImage} from 'react-dnd-html5-backend'
+import { DragSource, DropTarget, DragLayer } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 export const EMPTY_IMAGE = getEmptyImage()
 
@@ -15,11 +16,10 @@ const getClientRect = (component: any) => {
 }
 
 export const LinkDragSource = () => {
-
 	const spec = {
 		beginDrag: (props: any, monitor: any, component: any) => {
 			const clientRect = getClientRect(component)
-			return {link: props.link, clientRect}
+			return { link: props.link, clientRect }
 		},
 	}
 
@@ -35,7 +35,6 @@ export const LinkDragSource = () => {
 }
 
 export const LinkDropTarget = () => {
-
 	const getDropSpotOrder = (sourceLink: ILink, targetLink: ILink, targetHoverPosition: string) => {
 		if (sourceLink.position > targetLink.position) {
 			if (targetHoverPosition === 'top') {
@@ -62,7 +61,7 @@ export const LinkDropTarget = () => {
 			const linkRect = getClientRect(component)
 			const linkVerticalMiddle = linkRect.height / 2
 			const cursorY = monitor.getClientOffset().y - linkRect.top
-			const targetHoverPosition = (cursorY < linkVerticalMiddle) ? 'top' : 'bottom'
+			const targetHoverPosition = cursorY < linkVerticalMiddle ? 'top' : 'bottom'
 			const dropSpotOrder = getDropSpotOrder(sourceItem.link, props.link, targetHoverPosition)
 
 			props.showDropSpot(sourceItem, dropSpotOrder)
@@ -79,19 +78,16 @@ export const LinkDropTarget = () => {
 	return DropTarget(DraggableItems.LINK, spec, collect)
 }
 
-
 const ITEM_PREVIEW_CONFIG = {
-
 	[DraggableItems.LINK]: {
 		className: 'link-drag-preview',
 		getStyle: (clientRect: any, currentOffset: any) => {
-			const {width, height, left} = clientRect
-			const {y} = currentOffset
+			const { width, height, left } = clientRect
+			const { y } = currentOffset
 			const transform = `translate(${0}px, ${y}px)`
-			return {width, height, left, transform}
+			return { width, height, left, transform }
 		},
 	},
-
 }
 
 @DragLayer((monitor) => ({
@@ -102,9 +98,8 @@ const ITEM_PREVIEW_CONFIG = {
 	isDragging: monitor.isDragging(),
 }))
 export class CustomDragLayer extends React.PureComponent<any> {
-
 	private Item = () => {
-		const {type, item, currentOffset} = this.props
+		const { type, item, currentOffset } = this.props
 
 		let itemProps = {}
 
@@ -112,19 +107,19 @@ export class CustomDragLayer extends React.PureComponent<any> {
 			const config = ITEM_PREVIEW_CONFIG[type]
 			const style = config.getStyle(item.clientRect, currentOffset)
 			const className = config.className
-			itemProps = {style, className}
+			itemProps = { style, className }
 		} else {
 			itemProps = {
-				style: {display: 'none'},
+				style: { display: 'none' },
 				className: '',
 			}
 		}
 
-		return <div {...itemProps}/>
+		return <div {...itemProps} />
 	}
 
-	public render () {
-		const {isDragging} = this.props
+	public render() {
+		const { isDragging } = this.props
 		// const {monitor} = this.props
 
 		// console.log(this.props.currentOffset)
@@ -146,7 +141,7 @@ export class CustomDragLayer extends React.PureComponent<any> {
 
 		return (
 			<div style={layerStyle as any}>
-				<this.Item/>
+				<this.Item />
 			</div>
 		)
 	}

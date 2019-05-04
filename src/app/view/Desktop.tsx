@@ -1,37 +1,33 @@
-
 import React from 'react'
-import {DragDropContext} from 'react-dnd'
+import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 
-import {withState} from 'app/store/connect'
+import { withState } from 'app/store/connect'
 import * as Actions from 'app/store/actions'
 
-import {CustomDragLayer} from 'app/domain/drag-and-drop'
+import { CustomDragLayer } from 'app/domain/drag-and-drop'
 import Clock from 'app/view/Clock'
 import Bookmarks from 'app/view/Bookmarks'
 import QuickLinks from 'app/view/QuickLinks'
 
+import { ILink, IStore } from 'app/globals/interfaces'
+import { EBookmarkType, EPanel } from 'app/globals/enums'
 
 interface IOwnProps {}
 interface IStateProps {
-	links: ILink[],
-	personalBookmarks: ILink[],
-	workBookmarks: ILink[],
-	ui: IUi,
+	links: ILink[]
+	personalBookmarks: ILink[]
+	workBookmarks: ILink[]
 }
 interface IProps extends IOwnProps, IStateProps {}
 
-
 @DragDropContext(HTML5Backend)
-@withState<IOwnProps, IStateProps>(
-	(store: IStore) => ({
-		links: store.links,
-		personalBookmarks: store.bookmarks[EBookmarkType.Personal],
-		workBookmarks: store.bookmarks[EBookmarkType.Work],
-	})
-)
+@withState<IOwnProps, IStateProps>((store: IStore) => ({
+	links: store.links,
+	personalBookmarks: store.bookmarks[EBookmarkType.Personal],
+	workBookmarks: store.bookmarks[EBookmarkType.Work],
+}))
 class Desktop extends React.PureComponent<IProps> {
-
 	private createLink = (title: string, url: string) => {
 		Actions.createLink(title, url)
 	}
@@ -56,12 +52,11 @@ class Desktop extends React.PureComponent<IProps> {
 		Actions.reorderBookmarks(type, source, newPosition)
 	}
 
-	public render () {
-		const {links, personalBookmarks, workBookmarks, ui} = this.props
+	public render() {
+		const { links, personalBookmarks, workBookmarks } = this.props
 
 		return (
 			<div className='desktop'>
-
 				<QuickLinks
 					links={links}
 					createLink={this.createLink}
@@ -88,10 +83,9 @@ class Desktop extends React.PureComponent<IProps> {
 				<Clock />
 
 				<CustomDragLayer />
-
 			</div>
 		)
 	}
 }
 
-export default Desktop as React.ComponentType<IOwnProps>
+export default (Desktop as any) as React.ComponentType<IOwnProps>

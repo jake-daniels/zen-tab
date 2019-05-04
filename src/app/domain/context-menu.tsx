@@ -1,17 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { ILink, IStore } from 'app/globals/interfaces'
+import { EBookmarkType, EPanel } from 'app/globals/enums'
 
 const getContextMenuId = (id: string) => `${id}_menu`
 
 interface IPropsContextMenuTrigger {
-	id: string,
-	className?: string,
-	children: any,
-	onMenuActive?: (position: any) => void,
+	id: string
+	className?: string
+	children: any
+	onMenuActive?: (position: any) => void
 }
 
 export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTrigger> {
-
 	private menu = React.createRef<any>()
 
 	private onContextMenu = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -19,14 +20,14 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 
 		e.preventDefault()
 
-		const {x, y} = ((node as any).getBoundingClientRect() as any)
+		const { x, y } = (node as any).getBoundingClientRect() as any
 		const left = e.clientX - x
 		const top = e.clientY - y
 
 		this.setContextMenu(true, left, top)
 
 		if (this.props.onMenuActive) {
-			this.props.onMenuActive({x: left, y: top})
+			this.props.onMenuActive({ x: left, y: top })
 		}
 	}
 
@@ -35,27 +36,27 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 	}
 
 	private setContextMenu = (isVisible: boolean, left: number, top: number) => {
-		const {id} = this.props
+		const { id } = this.props
 
 		const contextMenuId = getContextMenuId(id)
 		const menu = document.getElementById(contextMenuId) as any
 
-		menu.style.display = (isVisible) ? 'block' : 'none'
+		menu.style.display = isVisible ? 'block' : 'none'
 		menu.style.left = `${left}px`
 		menu.style.top = `${top}px`
 	}
 
-	public render () {
-		const {children, id, className} = this.props
+	public render() {
+		const { children, id, className } = this.props
 
 		if (React.Children.count(children) > 1) {
 			console.error('Component ContextMenuTrigger must contain only 1 child element.')
 			return null
 		}
 
-		const childWithRef = React.cloneElement((children as any), {ref: this.menu})
+		const childWithRef = React.cloneElement(children as any, { ref: this.menu })
 
-		const style  = {
+		const style = {
 			position: 'relative',
 			width: '100%',
 			height: '100%',
@@ -76,16 +77,15 @@ export class ContextMenuTrigger extends React.PureComponent<IPropsContextMenuTri
 }
 
 interface IPropsContextMenu {
-	id: string,
-	children: any,
-	className?: string,
-	onClick?: (e: any) => void,
+	id: string
+	children: any
+	className?: string
+	onClick?: (e: any) => void
 }
 
 export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
-
 	private itemClicked = (e: React.MouseEvent<HTMLDivElement>) => {
-		const {id, onClick} = this.props
+		const { id, onClick } = this.props
 
 		const contextMenuId = getContextMenuId(id)
 		const menu = document.getElementById(contextMenuId) as any
@@ -99,8 +99,8 @@ export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
 		}
 	}
 
-	public render () {
-		const {children, id} = this.props
+	public render() {
+		const { children, id } = this.props
 
 		const contextMenuId = getContextMenuId(id)
 
@@ -112,11 +112,7 @@ export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
 		}
 
 		return (
-			<div
-				id={contextMenuId}
-				style={style as any}
-				onClick={this.itemClicked}
-			>
+			<div id={contextMenuId} style={style as any} onClick={this.itemClicked}>
 				{children}
 			</div>
 		)
@@ -124,23 +120,18 @@ export class ContextMenu extends React.PureComponent<IPropsContextMenu> {
 }
 
 interface IPropsMenuItem {
-	children: any,
-	className?: string,
-	onClick?: (e: any) => void,
+	children: any
+	className?: string
+	onClick?: (e: any) => void
 }
 
 export class MenuItem extends React.PureComponent<IPropsMenuItem> {
-
-	public render () {
-		const {children, className, onClick} = this.props
-		const style = {width: '100%', height: '100%'}
+	public render() {
+		const { children, className, onClick } = this.props
+		const style = { width: '100%', height: '100%' }
 
 		return (
-			<div
-				className={`context-menu-item ${className}`}
-				style={style as any}
-				onClick={onClick}
-			>
+			<div className={`context-menu-item ${className}`} style={style as any} onClick={onClick}>
 				{children}
 			</div>
 		)

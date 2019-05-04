@@ -4,7 +4,7 @@
     "name": "Zen Tab",
     "short_name": "Zen Tab",
     "description": "Custom tab, that replaces the default New Tab.",
-    "version": "0.3.2",
+    "version": "0.3.16",
     "icons": {
         "16": "/resources/img/icon_16.png",
         "48": "/resources/img/icon_48.png",
@@ -29,7 +29,7 @@
     "homepage_url": "https://github.com/jake-daniels/zen-tab",
     "incognito": "not_allowed",
     "offline_enabled": true,
-    "content_security_policy": "script-src 'self' https://use.fontawesome.com; style-src 'self' https://fonts.googleapis.com https://use.fontawesome.com; object-src 'self'; font-src http://fonts.gstatic.com https://use.fontawesome.com",
+    "content_security_policy": "script-src 'self'; style-src 'self' https://fonts.googleapis.com; object-src 'self'; font-src http://fonts.gstatic.com",
     "background": {
         "scripts": [
             "/resources/background.js"
