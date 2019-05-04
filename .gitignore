@@ -1,3 +1,5 @@
 /build
 /build-ext
 /node_modules
+**/*.css
+zen-tab.zip
